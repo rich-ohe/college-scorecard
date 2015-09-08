@@ -98,39 +98,10 @@ window.PICCSlider = registerElement(ELEMENT_NAME, {
         break;
     }
 
-    var nudgeThreshold = 12;
-    var outerRect = this.getBoundingClientRect();
-    var leftEdge = outerRect.left + nudgeThreshold;
-    var rightEdge = outerRect.right;
     labels.forEach(function(d, i) {
       var label = d.el;
       if (!label) return console.warn('no label:', i);
       label.textContent = format(d.value);
-
-      /*
-      var offset = 0;
-      var bump = false;
-      label.style.removeProperty('left');
-      label.style.removeProperty('right');
-
-      var rect = label.getBoundingClientRect();
-      if (rect.left < leftEdge) {
-        bump = 'left';
-        offset = leftEdge - rect.left - rect.width / 2;
-        // console.log('bump left:', rect.left, leftEdge);
-        label.style.setProperty('left', offset + 'px');
-        label.style.removeProperty('right');
-      } else if (rect.right > rightEdge) {
-        bump = 'right';
-        offset = rect.right - rightEdge - label.parentNode.getBoundingClientRect().width;
-        // console.log('bump right:', rect.right, rightEdge);
-        label.style.setProperty('left', 'auto');
-        label.style.setProperty('right', offset + 'px');
-      }
-
-      label.classList.toggle('bump-left', bump === 'left');
-      label.classList.toggle('bump-right', bump === 'right');
-      */
     });
 
     if (isNaN(average)) {
@@ -383,7 +354,6 @@ function getClosestHandle(e) {
 
 function getMouseX(e) {
   var rect = this.getBoundingClientRect();
-  var width = rect.width;
   var x = (e.touches && e.touches.length)
     ? e.touches[0].clientX
     : e.clientX;

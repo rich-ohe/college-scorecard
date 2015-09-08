@@ -153,9 +153,3 @@ function number(value, fallback) {
   var num = +value;
   return isNaN(value) ? fallback : num;
 }
-
-function classify(el, classes) {
-  for (var klass in classes) {
-    el.classList[classes[klass] ? 'add' : 'remove'](klass);
-  }
-}

@@ -50,7 +50,7 @@ module.exports = function school() {
     d3.selectAll('i.average-arrow[data-meter]')
       .each(function() {
         var icon = d3.select(this);
-        var meter = d3.select('#' + this.getAttribute('data-meter'))
+        d3.select('#' + this.getAttribute('data-meter'))
           .on('update', function updateMeterAverage() {
             var match = this.className.match(/\b(\w+)_average\b/);
             var state = match ? match[1] : 'na';
