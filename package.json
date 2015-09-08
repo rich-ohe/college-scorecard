@@ -5,8 +5,9 @@
   "license": "CC0",
   "description": "Scripts for the college-choice project.",
   "scripts": {
-    "build": "browserify `js/src/browserify-args.sh`",
-    "watch": "watchify -v `js/src/browserify-args.sh`",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "jekyll serve",
     "test": "./test/runner.sh",
     "test:live": "./test/browsers.sh",
     "test:sauce": "./test/runner.sh sauce",
@@ -26,13 +27,10 @@
     "tito": "^0.4.0"
   },
   "devDependencies": {
-    "browserify": "^10.2.4",
     "extend": "^3.0.0",
-    "minifyify": "^7.0.5",
     "nightwatch": "^0.7.9",
     "phantomjs": "^1.9.17",
     "request": "^2.60.0",
-    "uglify-js": "^2.4.24",
-    "watchify": "^3.3.1"
+    "webpack": "^1.12.1"
   }
 }
