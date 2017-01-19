@@ -1,7 +1,9 @@
+require('../unit-jsdom')();
 var picc = require('../../js/src/picc');
 var assert = require('assert');
 
 describe('picc.access', function() {
+
 
   describe('picc.access.retentionRate()', function() {
 

@@ -1,11 +1,13 @@
 /* jshint esnext: true */
 /* globals require, process, global */
+require('../unit-jsdom')();
 var picc = require('../../js/src/picc');
 var assert = require('assert');
 var sinon = require('sinon');
 var d3 = require('d3');
 
 describe('picc.API', function() {
+
   picc.API.url = '';
   picc.API.key = '';
 

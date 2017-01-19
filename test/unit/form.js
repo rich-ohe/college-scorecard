@@ -1,8 +1,10 @@
 /* jshint esnext: true */
 /* globals require, process, global */
+require('../unit-jsdom')();
 var picc = require('../../js/src/picc');
 var assert = require('assert');
 var extend = require('extend');
+
 
 // expected default parameters
 const EXPECTED_DEFAULTS = {
@@ -33,6 +35,7 @@ var fromDefaults = function(params, except) {
 };
 
 describe('picc.form', function() {
+
 
   /**
    * picc.form.prepareParams() is the function that we pass the search
