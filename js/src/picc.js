@@ -852,6 +852,15 @@ picc.school.directives = (function() {
     city:           access(fields.CITY),
     state:          access(fields.STATE),
 
+    favorite_school: {
+      '@aria-pressed': function(d) {
+         return picc.school.favorites.isFavorite(access(fields.ID)(d));
+      },
+      '@data-school-id': function(d) {
+        return access(fields.ID)(d)
+      }
+    },
+
     under_investigation: underInvestigation,
 
     // FIXME this is a hack to deal with the issue of tagalong
@@ -1075,6 +1084,48 @@ picc.school.directives = (function() {
 
     net_price_calculator: {
       '@href': format.href(fields.NET_PRICE_CALC_URL)
+    }
+  };
+
+})();
+
+/**
+ * School favorite utils for checking state and saving
+ * a list of school IDs to localStorage
+ */
+picc.school.favorites = (function() {
+
+  var favorites = window.localStorage.getItem('school-favorites');
+
+  if (!favorites) {
+    favorites = JSON.stringify([]);
+    window.localStorage.setItem('school-favorites', favorites);
+  }
+
+  favorites = JSON.parse(favorites);
+
+  return {
+    all: function () {
+      return JSON.parse(window.localStorage.getItem('school-favorites'));
+    },
+
+    isFavorite: function (id) {
+      return (favorites.indexOf(id) > -1);
+    },
+
+    toggle: function (e) {
+      var favStar = (e.target.parentElement.hasAttribute('data-school-id')) ? e.target.parentElement : e.target;
+      var id = +favStar.getAttribute('data-school-id');
+      if (picc.school.favorites.isFavorite(id)) {
+          var favIndex = favorites.indexOf(id);
+          favorites.splice(favIndex, 1);
+          window.localStorage.setItem('school-favorites', JSON.stringify(favorites));
+          favStar.setAttribute('aria-pressed', false);
+      } else {
+          favorites.push(id);
+          window.localStorage.setItem('school-favorites', JSON.stringify(favorites));
+          favStar.setAttribute('aria-pressed', true);
+      }
     }
   };
 
@@ -1760,6 +1811,25 @@ if (typeof document !== 'undefined') {
     );
   });
 
+  /**
+   * add event listeners for favorite schools click events
+   */
+  picc.ready(function() {
+      var pressed = 'aria-pressed';
+      picc.delegate(
+          document.body,
+          // if the element matches '[aria-pressed]'
+          function() {
+              return this.parentElement.hasAttribute(pressed) ||
+              this.hasAttribute(pressed);
+          },
+          {
+            click: picc.school.favorites.toggle
+          }
+      );
+
+  });
+
   // set the "dragging" class when the mouse is down
   d3.select(document)
     .on('mousedown', function(e) {
@@ -1802,7 +1872,7 @@ if (typeof document !== 'undefined') {
       source: function(q, syncResults, asyncResults) {
         //fashion basic query object to pass to API.search
         //return more results to ensure enough left-first matches are captured
-        var query = { fields: picc.fields.NAME, per_page: 20 }
+        var query = { fields: picc.fields.NAME, per_page: 20 };
         query[picc.fields.NAME] = q;
         query = picc.form.prepareParams(query);
 

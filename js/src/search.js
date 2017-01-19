@@ -45,6 +45,7 @@ module.exports = function search() {
     'name',
     'city',
     'state',
+    'favorite_school',
     'under_investigation',
     'size_number',
     'average_cost',
