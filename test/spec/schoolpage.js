@@ -23,7 +23,7 @@ var getIcon = function() {
     '.school-heading .school-key_figures li', 'class');
 };
 
-var toggleSchoolFavorite = function*(url, selector, clicks=1) {
+var toggleSchoolFavorite = function*(url, selector, clicks) {
     yield loadSchoolUrl(url);
 
     for (var i = 0; i < clicks; i++) {
@@ -203,11 +203,46 @@ describe('school page', function() {
   });
 
   /*
+    Key Metrics
+   */
+
+  it('should have "Data not available" warnings for key metrics', function*() {
+     var urls = ['416801-The-University-of-Texas-MD-Anderson-Cancer-Center',
+         '104665-Frank-Lloyd-Wright-School-of-Architecture'];
+     var meters = ['earnings', 'cost', 'graduation'];
+     urls.forEach(function*(url) {
+         yield loadSchoolUrl(url);
+         meters.forEach(function*(meter) {
+             var meterResult = yield getMeterClass(meter);
+             var name = yield getSchoolName();
+             assert(meterResult.indexOf('no_data') > -1,
+                 name + ' has data for ' + meter);
+         });
+     });
+  });
+
+  it('should display key metric figures if data is present', function*() {
+     var urls = ['204176-Mount-Carmel-College-of-Nursing',
+                     '204635-Ohio-Northern-University'];
+     var meters = ['earnings', 'cost', 'graduation'];
+
+     urls.forEach(function*(url) {
+       yield loadSchoolUrl(url);
+       meters.forEach(function*(meter) {
+          var meterResult = yield getMeterClass(meter);
+          var name = yield getSchoolName();
+            assert(meterResult.indexOf('no_data') === -1, name + ' has no data for ' + meter);
+         });
+  
+      });
+  });
+
+  /*
     Favorite School
    */
 
   it('should add aria-pressed attribute on school favorite button when clicked', function*() {
-      var isFavorite = yield toggleSchoolFavorite('167525-Quincy-College', '.button-favorite');
+      var isFavorite = yield toggleSchoolFavorite('167525-Quincy-College', '.button-favorite', 1);
       var name = yield getSchoolName();
       assert(isFavorite, name + ' was added as a favorite' );
   });
