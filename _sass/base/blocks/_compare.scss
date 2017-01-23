@@ -1,0 +1,57 @@
+.compare-bg {
+  background-color: $white;
+  padding-bottom: $base-padding-extra;
+}
+
+.header-controls {
+  padding-top: $base-padding;
+}
+
+.favorite-schools_compare {
+  @include outer-container();
+  overflow-x: auto;
+
+}
+
+.schools-compare_selected-list {
+  display: table;
+  table-layout: fixed;
+
+  .assembly-line {
+    display: table-row;
+    overflow-x: auto;
+    white-space: nowrap;
+    text-align: center;
+
+    .assembly-item {
+
+      display: table-cell;
+      vertical-align: top;
+      text-align: left;
+      white-space: normal;
+      word-wrap: break-word;
+      margin: 0 auto;
+      padding: 15px;
+      border: 1px solid $mid-dark-gray;
+      width:200px;
+      max-width: 200px;
+
+
+    }
+
+  }
+
+
+  .meter-wrapper {
+
+    .picc-meter-line {
+
+      .label {
+        display: none;
+      }
+
+    }
+
+  }
+}
+

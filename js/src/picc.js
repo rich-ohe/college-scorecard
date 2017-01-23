@@ -22,7 +22,8 @@ var picc = {};
 // common error messages
 picc.errors = {
   NO_SCHOOL_ID: 'No school ID was provided.',
-  NO_SUCH_SCHOOL: 'No school found.'
+  NO_SUCH_SCHOOL: 'No school found.',
+  NO_SCHOOL_FAVORITES: 'No schools selected to compare.'
 };
 
 // race-ethnicity labels
@@ -124,16 +125,23 @@ picc.API = (function() {
   /**
    * A helper function to get data for a single school.
    *
-   * @param {String|Number} id  the school primary key identifier
-   * @param {Function} callback the callback function, as in
+   * @param {String|Number} id - The school primary key identifier
+   * @param {object}  params - Optional query params to append to the school's query;
+   *                            most useful for a `fields` query
+   * @param {Function} done - The callback function, as in
    *                            `picc.API.get()`, that receives a single
    *                            school's data as its second parameter on
    *                            success.
    */
-  API.getSchool = function(id, done) {
-    var params = {};
-    params[idField] = id;
-    return API.get(schoolEndpoint, params, function(error, res) {
+  API.getSchool = function(id, params, done) {
+    var queryParams = {};
+    if (arguments.length === 2) {
+      done = params;
+    } else if (arguments.length === 3) {
+      queryParams = picc.data.extend(queryParams, params);
+    }
+    queryParams[idField] = id;
+    return API.get(schoolEndpoint, queryParams, function(error, res) {
       var meta = res.metadata || res;
       if (error || !meta.total) {
         return done(error
@@ -1771,7 +1779,8 @@ picc.tooltip = {
 picc.pages = {
   index: require('./index'),
   search: require('./search'),
-  school: require('./school')
+  school: require('./school'),
+  compare: require('./compare')
 };
 
 
