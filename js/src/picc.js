@@ -23,7 +23,7 @@ var picc = {};
 picc.errors = {
   NO_SCHOOL_ID: 'No school ID was provided.',
   NO_SUCH_SCHOOL: 'No school found.',
-  NO_SCHOOL_FAVORITES: 'No schools selected to compare.'
+  NO_SCHOOLS_TO_COMPARE: 'No schools selected to compare.'
 };
 
 // race-ethnicity labels
@@ -860,9 +860,9 @@ picc.school.directives = (function() {
     city:           access(fields.CITY),
     state:          access(fields.STATE),
 
-    favorite_school: {
+    compare_school: {
       '@aria-pressed': function(d) {
-         return picc.school.favorites.isFavorite(access(fields.ID)(d));
+         return picc.school.compare.isSelected(access(fields.ID)(d));
       },
       '@data-school-id': function(d) {
         return access(fields.ID)(d)
@@ -1098,40 +1098,40 @@ picc.school.directives = (function() {
 })();
 
 /**
- * School favorite utils for checking state and saving
+ * School compare utils for checking state and saving
  * a list of school IDs to localStorage
  */
-picc.school.favorites = (function() {
+picc.school.compare = (function() {
 
-  var favorites = window.localStorage.getItem('school-favorites');
+  var favorites = window.localStorage.getItem('school-compare');
 
   if (!favorites) {
     favorites = JSON.stringify([]);
-    window.localStorage.setItem('school-favorites', favorites);
+    window.localStorage.setItem('school-compare', favorites);
   }
 
   favorites = JSON.parse(favorites);
 
   return {
     all: function () {
-      return JSON.parse(window.localStorage.getItem('school-favorites'));
+      return JSON.parse(window.localStorage.getItem('school-compare'));
     },
 
-    isFavorite: function (id) {
+    isSelected: function (id) {
       return (favorites.indexOf(id) > -1);
     },
 
     toggle: function (e) {
       var favStar = (e.target.parentElement.hasAttribute('data-school-id')) ? e.target.parentElement : e.target;
       var id = +favStar.getAttribute('data-school-id');
-      if (picc.school.favorites.isFavorite(id)) {
+      if (picc.school.compare.isSelected(id)) {
           var favIndex = favorites.indexOf(id);
           favorites.splice(favIndex, 1);
-          window.localStorage.setItem('school-favorites', JSON.stringify(favorites));
+          window.localStorage.setItem('school-compare', JSON.stringify(favorites));
           favStar.setAttribute('aria-pressed', false);
       } else {
           favorites.push(id);
-          window.localStorage.setItem('school-favorites', JSON.stringify(favorites));
+          window.localStorage.setItem('school-compare', JSON.stringify(favorites));
           favStar.setAttribute('aria-pressed', true);
       }
     }
@@ -1821,7 +1821,7 @@ if (typeof document !== 'undefined') {
   });
 
   /**
-   * add event listeners for favorite schools click events
+   * add event listeners for add to compare schools click events
    */
   picc.ready(function() {
       var pressed = 'aria-pressed';
@@ -1833,7 +1833,7 @@ if (typeof document !== 'undefined') {
               this.hasAttribute(pressed);
           },
           {
-            click: picc.school.favorites.toggle
+            click: picc.school.compare.toggle
           }
       );
 

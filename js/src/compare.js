@@ -5,11 +5,11 @@ module.exports = function compare() {
 
   var loadable = d3.select('.loadable');
 
-  var favoriteSchools = picc.school.favorites.all();
+  var compareSchools = picc.school.compare.all();
 
-  if (!favoriteSchools.length) {
+  if (!compareSchools.length) {
     loadable.classed('js-error', true);
-    return showError(picc.errors.NO_SCHOOL_FAVORITES);
+    return showError(picc.errors.NO_SCHOOLS_TO_COMPARE);
   }
 
   var fotw = ( window.sessionStorage.getItem('passback_id') !== "");
@@ -43,7 +43,7 @@ module.exports = function compare() {
     picc.fields.UNDER_INVESTIGATION
   ].join(',');
 
-  favoriteSchools.map(function(id) {
+  compareSchools.map(function(id) {
     query[id] = [picc.API.getSchool, id, params];
   });
 
@@ -53,7 +53,7 @@ module.exports = function compare() {
     'name',
     'city',
     'state',
-    'favorite_school',
+    'compare_school',
     'under_investigation',
     'size_number',
   ]);

@@ -45,7 +45,8 @@ $toggle-padding: 15px;
   }
 
   .fa-filter,
-  .fa-search {
+  .fa-search,
+  .fa-star{
     padding-right: ($toggle-padding / 2);
 
     @include respond-to(small-up) {

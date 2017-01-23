@@ -115,7 +115,7 @@ input[type="submit"] {
     }
   }
 
-  &.button-favorite {
+  &.button-compare_schools {
     @include font-size($h1-large);
     background-color: $white;
     color: $mid-dark-gray;
