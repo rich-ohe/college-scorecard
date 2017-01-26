@@ -91,7 +91,7 @@ module.exports = function compare() {
     var gradMeter = document.querySelector('.selected-school_grad-rate');
     var earningsMeter = document.querySelector('.selected-school_salary-earnings');
 
-
+    picc.school.compare.renderToggles();
     tagalong(resultsList, results.results, headingDirectives);
     tagalong(costMeter, results.results, costMeterDirectives);
     tagalong(gradMeter, results.results, gradMeterDirectives);
