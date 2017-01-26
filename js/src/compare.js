@@ -43,8 +43,8 @@ module.exports = function compare() {
     picc.fields.UNDER_INVESTIGATION
   ].join(',');
 
-  compareSchools.map(function(id) {
-    query[id] = [picc.API.getSchool, id, params];
+  compareSchools.map(function(school) {
+    query[school.id] = [picc.API.getSchool, school.id, params];
   });
 
   var headingDirectives = picc.data.selectKeys(picc.school.directives, [

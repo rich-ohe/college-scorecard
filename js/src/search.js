@@ -77,6 +77,10 @@ module.exports = function search() {
           opened.close();
         }
       });
+
+      if (this.id = 'compare_schools-edit') {
+        picc.school.compare.renderToggles();
+      }
     });
 
   // close all toggles on escape
@@ -121,6 +125,8 @@ module.exports = function search() {
         }
       }, 200));
 
+    picc.school.compare.renderToggles();
+
     change();
   });
 
@@ -135,7 +141,11 @@ module.exports = function search() {
   // update the distance field's disabled flag when zip changes
   form.on('change:zip', updateDistanceDisabled);
 
-  form.on('change:_drawer', function(value, e) {
+  // stop compare checkboxes triggering search and update storage
+  form.on('change:_compare', function(value, e) {
+    var id = e.target.parentElement.getAttribute('data-school-id');
+    var school = document.querySelector('button[data-school-id="'+id+'"');
+    picc.school.compare.toggle(e, school);
     submit = false;
   });
 
@@ -177,7 +187,7 @@ module.exports = function search() {
       return;
     }
 
-    // XXX the submit flag is set to false when the drawer toggles.
+    // XXX the submit flag is set to false when the edit-compare form is used
     if (!submit) {
       // console.warn('not submitting this time!');
       submit = true;
@@ -198,8 +208,8 @@ module.exports = function search() {
       }
     }
 
-    // don't submit the _drawer parameter
-    delete params._drawer;
+    // don't submit the edit-compare parameters
+    delete params._compare;
 
     if (diffExcept(previousParams, params, ['page'])) {
       // console.warn('non-page change:', previousParams, '->', params);

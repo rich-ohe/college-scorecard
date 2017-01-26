@@ -5,7 +5,8 @@ if (typeof window !== 'undefined') {
   require('aight');
   // web components
   require('./components');
-
+  var tagalong = require('tagalong');
+  var jQuery = require("jquery");
   var typeahead = require("typeahead.js-browserify");
   typeahead.loadjQueryPlugin(); //attach jQuery
 }
@@ -14,7 +15,7 @@ var querystring = require('querystring');
 var d3 = require('d3');
 var async = require('async');
 var formdb = require('formdb');
-var jQuery = require("jquery");
+
 
 // create the global picc namespace
 var picc = {};
@@ -862,10 +863,13 @@ picc.school.directives = (function() {
 
     compare_school: {
       '@aria-pressed': function(d) {
-         return picc.school.compare.isSelected(access(fields.ID)(d));
+         return (picc.school.compare.isSelected(access(fields.ID)(d)) >= 0);
       },
       '@data-school-id': function(d) {
-        return access(fields.ID)(d)
+        return access(fields.ID)(d);
+      },
+      '@data-school-name': function(d) {
+        return access(fields.NAME)(d);
       }
     },
 
@@ -1098,7 +1102,7 @@ picc.school.directives = (function() {
 })();
 
 /**
- * School compare utils for checking state and saving
+ * School compare utils for checking state and saving, rendering toggles
  * a list of school IDs to localStorage
  */
 picc.school.compare = (function() {
@@ -1118,23 +1122,68 @@ picc.school.compare = (function() {
     },
 
     isSelected: function (id) {
-      return (favorites.indexOf(id) > -1);
+      // return (favorites.indexOf(id) > -1);
+      return (favorites.map(function(fav){
+        return fav.id;
+      }).indexOf(id));
     },
 
-    toggle: function (e) {
-      var favStar = (e.target.parentElement.hasAttribute('data-school-id')) ? e.target.parentElement : e.target;
-      var id = +favStar.getAttribute('data-school-id');
-      if (picc.school.compare.isSelected(id)) {
-          var favIndex = favorites.indexOf(id);
-          favorites.splice(favIndex, 1);
-          window.localStorage.setItem('school-compare', JSON.stringify(favorites));
-          favStar.setAttribute('aria-pressed', false);
-      } else {
-          favorites.push(id);
-          window.localStorage.setItem('school-compare', JSON.stringify(favorites));
-          favStar.setAttribute('aria-pressed', true);
+    toggle: function (e, el) {
+
+      if (!el) {
+        el = (e.target.parentElement.hasAttribute('data-school-id')) ? e.target.parentElement : e.target;
       }
+      var id = +el.getAttribute('data-school-id');
+      var name = el.getAttribute('data-school-name');
+      var isSelected = picc.school.compare.isSelected(id);
+      favorites = picc.school.compare.all();
+      if (isSelected >= 0) {
+          favorites.splice(isSelected, 1);
+          window.localStorage.setItem('school-compare', JSON.stringify(favorites));
+          el.setAttribute('aria-pressed', false);
+      } else {
+          favorites.push({id: id, name: name});
+          window.localStorage.setItem('school-compare', JSON.stringify(favorites));
+          el.setAttribute('aria-pressed', true);
+      }
+    },
+
+    renderToggles: function() {
+
+        tagalong(
+          '#edit-compare-list',
+          picc.school.compare.all(),
+          {
+            name: function(d) {
+              return picc.access('name')(d)
+            },
+            checkbox_label: {
+              '@for': function(d) {
+                return 'edit-compare-' + picc.access('id')(d);
+              },
+              '@data-school-id': function (d) {
+                return picc.access('id')(d);
+              }
+            },
+            compare_checkbox: {
+              '@id': function (d) {
+                return 'edit-compare-' + picc.access('id')(d);
+              },
+              '@checked': function(d) {
+                return (picc.school.compare.isSelected(picc.access('id')(d)) >= 0) ? 'checked': null;
+              }
+            }
+          }
+        );
+
+      // Fix for tagalong reusing checkboxes but not resetting properties
+      var checkboxes = document.querySelectorAll('input[name="_compare"]');
+
+      checkboxes.forEach(function(box) {
+        box.checked = true;
+      })
     }
+
   };
 
 })();

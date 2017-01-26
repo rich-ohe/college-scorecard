@@ -126,7 +126,20 @@ $toggle-padding: 15px;
     }
   }
 
-  .search-button {
+
+  .compare-button_link {
+    display: block;
+    position: relative;
+
+    span {
+      position: absolute;
+      top:15px;
+      left: 50px;
+    }
+  }
+
+  .search-button,
+  .compare-button_link {
     @include font-size(0.75);
     height: 45px;
     letter-spacing: 2px;
