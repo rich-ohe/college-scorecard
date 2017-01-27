@@ -8,4 +8,4 @@ node_modules
 index.html.*
 build.log
 js/picc.js*
-js/fotw.js*
+js/*fotw.js*
