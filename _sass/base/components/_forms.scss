@@ -175,6 +175,7 @@ label.radio :checked + span {
 
 label.checkbox input[type="checkbox"],
 label.radio input[type="radio"] {
+  @include appearance(none);
   display: inline-block;
   vertical-align: -4px;
   // to hide checkbox/radio from visual but

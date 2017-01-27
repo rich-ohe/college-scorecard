@@ -9,125 +9,128 @@ permalink: /compare/
     <div class="toggles">
 
         <div class="container header-controls">
-            <aria-accordion id="compare_schools-edit" class="toggle-accordion">
 
-                <div class="toggle-control">
-                    <legend>Compare</legend>
-                    <h1 class="search_category">
-                        <button type="button" aria-expanded="false" aria-controls="compare_schools-content">
-                            <i class="fa fa-star"></i>Compare<i class="fa fa-chevron-down"></i>
-                        </button>
-                    </h1>
-                </div>
-
-                <div id="compare_schools-content" aria-hidden="true" class="toggle-content toggle-content-compare_schools">
-
-                    {% include edit-compare.html %}
-
-                </div>
-
-            </aria-accordion>
-
+            <div class="fotw-wrapper">
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle-thin fa-stack-2x" aria-hidden="true"></i>
+                    <span class="fotw-count fa-stack-1x">0</span>
+                </span>
+                <a class="fotw-link">MyFASFA</a>
+            </div>
         </div>
 
     </div>
 
-    <div class="container section compare-schools_compare">
+    <section class="section compare-schools">
 
-        <div class="compare-sidebar">
+        <div class="container">
 
+            <div class="compare-main-alert">
+
+                <div class="show-error">
+                    <h2>Something went wrong:</h2>
+                    <p class="error-message"></p>
+                </div>
+
+            </div>
+
+            <div class="compare-sidebar">
+
+            </div>
+
+            <div class="schools-compare_selected-list show-loaded">
+
+                <div class="selected-school_heading assembly-line" data-bind="results">
+                    <div class="selected-school-info assembly-item">
+                        <div class="fotw-wrapper">
+                            {% include fotw_school_control.html %}
+                        </div>
+                        <h1 data-bind="name">School Name</h1>
+                        <ul class="school-info">
+                            <li class="location">
+                                <span data-bind="city">City</span>,
+                                <span data-bind="state">State</span>
+                            </li>
+                            <li>
+                                <span data-bind="size_number">x</span> undergraduates
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <h2 class="figure-heading constrain_width"
+                    aria-describedby="tip-avg-cost-year">
+                    Average<br>Annual Cost
+                    <span class="tooltip-target u-new_line">
+                          <i class="fa fa-info-circle"></i>
+                        </span>
+                </h2>
+                <div class="selected-school_average-cost assembly-line" data-bind="results">
+
+                    <div class="meter-wrapper assembly-item">
+                        <figure class="meter">
+
+                            <picc-meter {% include net_price_meter_attributes.html %}>
+                            </picc-meter>
+                            <figcaption>
+                                <span data-bind="average_cost"></span>
+                            </figcaption>
+                        </figure>
+                    </div>
+
+                </div>
+
+                <h2 class="figure-heading constrain_width"
+                    aria-describedby="tip-graduation-rate">
+                    Graduation <br>Rate
+                    <span class="tooltip-target u-new_line">
+                          <i class="fa fa-info-circle"></i>
+                        </span>
+                </h2>
+                <div class="selected-school_grad-rate assembly-line" data-bind="results">
+
+                    <div class="meter-wrapper assembly-item">
+                        <figure class="meter">
+                            <picc-meter {% include graduation_meter_attributes.html %}>
+                            </picc-meter>
+                            <figcaption>
+                                <span data-bind="grad_rate"></span>
+                            </figcaption>
+                        </figure>
+
+                    </div>
+                </div>
+
+                <h2 class="figure-heading constrain_width"
+                    aria-describedby="tip-avg-salary">
+                    Salary After<br>Attending
+                    <span class="tooltip-target u-new_line">
+                          <i class="fa fa-info-circle"></i>
+                        </span>
+                </h2>
+                <div class="selected-school_salary-earnings assembly-line" data-bind="results">
+
+                    <div class="meter-wrapper assembly-item">
+
+                        <figure class="meter">
+                            <picc-meter {% include earnings_meter_attributes.html %}>
+                            </picc-meter>
+                            <figcaption>
+                                <span data-bind="average_salary"></span>
+                            </figcaption>
+                        </figure>
+
+                    </div>
+
+                </div>
+
+            </div>
         </div>
 
-        <section class="schools-compare_selected-list">
+    </section>
 
-            <div class="selected-school_heading assembly-line" data-bind="results">
-                <!--<div class="compare-school">-->
-                    <!--{% include compare_school_control.html %}-->
-                <!--</div>-->
-                <div class="selected-school-info assembly-item">
-                    <h1 data-bind="name">School Name</h1>
-                    <ul class="school-info">
-                        <li class="location">
-                            <span data-bind="city">City</span>,
-                            <span data-bind="state">State</span>
-                        </li>
-                        <li>
-                            <span data-bind="size_number">x</span> undergraduates
-                        </li>
-                    </ul>
-                </div>
 
-            </div>
-
-            <h2 class="figure-heading constrain_width"
-                aria-describedby="tip-avg-cost-year">
-                Average<br>Annual Cost
-                <span class="tooltip-target u-new_line">
-                      <i class="fa fa-info-circle"></i>
-                    </span>
-            </h2>
-            <div class="selected-school_average-cost assembly-line" data-bind="results">
-
-                <div class="meter-wrapper assembly-item">
-                    <figure class="meter">
-
-                        <picc-meter {% include net_price_meter_attributes.html %}>
-                        </picc-meter>
-                        <figcaption>
-                            <span data-bind="average_cost"></span>
-                        </figcaption>
-                    </figure>
-                </div>
-
-            </div>
-
-            <h2 class="figure-heading constrain_width"
-                aria-describedby="tip-graduation-rate">
-                Graduation <br>Rate
-                <span class="tooltip-target u-new_line">
-                      <i class="fa fa-info-circle"></i>
-                    </span>
-            </h2>
-            <div class="selected-school_grad-rate assembly-line" data-bind="results">
-
-                <div class="meter-wrapper assembly-item">
-                    <figure class="meter">
-                        <picc-meter {% include graduation_meter_attributes.html %}>
-                        </picc-meter>
-                        <figcaption>
-                            <span data-bind="grad_rate"></span>
-                        </figcaption>
-                    </figure>
-
-                </div>
-            </div>
-
-            <h2 class="figure-heading constrain_width"
-                aria-describedby="tip-avg-salary">
-                Salary After<br>Attending
-                <span class="tooltip-target u-new_line">
-                      <i class="fa fa-info-circle"></i>
-                    </span>
-            </h2>
-            <div class="selected-school_salary-earnings assembly-line" data-bind="results">
-
-                <div class="meter-wrapper assembly-item">
-
-                    <figure class="meter">
-                        <picc-meter {% include earnings_meter_attributes.html %}>
-                        </picc-meter>
-                        <figcaption>
-                            <span data-bind="average_salary"></span>
-                        </figcaption>
-                    </figure>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </div>
 
 </div>
 

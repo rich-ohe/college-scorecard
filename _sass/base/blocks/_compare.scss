@@ -1,13 +1,36 @@
 .compare-bg {
   background-color: $white;
-  padding-bottom: $base-padding-extra;
+  padding-bottom: $base-padding;
+
+  .fotw-wrapper {
+    display: none;
+  }
+
+  .fotw-wrapper[data-fotw] {
+    display: inline-block;
+  }
 }
 
 .header-controls {
   padding-top: $base-padding;
+
+  .fotw-wrapper {
+
+    .fa {
+      color: $green;
+    }
+
+    .fotw-link {
+      color: $base-link-color;
+
+      &:hover {
+        color: $hover-link-color;
+      }
+    }
+  }
 }
 
-.compare-schools_compare {
+.compare-schools {
   @include outer-container();
   overflow-x: auto;
 
@@ -36,11 +59,22 @@
       width:200px;
       max-width: 200px;
 
-
     }
 
   }
 
+  .selected-school-info {
+
+    .fotw-wrapper[data-fotw] {
+      text-align: center;
+      display: block;
+
+      .button-fotw_schools {
+        float: inherit;
+      }
+    }
+
+  }
 
   .meter-wrapper {
 
@@ -54,4 +88,3 @@
 
   }
 }
-

@@ -128,9 +128,12 @@ $toggle-padding: 15px;
 
 
   .compare-button_link {
+    display: none;
+  }
+
+  .compare-button_link[href] {
     display: block;
     position: relative;
-
     span {
       position: absolute;
       top:15px;
