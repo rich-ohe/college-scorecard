@@ -4,6 +4,10 @@
 .fotw-bg {
   background-color: $mid-gray;
   padding-bottom: $base-padding-extra;
+
+  fieldset {
+    border-top: none;
+  }
 }
 
 .fotw-back {
@@ -16,8 +20,7 @@
   .link-more[href] {
     display: inline-block;
   }
+
+
 }
 
-fieldset {
-  border-top: none;
-}
