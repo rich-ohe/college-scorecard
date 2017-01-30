@@ -1214,15 +1214,22 @@ picc.school.compare = (function() {
  */
 picc.fotw = (function() {
 
-  var schools = [];
+  var fotwSchools = window.sessionStorage.getItem('fotw-schools');
+
+  if (!fotwSchools) {
+    fotwSchools = JSON.stringify([]);
+    window.sessionStorage.setItem('fotw-schools', fotwSchools);
+  }
+
+  fotwSchools = JSON.parse(fotwSchools);
 
   return {
     all: function(){
-      return schools;
+      return JSON.parse(window.sessionStorage.getItem('fotw-schools'));
     },
 
     isSelected: function(id) {
-      return schools.indexOf(id);
+      return picc.fotw.all().indexOf(id);
     },
 
     getCount: function() {
@@ -1235,17 +1242,19 @@ picc.fotw = (function() {
 
     toggle: function(e) {
       var el = (e.target.parentElement.hasAttribute('data-school-id')) ? e.target.parentElement : e.target;
-      var id = el.getAttribute('data-school-id');
+      var id = +el.getAttribute('data-school-id');
       var isSelected = picc.fotw.isSelected(id);
       var newCount = picc.fotw.getCount();
-
+      fotwSchools = picc.fotw.all();
       if (isSelected >= 0) {
-        schools.splice(isSelected, 1);
+        fotwSchools.splice(isSelected, 1);
+        window.sessionStorage.setItem('fotw-schools', JSON.stringify(fotwSchools));
         el.setAttribute('aria-pressed', false);
-          picc.fotw.setCount( newCount -1 );
+        picc.fotw.setCount( newCount -1 );
 
       } else {
-        schools.push(id);
+        fotwSchools.push(id);
+        window.sessionStorage.setItem('fotw-schools', JSON.stringify(fotwSchools));
         el.setAttribute('aria-pressed', true);
         picc.fotw.setCount( newCount  +1);
       }
@@ -1892,10 +1901,11 @@ picc.tooltip = {
  * page-specific functions
  */
 picc.pages = {
-  index: require('./index'),
-  search: require('./search'),
-  school: require('./school'),
-  compare: require('./compare')
+  index:      require('./index'),
+  search:     require('./search'),
+  school:     require('./school'),
+  compare:    require('./compare'),
+  fotw:       require('./fotw')
 };
 
 

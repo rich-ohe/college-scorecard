@@ -171,6 +171,8 @@ module.exports = function compare() {
 
     var fotwLink = d3.select('.fotw-link');
     fotwLink.attr('href', '/fotw/schools/');
+
+    d3.select('.fotw-count').text(picc.fotw.all().length);
   }
 
 };
