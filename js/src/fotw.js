@@ -1,11 +1,12 @@
+var formdb = require('formdb');
 var tagalong = require('tagalong');
 
 module.exports = function fotw() {
 
   var loadable = document.querySelector('.loadable');
   var fotwRoot = document.querySelector('.fotw-schools');
-
   var fotwSchools = picc.school.selection.all('fotw');
+  var form = new formdb.Form('#fotw-schools-form');
 
   var showError = function(error) {
     console.error('error:', error);
@@ -56,20 +57,18 @@ module.exports = function fotw() {
       }
     }
   );
-
   /**
    * add event listeners for school selection click events
    */
   picc.ready(function() {
 
-    var fotwBox = 'checkbox-focus';
+    var fotwBox = 'data-school';
     picc.delegate(
       document.body,
-      // if the element matches '.checkbox-focus'
+      // if the element matches '[data-school]'
       function() {
-
-        return this.parentElement.classList.contains(fotwBox) ||
-          this.classList.contains(fotwBox);
+        return this.parentElement.hasAttribute(fotwBox) ||
+          this.hasAttribute(fotwBox);
       },
       {
         click: picc.school.selection.toggle
@@ -77,5 +76,22 @@ module.exports = function fotw() {
     );
 
   });
+
+ form.on('submit', function(data, e) {
+
+   if (!data['schools[]'] || !data['schools[]'].length) {
+     console.warn('No schools selected.');
+     e.preventDefault();
+     return false;
+   }
+   form.set('passback_id', window.sessionStorage.getItem('passback_id'));
+
+   //window.sessionStorage.removeItem('passback_id');
+   //window.localStorage.removeItem('fotw');
+
+   // this.element.action = 'http://127.0.0.1:8080/index.html';
+
+ });
+
 
 };
