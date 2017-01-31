@@ -1130,14 +1130,19 @@ picc.school.selection = (function() {
       var collection = el.getAttribute('data-school');
       var isSelected = picc.school.selection.isSelected(id, collection);
       var selectedSchools = picc.school.selection.all(el.getAttribute('data-school'));
+
       if (isSelected >= 0) {
         selectedSchools.splice(isSelected, 1);
           window.localStorage.setItem(collection, JSON.stringify(selectedSchools));
-          el.setAttribute('aria-pressed', false);
+          if (el.hasAttribute('aria-pressed')) {
+            el.setAttribute('aria-pressed', false);
+          }
       } else {
         selectedSchools.push({id: id, name: name});
           window.localStorage.setItem(collection, JSON.stringify(selectedSchools));
+        if (el.hasAttribute('aria-pressed')) {
           el.setAttribute('aria-pressed', true);
+        }
       }
 
     },
