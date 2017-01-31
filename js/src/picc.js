@@ -1116,7 +1116,7 @@ picc.school.selection = (function() {
 
     isSelected: function (id, key) {
       return (picc.school.selection.all(key).map(function(fav){
-        return fav.id;
+        return +fav.schoolId;
       }).indexOf(id));
     },
 
@@ -1125,11 +1125,10 @@ picc.school.selection = (function() {
       if (!el) {
         el = (e.target.parentElement.hasAttribute('data-school-id')) ? e.target.parentElement : e.target;
       }
-      var id = +el.getAttribute('data-school-id');
-      var name = el.getAttribute('data-school-name');
-      var collection = el.getAttribute('data-school');
-      var isSelected = picc.school.selection.isSelected(id, collection);
-      var selectedSchools = picc.school.selection.all(el.getAttribute('data-school'));
+      var dataset = el.dataset;
+      var collection = dataset.school;
+      var isSelected = picc.school.selection.isSelected(+dataset.schoolId, collection);
+      var selectedSchools = picc.school.selection.all(collection);
 
       if (isSelected >= 0) {
         selectedSchools.splice(isSelected, 1);
@@ -1138,7 +1137,8 @@ picc.school.selection = (function() {
             el.setAttribute('aria-pressed', false);
           }
       } else {
-        selectedSchools.push({id: id, name: name});
+
+        selectedSchools.push(dataset);
           window.localStorage.setItem(collection, JSON.stringify(selectedSchools));
         if (el.hasAttribute('aria-pressed')) {
           el.setAttribute('aria-pressed', true);
@@ -1154,22 +1154,22 @@ picc.school.selection = (function() {
           picc.school.selection.all(collection),
           {
             name: function(d) {
-              return picc.access('name')(d)
+              return picc.access('schoolName')(d)
             },
             checkbox_label: {
               '@for': function(d) {
-                return 'edit-compare-' + picc.access('id')(d);
+                return 'edit-compare-' + picc.access('schoolId')(d);
               },
               '@data-school-id': function (d) {
-                return picc.access('id')(d);
+                return picc.access('schoolId')(d);
               }
             },
             compare_checkbox: {
               '@id': function (d) {
-                return 'edit-compare-' + picc.access('id')(d);
+                return 'edit-compare-' + picc.access('schoolId')(d);
               },
               '@checked': function(d) {
-                return (picc.school.selection.isSelected(picc.access('id')(d), collection) >= 0) ? 'checked': null;
+                return (picc.school.selection.isSelected(picc.access('schoolId')(d), collection) >= 0) ? 'checked': null;
               }
             }
           }

@@ -31,13 +31,13 @@ module.exports = function fotw() {
     {
       checkbox_label: {
         '@for': function(d) {
-          return 'edit-fotw-' + picc.access('id')(d);
+          return 'edit-fotw-' + picc.access('schoolId')(d);
         },
         '@data-school-id': function (d) {
-          return picc.access('id')(d);
+          return picc.access('schoolId')(d);
         },
         '@data-school-name': function(d) {
-          return picc.access('name')(d);
+          return picc.access('schoolName')(d);
         },
         '@data-school': function() {
           return 'fotw';
@@ -45,10 +45,13 @@ module.exports = function fotw() {
       },
       fotw_checkbox: {
         '@id': function (d) {
-          return 'edit-fotw-' + picc.access('id')(d);
+          return 'edit-fotw-' + picc.access('schoolId')(d);
         },
         '@checked': function(d) {
-          return (picc.school.selection.isSelected(picc.access('id')(d), 'fotw') >= 0) ? 'checked': null;
+          return (picc.school.selection.isSelected(picc.access('schoolId')(d), 'fotw') >= 0) ? 'checked': null;
+        },
+        '@value': function(d) {
+            return picc.access('fotw')(d);
         }
       }
     }

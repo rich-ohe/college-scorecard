@@ -11,7 +11,7 @@ module.exports = function compare() {
   var qs = querystring.parse(location.search.substr(1));
   var compareSchools = (qs['schools[]']) ? qs['schools[]'] : picc.school.selection.all('compare');
 
-  var showError = function(error) {
+  var showError = function (error) {
     console.error('error:', error);
     var message = compareRoot.querySelector('.error-message');
     if (typeof error.responseText != "undefined") {
@@ -30,7 +30,7 @@ module.exports = function compare() {
   loadable.classed('js-loading', true);
 
   var params = {},
-      query = {};
+    query = {};
 
   params.fields = [
     // we need the id to link it
@@ -85,19 +85,13 @@ module.exports = function compare() {
     'average_salary_meter'
   ]);
 
-  headingDirectives['fotw_school'] = picc.data.selectKeys(picc.school.directives, [
-    'selected_school'
-  ]).selected_school;
-
-  console.log('head', headingDirectives);
-
   // build query for API call
-  compareSchools.map(function(school) {
-    var id = +school.id || +school;
+  compareSchools.map(function (school) {
+    var id = +school.schoolId || +school;
     query[id] = [picc.API.getSchool, id, params];
   });
 
-  picc.API.getAll(query, function(error, data) {
+  picc.API.getAll(query, function (error, data) {
 
     loadable.classed('js-loading', false);
 
@@ -110,7 +104,7 @@ module.exports = function compare() {
     var school = {};
     school.results = [];
 
-    Object.keys(data).forEach(function(key) {
+    Object.keys(data).forEach(function (key) {
       if (data[key]) {
         school.results.push(data[key]);
       }
@@ -123,6 +117,54 @@ module.exports = function compare() {
 
     loadable.classed('js-loaded', true);
 
+    // show the fotw integration controls
+    var fotw = window.sessionStorage.getItem('passback_id');
+
+    if (fotw) {
+      // add additional fotw directives to the school headings
+      headingDirectives['fotw_school'] = picc.data.selectKeys(picc.school.directives, [
+        'selected_school'
+      ]).selected_school;
+
+      headingDirectives.fotw_school['@data-fotw'] = function(d) {
+        return picc.access(picc.fields.OPEID8)(d) + ":" + picc.access(picc.fields.MAIN)(d);
+      };
+
+
+      function setFOTWCount() {
+        d3.select('.fotw-count').text(picc.school.selection.all('fotw').length);
+      }
+
+      var fotwSections = d3.selectAll('.fotw-wrapper')[0];
+      fotwSections.forEach(function (section) {
+        section = d3.select(section);
+        section.attr('data-fotw', true);
+      });
+
+      var fotwLink = d3.select('.fotw-link');
+      fotwLink.attr('href', '/fotw/schools/');
+
+      setFOTWCount();
+      /**
+       * add event listeners for school selection click events
+       */
+      picc.ready(function () {
+        var ariaPressed = 'aria-pressed';
+        picc.delegate(
+          document.body,
+          // if the element matches '[aria-pressed]'
+          function () {
+            return this.parentElement.hasAttribute(ariaPressed) ||
+              this.hasAttribute(ariaPressed);
+          },
+          {
+            click: setFOTWCount
+          }
+        );
+
+      });
+    }
+
     var headingList = document.querySelector('.selected-school_heading');
     var costMeter = document.querySelector('.selected-school_average-cost');
     var gradMeter = document.querySelector('.selected-school_grad-rate');
@@ -134,47 +176,5 @@ module.exports = function compare() {
     tagalong(earningsMeter, school.results, earningsMeterDirectives);
 
   });
-
-
-
-  // show the fotw integration controls
-  var fotw = window.sessionStorage.getItem('passback_id');
-
-  if (fotw) {
-
-    function setFOTWCount() {
-      d3.select('.fotw-count').text(picc.school.selection.all('fotw').length);
-    };
-
-    var fotwSections = d3.selectAll('.fotw-wrapper')[0];
-    fotwSections.forEach(function(section) {
-      section = d3.select(section);
-      section.attr('data-fotw', true);
-    });
-
-    var fotwLink = d3.select('.fotw-link');
-    fotwLink.attr('href', '/fotw/schools/');
-
-    setFOTWCount();
-
-    /**
-     * add event listeners for school selection click events
-    */
-    picc.ready(function() {
-      var ariaPressed = 'aria-pressed';
-      picc.delegate(
-        document.body,
-        // if the element matches '[aria-pressed]'
-        function() {
-          return this.parentElement.hasAttribute(ariaPressed) ||
-            this.hasAttribute(ariaPressed);
-        },
-        {
-          click: setFOTWCount
-        }
-      );
-
-    });
-  }
 
 };
