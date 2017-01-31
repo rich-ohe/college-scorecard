@@ -9,7 +9,7 @@ module.exports = function compare() {
 
   // if schools were shared by querystring, compare those instead of any local school picks
   var qs = querystring.parse(location.search.substr(1));
-  var compareSchools = (qs['schools[]']) ? qs['schools[]'] : picc.school.compare.all();
+  var compareSchools = (qs['schools[]']) ? qs['schools[]'] : picc.school.selection.all('compare');
 
   var showError = function(error) {
     console.error('error:', error);
@@ -65,7 +65,7 @@ module.exports = function compare() {
     'name',
     'city',
     'state',
-    'compare_school',
+    'selected_school',
     'under_investigation',
     'size_number',
   ]);
@@ -85,14 +85,11 @@ module.exports = function compare() {
     'average_salary_meter'
   ]);
 
-  headingDirectives['fotw_school'] = {
-    '@aria-pressed': function(d) {
-      return (picc.fotw.isSelected(picc.access(picc.fields.ID)(d)) >= 0);
-    },
-    '@data-school-id': function(d) {
-      return picc.access(picc.fields.ID)(d);
-    }
-  };
+  headingDirectives['fotw_school'] = picc.data.selectKeys(picc.school.directives, [
+    'selected_school'
+  ]).selected_school;
+
+  console.log('head', headingDirectives);
 
   // build query for API call
   compareSchools.map(function(school) {
@@ -138,31 +135,17 @@ module.exports = function compare() {
 
   });
 
-  /**
-   * add event listeners for fotw school button clicks
-   */
-  picc.ready(function() {
-    var fotwBtn = 'data-fotw-button';
-    picc.delegate(
-      document.body,
-      // if the element matches '['data-fotw-button]'
-      function() {
-        return this.parentElement.hasAttribute(fotwBtn) ||
-          this.hasAttribute(fotwBtn);
-      },
-      {
-        click: picc.fotw.toggle
-      }
-    );
-
-  });
-
 
 
   // show the fotw integration controls
   var fotw = window.sessionStorage.getItem('passback_id');
 
   if (fotw) {
+
+    function setFOTWCount() {
+      d3.select('.fotw-count').text(picc.school.selection.all('fotw').length);
+    };
+
     var fotwSections = d3.selectAll('.fotw-wrapper')[0];
     fotwSections.forEach(function(section) {
       section = d3.select(section);
@@ -172,7 +155,26 @@ module.exports = function compare() {
     var fotwLink = d3.select('.fotw-link');
     fotwLink.attr('href', '/fotw/schools/');
 
-    d3.select('.fotw-count').text(picc.fotw.all().length);
+    setFOTWCount();
+
+    /**
+     * add event listeners for school selection click events
+    */
+    picc.ready(function() {
+      var ariaPressed = 'aria-pressed';
+      picc.delegate(
+        document.body,
+        // if the element matches '[aria-pressed]'
+        function() {
+          return this.parentElement.hasAttribute(ariaPressed) ||
+            this.hasAttribute(ariaPressed);
+        },
+        {
+          click: setFOTWCount
+        }
+      );
+
+    });
   }
 
 };

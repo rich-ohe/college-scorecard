@@ -45,7 +45,7 @@ module.exports = function search() {
     'name',
     'city',
     'state',
-    'compare_school',
+    'selected_school',
     'under_investigation',
     'size_number',
     'average_cost',
@@ -79,7 +79,7 @@ module.exports = function search() {
       });
 
       if (this.id = 'compare_schools-edit') {
-        picc.school.compare.renderToggles();
+        picc.school.selection.renderCompareToggles();
       }
     });
 
@@ -125,7 +125,7 @@ module.exports = function search() {
         }
       }, 200));
 
-    picc.school.compare.renderToggles();
+    picc.school.selection.renderCompareToggles();
 
     change();
   });
@@ -145,7 +145,8 @@ module.exports = function search() {
   form.on('change:_compare', function(value, e) {
     var id = e.target.parentElement.getAttribute('data-school-id');
     var school = document.querySelector('button[data-school-id="'+id+'"');
-    picc.school.compare.toggle(e, school);
+    picc.school.selection.toggle(e, school);
+    picc.school.selection.renderCompareLink();
     submit = false;
   });
 
@@ -401,7 +402,6 @@ module.exports = function search() {
       if (alreadyLoaded) {
           scrollIntoView();
       }
-
       tagalong(resultsList, data.results, directives);
 
       alreadyLoaded = true;

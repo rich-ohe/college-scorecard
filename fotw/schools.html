@@ -16,7 +16,7 @@ permalink: /fotw/schools/
 
         <div class="fotw-section">
 
-            <div class="container section contained-no-radius">
+            <div class="container section fotw-schools contained-no-radius">
 
                 <div id="error" class="show-error">
                     <h2>Something went wrong:</h2>
@@ -31,7 +31,7 @@ permalink: /fotw/schools/
                         <legend>MyFAFSA Schools</legend>
                         <h1>MyFAFSA</h1>
 
-                        <ul id="edit-fotw-list">
+                        <ul id="edit-fotw-list" data-bind="fotwSchools">
                             <li class="edit-fotw-list-item">
                                 <label class="checkbox" data-bind="checkbox_label">
                                     <input type="checkbox" name="_compare" tabindex="0" data-bind="fotw_checkbox">
@@ -60,3 +60,6 @@ permalink: /fotw/schools/
 
 </div>
 
+<script>
+  picc.pages.fotw();
+</script>

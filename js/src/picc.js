@@ -863,9 +863,10 @@ picc.school.directives = (function() {
     city:           access(fields.CITY),
     state:          access(fields.STATE),
 
-    compare_school: {
+    selected_school: {
       '@aria-pressed': function(d) {
-         return (picc.school.compare.isSelected(access(fields.ID)(d)) >= 0);
+         var collection = this.getAttribute('data-school');
+         return (picc.school.selection.isSelected(access(fields.ID)(d), collection) >= 0);
       },
       '@data-school-id': function(d) {
         return access(fields.ID)(d);
@@ -1104,27 +1105,17 @@ picc.school.directives = (function() {
 })();
 
 /**
- * School compare utils for checking state and saving, rendering toggles
- * a list of school IDs to localStorage
+ * School selection utils for checking state, saving schools, and rendering toggles & links
  */
-picc.school.compare = (function() {
-
-  var compareSchools = window.localStorage.getItem('school-compare');
-
-  if (!compareSchools) {
-    compareSchools = JSON.stringify([]);
-    window.localStorage.setItem('school-compare', compareSchools);
-  }
-
-  compareSchools = JSON.parse(compareSchools);
+picc.school.selection = (function() {
 
   return {
-    all: function () {
-      return JSON.parse(window.localStorage.getItem('school-compare'));
+    all: function (key) {
+      return JSON.parse(window.localStorage.getItem(key)) || [];
     },
 
-    isSelected: function (id) {
-      return (picc.school.compare.all().map(function(fav){
+    isSelected: function (id, key) {
+      return (picc.school.selection.all(key).map(function(fav){
         return fav.id;
       }).indexOf(id));
     },
@@ -1136,27 +1127,26 @@ picc.school.compare = (function() {
       }
       var id = +el.getAttribute('data-school-id');
       var name = el.getAttribute('data-school-name');
-      var isSelected = picc.school.compare.isSelected(id);
-      compareSchools = picc.school.compare.all();
+      var collection = el.getAttribute('data-school');
+      var isSelected = picc.school.selection.isSelected(id, collection);
+      var selectedSchools = picc.school.selection.all(el.getAttribute('data-school'));
       if (isSelected >= 0) {
-        compareSchools.splice(isSelected, 1);
-          window.localStorage.setItem('school-compare', JSON.stringify(compareSchools));
+        selectedSchools.splice(isSelected, 1);
+          window.localStorage.setItem(collection, JSON.stringify(selectedSchools));
           el.setAttribute('aria-pressed', false);
       } else {
-        compareSchools.push({id: id, name: name});
-          window.localStorage.setItem('school-compare', JSON.stringify(compareSchools));
+        selectedSchools.push({id: id, name: name});
+          window.localStorage.setItem(collection, JSON.stringify(selectedSchools));
           el.setAttribute('aria-pressed', true);
       }
 
-     picc.school.compare.renderLink();
-
     },
 
-    renderToggles: function() {
-
+    renderCompareToggles: function() {
+        var collection = 'compare';
         tagalong(
           '#edit-compare-list',
-          picc.school.compare.all(),
+          picc.school.selection.all(collection),
           {
             name: function(d) {
               return picc.access('name')(d)
@@ -1174,7 +1164,7 @@ picc.school.compare = (function() {
                 return 'edit-compare-' + picc.access('id')(d);
               },
               '@checked': function(d) {
-                return (picc.school.compare.isSelected(picc.access('id')(d)) >= 0) ? 'checked': null;
+                return (picc.school.selection.isSelected(picc.access('id')(d), collection) >= 0) ? 'checked': null;
               }
             }
           }
@@ -1188,14 +1178,14 @@ picc.school.compare = (function() {
       });
 
       // update compare schools link
-      picc.school.compare.renderLink();
+      picc.school.selection.renderCompareLink();
 
     },
 
-    renderLink: function() {
+    renderCompareLink: function() {
       var compareLink = d3.select('#compare-link');
       if (compareLink) {
-        if (picc.school.compare.all().length) {
+        if (picc.school.selection.all('compare').length) {
           compareLink
             .attr('href', '/compare/');
         } else {
@@ -1207,62 +1197,6 @@ picc.school.compare = (function() {
   };
 
 })();
-
-/**
- * FOTW integration utils for selecting / prepping schools for return
- *
- */
-picc.fotw = (function() {
-
-  var fotwSchools = window.sessionStorage.getItem('fotw-schools');
-
-  if (!fotwSchools) {
-    fotwSchools = JSON.stringify([]);
-    window.sessionStorage.setItem('fotw-schools', fotwSchools);
-  }
-
-  fotwSchools = JSON.parse(fotwSchools);
-
-  return {
-    all: function(){
-      return JSON.parse(window.sessionStorage.getItem('fotw-schools'));
-    },
-
-    isSelected: function(id) {
-      return picc.fotw.all().indexOf(id);
-    },
-
-    getCount: function() {
-      return +d3.select(".fotw-count").text();
-    },
-
-    setCount: function(n) {
-      d3.select(".fotw-count").text(n)
-    },
-
-    toggle: function(e) {
-      var el = (e.target.parentElement.hasAttribute('data-school-id')) ? e.target.parentElement : e.target;
-      var id = +el.getAttribute('data-school-id');
-      var isSelected = picc.fotw.isSelected(id);
-      var newCount = picc.fotw.getCount();
-      fotwSchools = picc.fotw.all();
-      if (isSelected >= 0) {
-        fotwSchools.splice(isSelected, 1);
-        window.sessionStorage.setItem('fotw-schools', JSON.stringify(fotwSchools));
-        el.setAttribute('aria-pressed', false);
-        picc.fotw.setCount( newCount -1 );
-
-      } else {
-        fotwSchools.push(id);
-        window.sessionStorage.setItem('fotw-schools', JSON.stringify(fotwSchools));
-        el.setAttribute('aria-pressed', true);
-        picc.fotw.setCount( newCount  +1);
-      }
-
-    }
-  };
-})();
-
 
 // form utilities
 picc.form = {};
@@ -1946,19 +1880,19 @@ if (typeof document !== 'undefined') {
   });
 
   /**
-   * add event listeners for add to compare schools click events
+   * add event listeners for school selection click events
    */
   picc.ready(function() {
-      var compareBtn = 'data-compare-button';
+      var ariaPressed = 'aria-pressed';
       picc.delegate(
           document.body,
-          // if the element matches '[]'
+          // if the element matches '[aria-pressed]'
           function() {
-              return this.parentElement.hasAttribute(compareBtn) ||
-              this.hasAttribute(compareBtn);
+              return this.parentElement.hasAttribute(ariaPressed) ||
+              this.hasAttribute(ariaPressed);
           },
           {
-            click: picc.school.compare.toggle
+            click: picc.school.selection.toggle
           }
       );
 
