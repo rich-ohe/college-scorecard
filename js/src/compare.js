@@ -11,6 +11,10 @@ module.exports = function compare() {
   var qs = querystring.parse(location.search.substr(1));
   var compareSchools = (qs['schools[]']) ? qs['schools[]'] : picc.school.selection.all('compare');
 
+  var backTo = (document.referrer.indexOf('/fotw') >= 0) ? '../search/' : document.referrer;
+  d3.select('#referrer-link')
+    .attr('href', backTo || null);
+
   var showError = function (error) {
     console.error('error:', error);
     var message = compareRoot.querySelector('.error-message');

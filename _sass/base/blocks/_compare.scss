@@ -12,7 +12,21 @@
 }
 
 .header-controls {
-  padding-top: $base-padding;
+
+  padding: $base-padding-lite ($toggle-padding / 2) $base-padding-lite ($toggle-padding / 2);
+
+
+  .compare-back {
+    display: inline-block;
+
+    .link-more {
+      display: none;
+    }
+
+    .link-more[href] {
+      display: inline-block;
+    }
+  }
 
   .fotw-wrapper {
 
