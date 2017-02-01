@@ -52,8 +52,11 @@
 
 }
 
-.schools-compare_selected-list {
+.loadable.js-loaded .show-loaded.schools-compare_selected-list {
   display: table;
+}
+
+.schools-compare_selected-list {
   table-layout: fixed;
 
   .assembly-line {
