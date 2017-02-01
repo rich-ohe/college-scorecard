@@ -23,7 +23,7 @@ var getIcon = function() {
     '.school-heading .school-key_figures li', 'class');
 };
 
-var toggleSchoolFavorite = function*(url, selector, clicks) {
+var toggleSchoolCompare = function*(url, selector, clicks) {
     yield loadSchoolUrl(url);
 
     for (var i = 0; i < clicks; i++) {
@@ -241,16 +241,16 @@ describe('school page', function() {
     Favorite School
    */
 
-  it('should add aria-pressed attribute on school favorite button when clicked', function*() {
-      var isFavorite = yield toggleSchoolFavorite('167525-Quincy-College', '.button-favorite', 1);
+  it('should add aria-pressed attribute on school compare button when clicked', function*() {
+      var isFavorite = yield toggleSchoolCompare('167525-Quincy-College', '.button-compare_schools', 1);
       var name = yield getSchoolName();
-      assert(isFavorite, name + ' was added as a favorite' );
+      assert(isFavorite, name + ' was added as a compare school' );
   });
 
-    it('should remove aria-pressed attribute on school favorite button on subsequent click', function*() {
-        var isFavorite = yield toggleSchoolFavorite('449339-American-Public-University-System', '.button-favorite', 2);
+    it('should remove aria-pressed attribute on school compare button on subsequent click', function*() {
+        var isFavorite = yield toggleSchoolCompare('449339-American-Public-University-System', '.button-compare_schools', 2);
         var name = yield getSchoolName();
-        assert( isFavorite, false, name + ' was removed as a favorite' );
+        assert( isFavorite, false, name + ' was removed as a compare school' );
     });
 
   /*
