@@ -1192,7 +1192,7 @@ picc.school.selection = (function() {
       if (compareLink) {
         if (picc.school.selection.all('compare').length) {
           compareLink
-            .attr('href', '/compare/');
+            .attr('href', picc.BASE_URL + '/compare/');
         } else {
           compareLink
             .attr('href', null);
