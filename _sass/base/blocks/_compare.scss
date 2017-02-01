@@ -14,10 +14,12 @@
 .header-controls {
 
   padding: $base-padding-lite ($toggle-padding / 2) $base-padding-lite ($toggle-padding / 2);
+  min-height: 55px;
 
 
   .compare-back {
     display: inline-block;
+    padding-top: $base-padding-lite;
 
     .link-more {
       display: none;
