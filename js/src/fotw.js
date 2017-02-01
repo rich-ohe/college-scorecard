@@ -71,7 +71,7 @@ module.exports = function fotw() {
           this.hasAttribute(fotwBox);
       },
       {
-        click: picc.school.selection.toggle
+        click: picc.debounce(picc.school.selection.toggle,100)
       }
     );
 
