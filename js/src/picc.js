@@ -1162,6 +1162,9 @@ picc.school.selection = (function() {
               },
               '@data-school-id': function (d) {
                 return picc.access('schoolId')(d);
+              },
+              '@data-school-name': function(d) {
+                return picc.access('schoolName')(d);
               }
             },
             compare_checkbox: {
