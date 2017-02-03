@@ -238,7 +238,7 @@ describe('school page', function() {
   });
 
   /*
-    Favorite School
+    Compare School
    */
 
   it('should add aria-pressed attribute on school compare button when clicked', function*() {
