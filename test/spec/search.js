@@ -287,6 +287,10 @@ describe('autocomplete', function() {
 
 describe('compare', function() {
 
+  after(function() {
+    browser.localStorage('DELETE');
+  });
+
   it('should add aria-pressed attribute on school compare button when clicked', function*() {
     yield utils.runSearch();
     yield utils.getVisibleResults();

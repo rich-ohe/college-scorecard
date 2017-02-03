@@ -79,6 +79,10 @@ var toggleAccordion = function(selector) {
 
 describe('school page', function() {
 
+  after(function() {
+    browser.localStorage('DELETE');
+  });
+
   /*
     Banners & Iconography
   */

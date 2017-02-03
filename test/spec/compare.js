@@ -6,6 +6,10 @@ var utils = require('./utils');
 
 describe('compare', function() {
 
+  after(function() {
+    browser.localStorage('DELETE');
+  });
+
   it('should navigate to compare page from search results accordion link and display selected schools', function*() {
 
     yield utils.runSearch();
