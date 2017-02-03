@@ -1181,9 +1181,10 @@ picc.school.selection = (function() {
       // Fix for tagalong binding only to the first instance of a directive
       var checkboxes = document.querySelectorAll('input[name="_compare"]');
 
-      checkboxes.forEach(function(box) {
-        box.checked = true;
-      });
+
+      for (var i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].checked = true;
+      };
 
       // update compare schools link
       picc.school.selection.renderCompareLink();
