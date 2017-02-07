@@ -144,7 +144,7 @@ module.exports = function search() {
   // stop compare checkboxes triggering search and update storage
   form.on('change:_compare', function(value, e) {
     var id = e.target.parentElement.getAttribute('data-school-id');
-    var school = document.querySelector('button[data-school-id="'+id+'"');
+    var school = document.querySelector('button[data-school-id="'+id+'"]');
     picc.school.selection.toggle(e, school);
     picc.school.selection.renderCompareLink();
     submit = false;
