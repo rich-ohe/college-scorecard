@@ -469,7 +469,7 @@ picc.fields = {
   MINORITY_SERVING:     'school.minority_serving',
 
   PREDOMINANT_DEGREE:   'school.degrees_awarded.predominant',
-  HIGHEST_DEGREE:   'school.degrees_awarded.highest',
+  HIGHEST_DEGREE:       'school.degrees_awarded.highest',
   UNDER_INVESTIGATION:  'school.under_investigation',
 
   // net price
@@ -1113,7 +1113,8 @@ picc.form.mappings = {
 
   degree: {
     a: '2',
-    b: '3'
+    b: '3',
+    c: '1'
   }
 };
 
@@ -1241,6 +1242,10 @@ picc.form.prepareParams = (function() {
         case '3':
           subfield = 'bachelors';
           break;
+        case 'c':
+        case '1':
+          subfield = 'certificate'
+
       }
       var k = [fields.PROGRAM_OFFERED, subfield, value].join('.');
       query[k + '__range'] = '1..';
@@ -1260,6 +1265,8 @@ picc.form.prepareParams = (function() {
         query[picc.fields.DEGREE_OFFERED + '.assoc'] = true;
       } else if (value === 'b') {
         query[picc.fields.DEGREE_OFFERED + '.bachelors'] = true;
+      } else if (value === 'c') {
+        query[picc.fields.DEGREE_OFFERED + '.certificate'] = true;
       }
       delete query[key];
     },
@@ -1276,7 +1283,7 @@ picc.form.prepareParams = (function() {
     return picc.form.mappings.size[value];
   }
 
-  // map a degree string ('', 'a' or 'b') or array of strings to an
+  // map a degree string ('', 'a' or 'b' or 'c') or array of strings to an
   // API-friendly "predominant degree" range value
   function mapDegree(value) {
     if (Array.isArray(value)) {
@@ -1332,7 +1339,7 @@ picc.form.prepareParams = (function() {
     */
 
     if (!query.degree) {
-      query[fields.DEGREE_OFFERED + '.assoc_or_bachelors'] = true;
+      query[fields.DEGREE_OFFERED + '.assoc_or_bachelors_or_certificate'] = true;
     }
 
     for (var key in query) {
@@ -1367,7 +1374,7 @@ picc.form.prepareParams = (function() {
     query[picc.fields.PREDOMINANT_DEGREE + '__range'] = '1..3';
 
     // set the highest degree to range '2..4' to exclude certificate only schools
-    query[picc.fields.HIGHEST_DEGREE + '__range'] = '2..4';
+    //query[picc.fields.HIGHEST_DEGREE + '__range'] = '2..4';
 
     return query;
   };
