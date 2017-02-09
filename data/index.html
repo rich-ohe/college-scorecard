@@ -2,6 +2,7 @@
 title: College Scorecard Data
 layout: default-data
 permalink: /data/
+data_base_url: https://ed-public-download.apps.cloud.gov/downloads
 scripts:
   - vendor/flickity.pkgd.js
 stylesheets:
@@ -45,8 +46,8 @@ stylesheets:
         </div>
 
         <div class="gallery-cell">
-            <p>Loan repayment rates offer a new way to consider borrower behavior, and may convey more information about student debt management than cohort default rates (CDR). The overall three-year repayment rate for all undergraduate institutions, weighted by the number of students borrowing at each school, was 63 percent in the combined 2010 and 2011 repayment cohorts. <span class="insight-highlight">37 percent of students were thus not meeting the repayment metric—either they were in default or were making monthly payments that were not reducing their loan balance.</span> As a point of comparison, the three-year CDR was 13 percent for all students in the 2011 repayment cohort.</p>
-            <cite class="insight-cite">Learn more in the Technical Paper</cite>
+          <p>Loan repayment rates offer a new way to consider borrower behavior, and may convey more information about student debt management than cohort default rates (CDR). The overall three-year repayment rate for all undergraduate institutions, weighted by the number of students borrowing at each school, was 45 percent in the combined 2010 and 2011 repayment cohorts. <span class="insight-highlight">55 percent of borrowers were thus not meeting the repayment rate metric - either they were in default or were making monthly payments that were not reducing their loan balance.</span> As a point of comparison, the three-year CDR was 13 percent for all students in the 2011 repayment cohort.</p>
+          <cite class="insight-cite">Learn more in the Technical Paper</cite>
         </div>
 
           <div class="gallery-cell">
@@ -97,26 +98,35 @@ stylesheets:
 
       <h2>Download the Data</h2>
 
-      <p>Download the data that appear on the College Scorecard, as well as supporting data on student completion, debt and repayment, earnings, and more. The files include data from 1996 through 2015 for all undergraduate degree-granting institutions of higher education.</p>
+      <p class='padded-bottom'>Download the data that appear on the College Scorecard, as well as
+        supporting data on student completion, debt and repayment, earnings,
+        and more. The files include data from 1996 through 2016 for all
+        undergraduate degree-granting institutions of higher education. </p>
+
+      <p>This data was <strong>last updated on January 13th, 2017</strong>. Our
+          <a href="{{ site.baseurl }}/data/changelog/">Change Log</a> describes the changes to the
+          dataset over time.</p>
 
       <div class="u-group_inline">
         <div class="u-group_inline-left">
-          <a href="https://s3.amazonaws.com/ed-college-choice-public/CollegeScorecard_Raw_Data.zip" class="button button-primary">Download All Data</a>
+          <a href="{{ page.data_base_url }}/CollegeScorecard_Raw_Data.zip" class="button button-primary">Download All Data</a>
         </div>
         <div class="u-group_inline-right">
-          <p> 212 MB zip</p>
+          <p>229 MB zip</p>
         </div>
       </div>
 
       <h3>Featured Downloads</h3>
 
-      <p>These data downloads provide quick access to some of the data in which users may be most interested, including a file that offers the most current data for each element.</p>
+      <p>These data downloads provide quick access to some of the data in which
+        users may be most interested, including a file that offers the most
+        current data for each element.</p>
 
       <ul class="data-download-list">
-        <li><a href="https://s3.amazonaws.com/ed-college-choice-public/Most+Recent+Cohorts+(Scorecard+Elements).csv">Scorecard data</a> 4.6 MB csv</li>
-        <li><a href="https://s3.amazonaws.com/ed-college-choice-public/Most+Recent+Cohorts+(All+Data+Elements).csv">Most recent data</a> 124 MB csv</li>
-        <li><a href="https://s3.amazonaws.com/ed-college-choice-public/Most+Recent+Cohorts+(NSLDS+Elements).csv">What's new from NSLDS</a> 104.4 MB csv</li>
-        <li><a href="https://s3.amazonaws.com/ed-college-choice-public/Most+Recent+Cohorts+(Treasury+Elements).csv">Post-school earnings</a> 7.4 MB csv</li>
+        <li><a href="{{ page.data_base_url }}/Most-Recent-Cohorts-Scorecard-Elements.csv">Scorecard data</a> 5 MB CSV</li>
+        <li><a href="{{ page.data_base_url }}/Most-Recent-Cohorts-All-Data-Elements.csv">Most recent data</a> 141 MB CSV</li>
+        <li><a href="{{ page.data_base_url }}/Most-Recent-Cohorts-NSLDS-Elements.csv">What's new from NSLDS</a> 123 MB CSV</li>
+        <li><a href="{{ page.data_base_url }}/Most-Recent-Cohorts-Treasury-Elements.csv">Post-school earnings</a> 7 MB CSV</li>
       </ul>
 
     </div>
@@ -125,12 +135,16 @@ stylesheets:
 
       <h2>Data Documentation</h2>
 
-      <p>The College Scorecard is designed to increase transparency, putting the power in the hands of the public &mdash; from those choosing colleges to those improving college quality &mdash; to see how well different schools are serving their students. This documentation provides more on how to use the data, including:</p>
+      <p>The College Scorecard is designed to increase transparency, putting
+        the power in the hands of the public &mdash; from those choosing
+        colleges to those improving college quality &mdash; to see how well
+        different schools are serving their students. This documentation
+        provides more on how to use the data, including:</p>
 
       <ul class="u-unordered_list">
         <li>Sources of the data</li>
         <li>The construction of metrics</li>
-        <li> Data considerations and limitations</li>
+        <li>Data considerations and limitations</li>
       </ul>
 
       <a href="{{ site.baseurl }}/data/documentation/" class="link-more">View the documentation <i class="fa fa-chevron-right"></i></a>
@@ -140,19 +154,27 @@ stylesheets:
   </section>
 
 </div>
+<div class="container">
 
-<!-- <div style="background:#0e365b; color: white;">
+  <section class="section data-home-download">
 
-  <div class="container">
+    <div class="data-home-intro-col-left section-margin_bottom">
 
-    <section class="section">
+      <h2>Outside Organizations Collecting Voluntary Data</h2>
 
-      <h2>See the Data in Action</h2>
+      <p>Some other organizations have recently launched efforts to collect more accurate data on college completion, remedial education and workforce outcomes.</p>
 
-      <p>Welcome, mission statement, why this is important, join the conversation. Lorem ipsum dolor sed lacus id ligula hendrerit semper sed vitae risus.</p>
+    </div>
 
-    </section>
+    <div class="data-home-intro-col-right data-home-feature section-margin_bottom">
 
-  </div>
+      <h2>Websites</h2>
+      <ul class="data-download-list u-unordered_list">
+          <li><a href="http://www.studentachievementmeasure.org" target="_blank">Student Achievement Measure initiative  <i class="fa fa-external-link"></i></a></li>
+          <li><a href="http://vfa.aacc.nche.edu/Pages/default.aspx" target="_blank">Voluntary Framework of Accountability initiative <i class="fa fa-external-link"></i></a></li>
+      </ul>
+    </div>
 
-</div> -->
+  </section>
+
+</div>

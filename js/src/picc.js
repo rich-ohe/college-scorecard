@@ -5,12 +5,16 @@ if (typeof window !== 'undefined') {
   require('aight');
   // web components
   require('./components');
+
+  var typeahead = require("typeahead.js-browserify");
+  typeahead.loadjQueryPlugin(); //attach jQuery
 }
 
 var querystring = require('querystring');
 var d3 = require('d3');
 var async = require('async');
 var formdb = require('formdb');
+var jQuery = require("jquery");
 
 // create the global picc namespace
 var picc = {};
@@ -258,9 +262,11 @@ var NA = '--';
  */
 picc.format = (function() {
   var formatter = function(fmt, _empty) {
-    var round = false;
+    var round = false,
+        percent = false;
     if (typeof fmt === 'string') {
       round = !!fmt.match(/d$/);
+      percent = !round;
       fmt = d3.format(fmt);
     }
     return function(key, empty) {
@@ -277,6 +283,10 @@ picc.format = (function() {
           return empty.call(d);
         }
         if (round) value = Math.round(value);
+        if (percent) {
+          // percentage rounding fix
+          value = Math.round(parseFloat(value*100).toPrecision(12)) / 100;
+        }
         return fmt.call(d, value, key);
       };
     };
@@ -451,7 +461,7 @@ picc.fields = {
   RELIGIOUS:            'school.religious_affiliation',
   OPERATING:            'school.operating',
 
-  SIZE:                 '2013.student.size',
+  SIZE:                 '2014.student.size',
   ONLINE_ONLY:          'school.online_only',
 
   WOMEN_ONLY:           'school.women_only',
@@ -459,56 +469,56 @@ picc.fields = {
   MINORITY_SERVING:     'school.minority_serving',
 
   PREDOMINANT_DEGREE:   'school.degrees_awarded.predominant',
-  HIGHEST_DEGREE:   'school.degrees_awarded.highest',
+  HIGHEST_DEGREE:       'school.degrees_awarded.highest',
   UNDER_INVESTIGATION:  'school.under_investigation',
 
   // net price
-  NET_PRICE:            '2013.cost.avg_net_price.overall',
-  NET_PRICE_BY_INCOME:  '2013.cost.net_price',
+  NET_PRICE:            '2014.cost.avg_net_price.overall',
+  NET_PRICE_BY_INCOME:  '2014.cost.net_price',
 
   // completion rate
-  COMPLETION_RATE:      '2013.completion.rate_suppressed.overall',
+  COMPLETION_RATE:      '2014.completion.rate_suppressed.overall',
 
-  RETENTION_RATE:       '2013.student.retention_rate',
+  RETENTION_RATE:       '2014.student.retention_rate',
 
-  REPAYMENT_RATE:       '2013.repayment.3_yr_repayment_suppressed.overall',
+  REPAYMENT_RATE:       '2014.repayment.3_yr_repayment_suppressed.overall',
 
-  AVERAGE_TOTAL_DEBT:   '2013.aid.median_debt_suppressed.completers.overall',
-  MONTHLY_LOAN_PAYMENT: '2013.aid.median_debt_suppressed.completers.monthly_payments',
+  AVERAGE_TOTAL_DEBT:   '2014.aid.median_debt_suppressed.completers.overall',
+  MONTHLY_LOAN_PAYMENT: '2014.aid.median_debt_suppressed.completers.monthly_payments',
 
-  AID_PERCENTAGE:       '2013.aid.federal_loan_rate',
-  PELL_PERCENTAGE:      '2013.aid.pell_grant_rate',
+  AID_PERCENTAGE:       '2014.aid.federal_loan_rate',
+  PELL_PERCENTAGE:      '2014.aid.pell_grant_rate',
 
-  MEDIAN_EARNINGS:      '2011.earnings.10_yrs_after_entry.median',
+  MEDIAN_EARNINGS:      '2012.earnings.10_yrs_after_entry.median',
 
-  EARNINGS_GT_25K:      '2011.earnings.6_yrs_after_entry.percent_greater_than_25000',
+  EARNINGS_GT_25K:      '2012.earnings.6_yrs_after_entry.percent_greater_than_25000',
 
-  PROGRAM_PERCENTAGE:   '2013.academics.program_percentage',
-  PROGRAM_OFFERED:      '2013.academics.program',
-  DEGREE_OFFERED:       '2013.academics.program_available',
+  PROGRAM_PERCENTAGE:   '2014.academics.program_percentage',
+  PROGRAM_OFFERED:      '2014.academics.program',
+  DEGREE_OFFERED:       '2014.academics.program_available',
 
-  PART_TIME_SHARE:      '2013.student.part_time_share',
-  FEMALE_SHARE:         '2013.student.demographics.female_share',
-  RACE_ETHNICITY:       '2013.student.demographics.race_ethnicity',
-  AGE_ENTRY:            '2013.student.demographics.age_entry',
+  PART_TIME_SHARE:      '2014.student.part_time_share',
+  FEMALE_SHARE:         '2014.student.demographics.female_share',
+  RACE_ETHNICITY:       '2014.student.demographics.race_ethnicity',
+  AGE_ENTRY:            '2014.student.demographics.age_entry',
 
-  ACT_25TH_PCTILE:      '2013.admissions.act_scores.25th_percentile.cumulative',
-  ACT_75TH_PCTILE:      '2013.admissions.act_scores.75th_percentile.cumulative',
-  ACT_MIDPOINT:         '2013.admissions.act_scores.midpoint.cumulative',
+  ACT_25TH_PCTILE:      '2014.admissions.act_scores.25th_percentile.cumulative',
+  ACT_75TH_PCTILE:      '2014.admissions.act_scores.75th_percentile.cumulative',
+  ACT_MIDPOINT:         '2014.admissions.act_scores.midpoint.cumulative',
 
-  SAT_CUMULATIVE_AVERAGE:   '2013.admissions.sat_scores.average.overall',
+  SAT_CUMULATIVE_AVERAGE:   '2014.admissions.sat_scores.average.overall',
 
-  SAT_READING_25TH_PCTILE:  '2013.admissions.sat_scores.25th_percentile.critical_reading',
-  SAT_READING_75TH_PCTILE:  '2013.admissions.sat_scores.75th_percentile.critical_reading',
-  SAT_READING_MIDPOINT:     '2013.admissions.sat_scores.midpoint.critical_reading',
+  SAT_READING_25TH_PCTILE:  '2014.admissions.sat_scores.25th_percentile.critical_reading',
+  SAT_READING_75TH_PCTILE:  '2014.admissions.sat_scores.75th_percentile.critical_reading',
+  SAT_READING_MIDPOINT:     '2014.admissions.sat_scores.midpoint.critical_reading',
 
-  SAT_MATH_25TH_PCTILE:     '2013.admissions.sat_scores.25th_percentile.math',
-  SAT_MATH_75TH_PCTILE:     '2013.admissions.sat_scores.75th_percentile.math',
-  SAT_MATH_MIDPOINT:        '2013.admissions.sat_scores.midpoint.math',
+  SAT_MATH_25TH_PCTILE:     '2014.admissions.sat_scores.25th_percentile.math',
+  SAT_MATH_75TH_PCTILE:     '2014.admissions.sat_scores.75th_percentile.math',
+  SAT_MATH_MIDPOINT:        '2014.admissions.sat_scores.midpoint.math',
 
-  SAT_WRITING_25TH_PCTILE:  '2013.admissions.sat_scores.25th_percentile.writing',
-  SAT_WRITING_75TH_PCTILE:  '2013.admissions.sat_scores.75th_percentile.writing',
-  SAT_WRITING_MIDPOINT:     '2013.admissions.sat_scores.midpoint.writing',
+  SAT_WRITING_25TH_PCTILE:  '2014.admissions.sat_scores.25th_percentile.writing',
+  SAT_WRITING_75TH_PCTILE:  '2014.admissions.sat_scores.75th_percentile.writing',
+  SAT_WRITING_MIDPOINT:     '2014.admissions.sat_scores.midpoint.writing',
 
   NET_PRICE_CALC_URL:       'school.price_calculator_url'
 };
@@ -713,37 +723,34 @@ picc.access.specialDesignations = function(d) {
 /**
  * Returns an array of program areas for a given school object from the API.
  *
- * @param {Object}  school    the school data object
- * @param {Object?} metadata  the optional API metadata object. If this is
- *                            falsy, we look for metadata in `school.metadata`.
+ * @param {Object}  school  the school data object
+ * @param {String?} field   the optional field in which to look for program
+ *                          areas.
  * @return {Array}  an Array of Objects, each with `program` (the name) and
- *                  `percent` (a decimal number or string representing its
+ *                  `value` (a decimal number or string representing its
  *                  share of student enrollment) properties.
  */
-picc.access.programAreas = function(d, metadata) {
-  if (!metadata) metadata = d.metadata;
-  if (!metadata || !metadata.dictionary) return [];
+picc.access.programAreas = function(d, field) {
+  if (!field) {
+    field = picc.fields.PROGRAM_OFFERED + '.degree';
+  }
 
-  var dictionary = metadata.dictionary;
-  var field = picc.fields.PROGRAM_PERCENTAGE;
   var programs = picc.access(field)(d);
-  if (!programs) return [];
-  // remove the year prefix
-  field = field.replace(/^\d+\./, '');
-  return Object.keys(programs || {})
+  if (!programs) {
+    return [];
+  }
+
+  return Object.keys(programs)
     .map(function(key) {
       var value = programs[key];
-      var dictKey = [field, key].join('.');
-      var name = dictionary[dictKey]
-        ? (dictionary[dictKey].label || key)
-        : key;
+      var name = picc.PROGRAM_NAMES[key];
       return {
         program: name,
-        percent: value
+        value: +value
       };
     })
     .filter(function(d) {
-      return +d.percent > 0;
+      return d.value > 0;
     });
 };
 
@@ -958,7 +965,6 @@ picc.school.directives = (function() {
     },
 
     race_ethnicity_values: function(d) {
-      if (!d.metadata) return [];
       var values = access(fields.RACE_ETHNICITY)(d);
       if (!values) return [];
       return Object.keys(values)
@@ -992,14 +998,13 @@ picc.school.directives = (function() {
     }),
 
     popular_programs: function(d) {
-      var areas = access.programAreas(d);
-      if (areas.length) {
-        var total = d3.sum(areas, picc.access('percent'));
-        areas.forEach(function(d) {
-          d.value = +d.percent / total;
-          d.percent = percent(d.value);
-        });
-      }
+      var areas = access.programAreas(d, fields.PROGRAM_PERCENTAGE);
+      // copy the "value" key to "percent"
+      areas.forEach(function(d) {
+        d.percent = d.value > 0.005
+          ? percent(d.value)
+          : '<1%';
+      });
       return areas
         .sort(function(a, b) {
           return d3.descending(a.value, b.value);
@@ -1108,7 +1113,8 @@ picc.form.mappings = {
 
   degree: {
     a: '2',
-    b: '3'
+    b: '3',
+    c: '1'
   }
 };
 
@@ -1130,6 +1136,10 @@ picc.form.minifyQueryString = function(form) {
   }
 
   form.on('submit', function(data, e) {
+    //close typeahead.js so it is hidden on back
+    var ac = jQuery('#'+form.element.id).find('#name-school');
+    ac.typeahead('close').typeahead('val', '');
+
     var url = [
         form.element.action,
         querystring.stringify(data)
@@ -1146,7 +1156,6 @@ picc.form.minifyQueryString = function(form) {
 
   return form;
 };
-
 
 /**
  *
@@ -1184,10 +1193,15 @@ picc.form.prepareParams = (function() {
 
     zip: function(query, value, key) {
       // if there is no distance query, use the fully-qualified zip code
-      // field to match schools in that zip
-      if (!query.distance) {
-        query[fields.ZIP_CODE] = value;
-        delete query[key];
+      // field to match schools in that zip:
+      // ?zip=XXXXXX&distance=0 will always return zero results because it
+      // does a distance calculation; whereas
+      // ?school.zip=XXXXXX will return all schools with that zip code value
+      // instead of doing a distance calculation
+      if (! +query.distance) {
+        query[fields.ZIP_CODE] = value; // query['school.zip'] = ...
+        delete query[key]; // delete query.zip
+        delete query.distance;
       }
       // (the default will submit `zip=x&distance=y`,
       // which is what the API expects)
@@ -1228,6 +1242,10 @@ picc.form.prepareParams = (function() {
         case '3':
           subfield = 'bachelors';
           break;
+        case 'c':
+        case '1':
+          subfield = 'certificate'
+
       }
       var k = [fields.PROGRAM_OFFERED, subfield, value].join('.');
       query[k + '__range'] = '1..';
@@ -1247,6 +1265,8 @@ picc.form.prepareParams = (function() {
         query[picc.fields.DEGREE_OFFERED + '.assoc'] = true;
       } else if (value === 'b') {
         query[picc.fields.DEGREE_OFFERED + '.bachelors'] = true;
+      } else if (value === 'c') {
+        query[picc.fields.DEGREE_OFFERED + '.certificate'] = true;
       }
       delete query[key];
     },
@@ -1263,7 +1283,7 @@ picc.form.prepareParams = (function() {
     return picc.form.mappings.size[value];
   }
 
-  // map a degree string ('', 'a' or 'b') or array of strings to an
+  // map a degree string ('', 'a' or 'b' or 'c') or array of strings to an
   // API-friendly "predominant degree" range value
   function mapDegree(value) {
     if (Array.isArray(value)) {
@@ -1319,7 +1339,7 @@ picc.form.prepareParams = (function() {
     */
 
     if (!query.degree) {
-      query[fields.DEGREE_OFFERED + '.assoc_or_bachelors'] = true;
+      query[fields.DEGREE_OFFERED + '.assoc_or_bachelors_or_certificate'] = true;
     }
 
     for (var key in query) {
@@ -1354,7 +1374,7 @@ picc.form.prepareParams = (function() {
     query[picc.fields.PREDOMINANT_DEGREE + '__range'] = '1..3';
 
     // set the highest degree to range '2..4' to exclude certificate only schools
-    query[picc.fields.HIGHEST_DEGREE + '__range'] = '2..4';
+    //query[picc.fields.HIGHEST_DEGREE + '__range'] = '2..4';
 
     return query;
   };
@@ -1435,6 +1455,12 @@ picc.debounce = function(fn, delay) {
     }, delay);
   };
 };
+
+/**
+* Debounced version of the picc.API.search function, used to debounce
+* autocomplete API requests for the school name field on the search form
+*/
+picc.API.debounced_search = picc.debounce(picc.API.search, 250);
 
 /**
  * This is an event delegation helper that allows us to listen for events on
@@ -1761,6 +1787,59 @@ if (typeof document !== 'undefined') {
       // console.info('- drag');
       this.body.classList.remove('dragging');
     });
+
+  /**
+   * Adds listener and attaches autocomplete/dropdown functionality
+   * to the name field in the form with given selector. Called on
+   * both index and search pages.
+   *
+   * @param {String} form selector
+   */
+  picc.form.autocompleteName = function(formSelector) {
+    var field = jQuery(formSelector).find('#name-school');
+
+    field.typeahead({
+      minLength: 3,
+      highlight: true,
+      hint: false
+    }, {
+      name: 'schools',
+      limit: 20, //limit higher than displayed to counteract typeahead.js bug
+      display: picc.fields.NAME,
+      source: function(q, syncResults, asyncResults) {
+        //fashion basic query object to pass to API.search
+        //return more results to ensure enough left-first matches are captured
+        var query = { fields: picc.fields.NAME, per_page: 20 }
+        query[picc.fields.NAME] = q;
+        query = picc.form.prepareParams(query);
+
+        //uses debounced search call to avoid API spam
+        picc.API.debounced_search(query, function(error, data) {
+          if (error || !data.results.length) { return {}; }
+
+          //sort results to perform left-first matching
+          data.results.sort(function(a,b) {
+            var qU = q.toUpperCase(), //uppercase original query
+                s1 = a['school.name'].toUpperCase(),
+                s2 = b['school.name'].toUpperCase();
+
+            var s1match = (qU == s1.substr(0,qU.length)),
+                s2match = (qU == s2.substr(0,qU.length));
+
+            if (s1match) {
+              return (s2match) ? 0 : -1;
+            } else {
+              return (s2match) ? 1 : 0;
+            } 
+          });
+
+          //reduce results to 5 for display
+          data.results.length = (data.results.length > 10) ? 10 : data.results.length;
+          asyncResults(data.results);
+        });
+      }
+    });
+  };
 }
 
 module.exports = picc;

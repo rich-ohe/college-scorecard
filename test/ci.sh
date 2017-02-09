@@ -1,46 +1,40 @@
 #!/bin/bash
 
-# test against different APIs based on the branch being built
-if [ $CIRCLE_BRANCH ]; then
-    branch=$CIRCLE_BRANCH
+repo="${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}"
 
-    if [ $branch == 'master' ]; then
+if [ -n "$CIRCLE_PR_USERNAME" ] && [ "$CIRCLE_PROJECT_USERNAME" != "$CIRCLE_PR_USERNAME" ]; then
+  echo "This branch is on a fork: ${CIRCLE_PR_USERNAME}/${CIRCLE_PR_REPONAME}"
+  echo
+  echo "Automated browser tests are disabled for pull requests from forks."
+  echo "Please merge this branch locally and test it before merging the "
+  echo "associated pull request to ${repo}."
+  echo
+  exit 0
+fi
 
-        echo "[using the default (production) API]"
+# get the URL from our node script
+url=$(node test/url.js)
 
-    elif [ $branch == 'staging' ]; then
+echo "testing URL: ${url}"
 
-        echo "[using the staging API]"
-        API_BASE_URL=https://api.data.gov/TEST/ed/staging/v1/
+if [ "$CIRCLE_SHA1" != "" ]; then
+  commit_url="${url}/commit.txt"
 
+  echo "fetching Federalist commit data..."
+
+  check_federalist_commit() {
+    current_sha=`curl -s $commit_url`
+    if [ "$current_sha" == "$CIRCLE_SHA1" ]; then
+        echo "SHA1 match!"
+        return 1
     else
-
-        # the assumption here is that all dev branches should
-        # run against the dev API
-        echo "[using the dev API]"
-        API_BASE_URL=https://api.data.gov/TEST/ed/dev/v1/
-
+        echo "current SHA1 '${current_sha}' != '${CIRCLE_SHA1}'"
+        return 0
     fi
+  }
+
+  while check_federalist_commit; do
+    echo "waiting for Federalist to build..."
+    sleep 5
+  done
 fi
-
-if [ $API_BASE_URL ]; then
-    echo "building with API_BASE_URL=$API_BASE_URL ..."
-fi
-
-# build the site
-bundle exec jekyll build
-
-# serve it up statically, in the background
-./node_modules/.bin/http-server -p 4000 _site &
-pid=$!
-
-# wait for the http server to start
-wget --retry-connrefused --waitretry=1 -T 5 -t 30 -qO- http://localhost:4000 > /dev/null || exit 1
-
-# run the browser tests
-./node_modules/.bin/wdio test/wdio.ci.js || (kill -9 $pid; exit 1)
-
-# run the accessibility tests
-npm run test-a11y || (kill -9 $pid; exit 1)
-
-kill -9 $pid || exit 0

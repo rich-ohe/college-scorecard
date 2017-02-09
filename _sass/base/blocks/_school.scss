@@ -26,8 +26,11 @@
 
 .school-right {
   margin-top: $base-padding;
+  padding-top: $base-padding;
   padding-left: $base-padding;
   padding-right: $base-padding;
+  background-color: $white;
+  border-radius: 0.4em;
 
   h2 {
     padding-bottom: $base-padding;
@@ -60,8 +63,6 @@
   @include respond-to(medium-up) {
     @include span-columns(3);
     @include omega();
-    padding-left: 0;
-    padding-right: 0;
     margin-top: $base-padding;
 
     h2 {
@@ -144,7 +145,10 @@
       text-align: center;
       vertical-align: top;
       width: 70px;
-      margin-right: 10px;
+      margin-right: 5px;
+      @include respond-to(small-up) {
+        margin-right: 10px;
+      }
 
       .school-key_figures-year {
         @include font-size(2.86);
@@ -152,13 +156,20 @@
         font-weight: $weight-bold;
         margin-top: -$height;
 
-        &:empty {
-          margin-top: -20px;
-        }
       }
 
       &.certificate {
-        margin-right: 25px;
+        margin-right: 20px;
+        @include hyphens(none);
+        @include respond-to(small-up) {
+          margin-right: 25px;
+        }
+
+        .school-key_figures-year:before {
+          font-family: "fontawesome";
+          content: '\f0a3';
+          margin-left: 15px;
+        }
       }
     }
   }
@@ -214,6 +225,7 @@
     // don't show meter labels for top-level stats
     picc-meter .label {
       visibility: hidden;
+      left: 0;
     }
 
     @include respond-to(tiny-up) {

@@ -8,6 +8,11 @@ best suited to them, and ensure a broad and flexible definition of elements that
 
 This repo contains the front end of a web app with its API created by an instance of [Open Data Maker](https://github.com/18F/open-data-maker) which is configured with a specific data set. For more details on setting up the back end of the web app, see below: [Running the API Locally](#running-the-api-locally).  However, you can run the web app with the hosted API following the installation instructions in the next section.
 
+#### Build Status
+* [production](https://github.com/RTICWDT/college-scorecard/tree/master/) [![Circle CI](https://circleci.com/gh/RTICWDT/college-scorecard.svg?style=svg)](https://circleci.com/gh/RTICWDT/college-scorecard)
+* [staging](https://github.com/RTICWDT/college-scorecard/tree/staging/) [![Circle CI](https://circleci.com/gh/RTICWDT/college-scorecard/tree/staging.svg?style=svg)](https://circleci.com/gh/RTICWDT/college-scorecard/tree/staging)
+* [development](https://github.com/RTICWDT/college-scorecard/tree/dev/) [![Circle CI](https://circleci.com/gh/RTICWDT/college-scorecard/tree/dev.svg?style=svg)](https://circleci.com/gh/RTICWDT/college-scorecard/tree/dev)
+
 
 ## Installation
 This site is made with [Jekyll]. Once you've got [Ruby] on your computer, you
@@ -26,8 +31,8 @@ Then install all the ruby gems you need:
 bundle
 ```
 
-This Jekyll site features dynamic JavaScript that queries [api.data.gov](https://api.data.gov/). 
-For the JavaScript to work, it needs an API key (register for one at 
+This Jekyll site features dynamic JavaScript that queries [api.data.gov](https://api.data.gov/).
+For the JavaScript to work, it needs an API key (register for one at
 [api.data.gov/signup/](https://api.data.gov/signup/))
 and a base URL. Jekyll will pull them from the local machine's
 environment variables at build time, so ensure that both the `API_KEY` and
@@ -52,15 +57,12 @@ the source files.
 ## Front End Development
 
 ### Stylesheets
-- We use [Sass] to generate our CSS.
+- We use [Sass] to generate our CSS. Jekyll handles this automatically.
 - [Montserrat] is our primary font, courtesy of [Google Fonts](https://www.google.com/fonts/).
 
 ### JavaScript
-- We use [npm](https://www.npmjs.com/) to manage our JavaScript dependencies.
-  See the [package.json](https://github.com/18F/college-choice/blob/master/package.json)
-  for the list of libraries and tools we use.
-- We bundle our JavaScript with [browserify](http://browserify.org/).
-- We use [D3] for client-side data management, DOM manipulation, and event handling.
+See the [JavaScript docs](js/#readme) for more information on our scripting tools and
+workflows.
 
 ### Accessibility
 - We adhere to [Web Content Accessibility Guidelines 2.0](https://www.w3.org/WAI/WCAG20/quickref/),
@@ -69,18 +71,15 @@ the source files.
 
 
 ## Content
-
-For the content on the College Scorecard, we are following the [18F Content
-Guide](https://pages.18f.gov/content-guide/).
-
+For the content on the College Scorecard, we are following the [18F Content Guide].
 
 
 ## Running the API Locally
 To set up the API (as a developer), follow the [Open Data Maker installation
 instructions](https://github.com/18F/open-data-maker/blob/dev/INSTALL.md) then:
 
-1. download the [full data set](https://s3.amazonaws.com/ed-college-choice-public/CollegeScorecard_Raw_Data.zip)
-   into open-data-maker directory and rename the folder as "real-data"
+1. download the [full data set] into open-data-maker directory and rename the
+   folder as "real-data"
 
 1. set `DATA_PATH` environment variable.  On the command line:
 
@@ -128,19 +127,20 @@ instructions](https://github.com/18F/open-data-maker/blob/dev/INSTALL.md) then:
 
 ## System Architecture
 This repository drives the "front end" of the College Scorecard application and
-is hosted on [Federalist](https://github.com/18F/federalist). The back end is
-an instance of the [Open Data Maker](https://github.com/18F/open-data-maker/).
+is hosted on [Federalist]. The back end is an instance of the [Open Data Maker].
 Here's how the different parts work together in our production environment:
 
 ![system architecture](docs/architecture-diagram.png)
 
 
 ## Content
-For the content on the College Scorecard, we are following the [18F Content Guide](https://pages.18f.gov/content-guide/).
+For the content on the College Scorecard, we are following the [18F Content Guide].
 
-
-[Montserrat]: https://www.google.com/fonts/specimen/Montserrat
+[18F Content Guide]: https://pages.18f.gov/content-guide/
+[Federalist]: https://federalist.18f.gov
+[full data set]: https://s3.amazonaws.com/ed-college-choice-public/CollegeScorecard_Raw_Data.zip
+[Open Data Maker]: https://github.com/18F/open-data-maker/
 [Jekyll]: http://jekyllrb.com/
-[Sass]: http://sass-lang.com/
-[D3]: http://d3js.org/
+[Montserrat]: https://www.google.com/fonts/specimen/Montserrat
 [Ruby]: https://www.ruby-lang.org/
+[Sass]: http://sass-lang.com/

@@ -12,6 +12,7 @@ module.exports = function search() {
 
   var form = new formdb.Form('#search-form');
   var query = querystring.parse(location.search.substr(1));
+  picc.form.autocompleteName('#search-form');
   // console.info('initial query:', query);
 
   // the current outbound request
@@ -385,6 +386,11 @@ module.exports = function search() {
         removeAllChildren(resultsList);
       }
 
+      // Scroll to the top of the result list when loading new pages
+      if (alreadyLoaded) {
+          scrollIntoView();
+      }
+
       tagalong(resultsList, data.results, directives);
 
       alreadyLoaded = true;
@@ -398,6 +404,7 @@ module.exports = function search() {
     var numPages = Math.ceil(total / perPage);
     var previous = false;
     var next = false;
+    var pages;
 
     if (numPages > MAX_PAGES) {
       var end = Math.min(page + MAX_PAGES, numPages);
@@ -456,7 +463,11 @@ module.exports = function search() {
   function showError(error) {
     console.error('error:', error);
     var message = resultsRoot.querySelector('.error-message');
-    error = error.responseText || error;
+    if (typeof error.responseText != "undefined") {
+      var errorText = JSON.parse(error.responseText);
+      error = errorText.errors[0].message;
+    }
+
     message.textContent = String(error) || 'There was an unexpected API error.';
   }
 

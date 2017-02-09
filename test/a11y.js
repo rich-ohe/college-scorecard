@@ -1,21 +1,22 @@
 #!/usr/bin/env node
-/* jshint esnext: true */
+/* jshint node: true, esnext: true */
 
-const async = require('async');
-const pa11y = require('pa11y');
-const reporter = require('pa11y/reporter/cli');
-const config = require('./pa11y.conf');
-const test = pa11y(config);
+var async = require('async');
+var pa11y = require('pa11y');
+var reporter = require('pa11y/reporter/cli');
+var config = require('./pa11y.conf');
+var test = pa11y(config);
 
-const BASEURL = 'http://localhost:4000';
+var baseUrl = require('./url');
 
-const URLS = [
-  BASEURL + '/school/?226152-Texas-A-M-International-University',
-  BASEURL + '/search/?state=CA',
-  BASEURL + '/',
+var URLS = [
+  baseUrl + '/',
+  baseUrl + '/search/?state=CA',
+  baseUrl + '/school/?226152-Texas-A-M-International-University',
+  // BASEURL + '/data/',
 ];
 
-const IGNORE_RESULTS = [
+var IGNORE_RESULTS = [
   function leafletImage(result) {
     return result.context.match(/leaflet-tile/);
   }
@@ -30,6 +31,7 @@ async.mapSeries(URLS, function(url, done) {
 
     if (error) {
       reporter.error(error.stack);
+      return done(error.stack);
     }
 
     // filter out "invalid" (ignoreable) results
@@ -45,21 +47,23 @@ async.mapSeries(URLS, function(url, done) {
     done(null, results);
   });
 }, function(error, runs) {
-  if (failed) {
-    var count = 0;
-    var failing = runs.map(function(results) {
-      var failing = results.filter(isFailingResult);
-      count += failing.length;
-      return failing;
-    })
-    .filter(function(failing) {
-      return failing.length;
-    });
+  if (error || failed) {
+    if (failed) {
+      var count = 0;
+      var failing = runs.map(function(results) {
+        var failing = results.filter(isFailingResult);
+        count += failing.length;
+        return failing;
+      })
+      .filter(function(failing) {
+        return failing.length;
+      });
 
-    reporter.error([
-      pluralize(count, 'failure'),
-      'on', pluralize(failing.length, 'page')
-    ].join(' '));
+      reporter.error([
+        pluralize(count, 'failure'),
+        'on', pluralize(failing.length, 'page')
+      ].join(' '));
+    }
     process.exit(2);
   }
 });
