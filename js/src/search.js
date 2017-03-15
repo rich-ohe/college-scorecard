@@ -215,6 +215,7 @@ module.exports = function search() {
       picc.fields.NAME,
       picc.fields.CITY,
       picc.fields.STATE,
+      picc.fields.ZIP_CODE,
       picc.fields.SIZE,
       // to get "public" or "private"
       picc.fields.OWNERSHIP,
@@ -396,6 +397,13 @@ module.exports = function search() {
       alreadyLoaded = true;
 
       console.timeEnd && console.timeEnd('[render]');
+
+      // nudge request
+      if (data.metadata.total === 1) {
+        var nudge = getNudge(data.results, query);
+      }
+
+
     });
   }
 
@@ -539,6 +547,40 @@ module.exports = function search() {
     while (node.lastChild) {
       node.removeChild(node.lastChild);
     }
+  }
+
+  function getNudge(results, query) {
+
+    var nudgeQuery = picc.data.extend({}, query);
+
+    if (nudgeQuery.zip) {
+      // look for any online schools
+      nudgeQuery[picc.fields.ONLINE_ONLY] = 1;
+
+    } else if (nudgeQuery[picc.fields.NAME]) {
+      // look for schools in a greater zip radius
+      // within the same state
+      delete nudgeQuery[picc.fields.NAME];
+
+      nudgeQuery[picc.fields.STATE] = picc.access(picc.fields.STATE)(results[0]);
+      nudgeQuery['zip'] = +picc.access(picc.fields.ZIP_CODE)(results[0]);
+      nudgeQuery['distance'] = '25';
+
+    }
+
+    // console.log('nudgeQuery', nudgeQuery);
+
+    var nudge = picc.API.search(nudgeQuery, function(error, data) {
+
+      if (error) {
+        console.error('nudge error', error)
+      }
+      // console.log('reuslts', data);
+
+      tagalong('.school-nudge-list', data.results.slice(0,10), directives);
+
+    });
+
   }
 
 };
