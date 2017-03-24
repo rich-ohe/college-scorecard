@@ -222,12 +222,15 @@ permalink: /search/
 
         </section>
 
-        <section class="section section-card_container-nudge show-loaded fade-incremental">
+        <section class="section section-card_container-nudge show-loaded fade-incremental no-nudge">
           <div class="nudge-card">
             <h1>Explore Other Colleges</h1>
-            <ul class="school-nudge-list" data-bind="nudge_schools">
-              <li><h2 data-bind="title"><a class="link">School Name</a></h2></li>
-            </ul>
+            <div class="nudge-meta">
+              <h2 data-bind="nudge_type"></h2>
+            </div>
+            <ol class="school-nudge-list" data-bind="nudge_schools">
+              <li><h4 data-bind="title"><a class="link">School Name</a></h4></li>
+            </ol>
           </div>
         </section>
 

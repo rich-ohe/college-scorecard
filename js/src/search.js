@@ -53,7 +53,7 @@ module.exports = function search() {
     'grad_rate_meter',
     'average_salary',
     'average_salary_meter',
-    'more_link'
+    'more_link',
   ]);
 
   var win = d3.select(window);
@@ -400,7 +400,9 @@ module.exports = function search() {
 
       // nudge request
       if (data.metadata.total === 1) {
-        var nudge = getNudge(data.results, query);
+        getNudge(data.results, query);
+      } else {
+        displayNudge(false);
       }
 
 
@@ -553,34 +555,61 @@ module.exports = function search() {
 
     var nudgeQuery = picc.data.extend({}, query);
 
-    if (nudgeQuery.zip) {
-      // look for any online schools
-      nudgeQuery[picc.fields.ONLINE_ONLY] = 1;
+    var nudgeType;
 
-    } else if (nudgeQuery[picc.fields.NAME]) {
-      // look for schools in a greater zip radius
-      // within the same state
+    if (nudgeQuery.zip) {
+
+      nudgeType = 'online';
+      // drop location and look for any online schools
+      nudgeQuery[picc.fields.ONLINE_ONLY] = 1;
+      delete nudgeQuery['zip'];
+      delete nudgeQuery['distance'];
+      delete nudgeQuery[picc.fields.STATE];
+      // drop name too just in case
       delete nudgeQuery[picc.fields.NAME];
 
+    } else if (nudgeQuery[picc.fields.NAME]) {
+      nudgeType = 'greaterRadius';
+      // look for schools in a greater zip radius
+      // within the same state
       nudgeQuery[picc.fields.STATE] = picc.access(picc.fields.STATE)(results[0]);
       nudgeQuery['zip'] = +picc.access(picc.fields.ZIP_CODE)(results[0]);
       nudgeQuery['distance'] = '25';
+      // drop original name search
+      delete nudgeQuery[picc.fields.NAME];
 
+    } else {
+      return;
     }
 
-    // console.log('nudgeQuery', nudgeQuery);
+    var origId = results[0].id;
 
     var nudge = picc.API.search(nudgeQuery, function(error, data) {
 
       if (error) {
         console.error('nudge error', error)
       }
-      // console.log('reuslts', data);
 
-      tagalong('.school-nudge-list', data.results.slice(0,10), directives);
+      var filteredResults = data.results.filter(function(school){
+        return school.id !== origId;
+      });
+      if (filteredResults.length > 0) {
+      displayNudge(true);
+      tagalong('.nudge-meta', {'nudgeType': nudgeType}, picc.data.selectKeys(picc.school.directives, ['nudge_type']));
+      tagalong('.school-nudge-list', filteredResults.slice(0,10), directives);
+      } else {
+        displayNudge(false);
+      }
 
     });
 
+  }
+  // Helper to show/hide nudge container
+  function displayNudge(bool) {
+    var nudgeContainer = d3.select('.section-card_container-nudge');
+    nudgeContainer.classed('no-nudge', !bool);
+    var schoolsContainer = d3.select('.section-card_container-results');
+    schoolsContainer.classed('nudged', bool);
   }
 
 };

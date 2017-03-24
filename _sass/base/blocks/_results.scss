@@ -208,9 +208,21 @@
     margin-top: ($base-padding * 1.6);
     padding-top: $base-padding;
   }
+
+  .nudged &::after {
+    @include respond-to(small-plus-up) {
+      clear: none;
+    }
+  }
 }
 
 .section-card_container-results {
+
+  &.nudged {
+    @include respond-to(small-plus-up) {
+      display: inline !important;
+    }
+  }
 
   .results-card {
     border: $base-padding-lite solid $mid-gray;
@@ -283,4 +295,64 @@
 
 .pagination_bottom {
   margin-bottom: $base-padding;
+}
+
+.section.section-card_container-nudge {
+
+  &.show-loaded {
+    @include respond-to(small-plus-up) {
+      display: inline-block;
+    }
+
+    .nudge-card {
+      margin-bottom: 0;
+      padding: $base-padding;
+      background-color: $white;
+      border: $base-padding-lite solid $mid-gray;
+      border-radius: 1em;
+
+      @include respond-to(small-plus-up) {
+        margin-left: flex-gutter();
+      }
+
+    }
+  }
+
+  &.no-nudge {
+    display: none !important;
+  }
+
+}
+
+.nudge-card {
+  h1 {
+    @include font-size($h1);
+    padding-top: 0;
+  }
+
+  .nudge-meta {
+    h2 {
+      @include font-size($h2)
+    }
+  }
+
+}
+
+.school-nudge-list {
+  margin-left: 30px;
+  list-style-type: decimal;
+
+  h4 {
+    @include font-size($h4);
+    font-weight: bold;
+
+    a {
+        color: $black;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+  }
+
 }
