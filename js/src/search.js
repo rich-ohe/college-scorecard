@@ -556,27 +556,57 @@ module.exports = function search() {
     var nudgeQuery = picc.data.extend({}, query);
 
     var nudgeType;
+    var locSearch = false;
+    var nameSearch = false;
 
-    if (nudgeQuery.zip) {
+    var blackList = [
+      'zip',
+      'distance',
+      picc.fields.NAME,
+      picc.fields.STATE,
+      picc.fields.REGION_ID,
+      picc.fields.MEN_ONLY,
+      picc.fields.WOMEN_ONLY,
+      picc.fields.MINORITY_SERVING
+    ];
+
+    // filter some original query params from nudge
+     Object.keys(query).forEach(function(key) {
+
+       // we remove these keys but will want to record for our nudgeType
+       switch (key) {
+         case 'zip':
+         case picc.fields.STATE:
+         case picc.fields.REGION_ID:
+            locSearch = true;
+            break;
+         case picc.fields.NAME:
+            nameSearch = true;
+            break;
+       }
+
+       blackList.map(function(remove) {
+         if ( key.indexOf(remove) > -1 ) {
+           console.log('remove: ', key);
+           delete nudgeQuery[key];
+         }
+
+      });
+    });
+
+    if (locSearch) {
 
       nudgeType = 'online';
       // drop location and look for any online schools
       nudgeQuery[picc.fields.ONLINE_ONLY] = 1;
-      delete nudgeQuery['zip'];
-      delete nudgeQuery['distance'];
-      delete nudgeQuery[picc.fields.STATE];
-      // drop name too just in case
-      delete nudgeQuery[picc.fields.NAME];
 
-    } else if (nudgeQuery[picc.fields.NAME]) {
+    } else if (nameSearch) {
       nudgeType = 'greaterRadius';
       // look for schools in a greater zip radius
       // within the same state
       nudgeQuery[picc.fields.STATE] = picc.access(picc.fields.STATE)(results[0]);
       nudgeQuery['zip'] = +picc.access(picc.fields.ZIP_CODE)(results[0]);
       nudgeQuery['distance'] = '25';
-      // drop original name search
-      delete nudgeQuery[picc.fields.NAME];
 
     } else {
       return;
@@ -590,14 +620,50 @@ module.exports = function search() {
         console.error('nudge error', error)
       }
 
+      // remove original single result school from nudges
       var filteredResults = data.results.filter(function(school){
         return school.id !== origId;
       });
+
+
+      var lowCompletion = picc.NATIONAL_STATS.completion_rate.average_range[0];
+      var lowEarnings   = picc.NATIONAL_STATS.median_earnings.average_range[0];
+
+      // filter out some `low performing` schools, currently only
+      // evaluating grad completion rate & salary earnings. At lease one metric must
+      // be available and neither metric can be below the lower third national threshold
+      filteredResults = filteredResults.filter(function(school) {
+
+        var hasOneMetric = ( school[picc.fields.COMPLETION_RATE] !== null ) ? true : (school[picc.fields.MEDIAN_EARNINGS] !== null);
+
+        var nudgeWorthy = false;
+
+        // completion rate
+        if (school[picc.fields.COMPLETION_RATE] > lowCompletion) {
+          nudgeWorthy = true;
+        } else if (school[picc.fields.COMPLETION_RATE] !== null){
+          nudgeWorthy = false;
+        }
+
+        // salary earnings
+        if (school[picc.fields.MEDIAN_EARNINGS] > lowEarnings) {
+          nudgeWorthy = true
+        } else if(school[picc.fields.MEDIAN_EARNINGS] !== null) {
+          nudgeWorthy = false;
+        }
+
+        return ( hasOneMetric && nudgeWorthy );
+
+      });
+
+      console.info('loaded nudge schools: ', data);
+
       if (filteredResults.length > 0) {
       displayNudge(true);
       tagalong('.nudge-meta', {'nudgeType': nudgeType}, picc.data.selectKeys(picc.school.directives, ['nudge_type']));
       tagalong('.school-nudge-list', filteredResults.slice(0,10), directives);
       } else {
+        console.info('no nudge results');
         displayNudge(false);
       }
 
