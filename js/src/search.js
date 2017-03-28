@@ -634,25 +634,17 @@ module.exports = function search() {
       // be available and neither metric can be below the lower third national threshold
       filteredResults = filteredResults.filter(function(school) {
 
-        var hasOneMetric = ( school[picc.fields.COMPLETION_RATE] !== null ) ? true : (school[picc.fields.MEDIAN_EARNINGS] !== null);
+        var testsFailed = [];
 
-        var nudgeWorthy = false;
+        if ( school[picc.fields.COMPLETION_RATE] === null && school[picc.fields.MEDIAN_EARNINGS] === null) testsFailed.push(true);
 
         // completion rate
-        if (school[picc.fields.COMPLETION_RATE] > lowCompletion) {
-          nudgeWorthy = true;
-        } else if (school[picc.fields.COMPLETION_RATE] !== null){
-          nudgeWorthy = false;
-        }
+        if (school[picc.fields.COMPLETION_RATE] !== null && school[picc.fields.COMPLETION_RATE] < lowCompletion ) testsFailed.push(true);
 
         // salary earnings
-        if (school[picc.fields.MEDIAN_EARNINGS] > lowEarnings) {
-          nudgeWorthy = true
-        } else if(school[picc.fields.MEDIAN_EARNINGS] !== null) {
-          nudgeWorthy = false;
-        }
+        if (school[picc.fields.MEDIAN_EARNINGS] !== null && school[picc.fields.MEDIAN_EARNINGS] < lowEarnings) testsFailed.push(true);
 
-        return ( hasOneMetric && nudgeWorthy );
+        return ( testsFailed.indexOf(true) === -1 );
 
       });
 
