@@ -187,7 +187,7 @@ module.exports = function search() {
     updateDistanceDisabled();
 
     var params = form.getData();
-    // console.info('form data:', params);
+    console.info('form data:', params);
 
     // unset parameters that are "empty" arrays (with a single, falsy value)
     for (var k in params) {
@@ -400,8 +400,9 @@ module.exports = function search() {
 
       // nudge request
       if (data.metadata.total === 1) {
-        getNudge(data.results, query);
+        getSingleNudge(data.results, query);
       } else {
+        //TODO: check for low performing Nudge
         displayNudge(false);
       }
 
@@ -551,8 +552,13 @@ module.exports = function search() {
     }
   }
 
-  function getNudge(results, query) {
+  function getSingleNudge(results, query) {
 
+    var singleResult = results[0];
+    console.log('orig result',singleResult, '/n/n/originalQuery',query);
+
+    var nudgeMode = getNudgeMode(singleResult);
+    console.log('form', form.getData());
     var nudgeQuery = picc.data.extend({}, query);
 
     var nudgeType;
@@ -572,31 +578,28 @@ module.exports = function search() {
 
     // filter some original query params from nudge
      Object.keys(query).forEach(function(key) {
-
-       // we remove these keys but will want to record for our nudgeType
        switch (key) {
          case 'zip':
-         case picc.fields.STATE:
          case picc.fields.REGION_ID:
-            locSearch = true;
-            break;
+         case picc.fields.STATE:
+           locSearch = true;
+           break;
          case picc.fields.NAME:
-            nameSearch = true;
-            break;
+           nameSearch = true;
+           break;
        }
-
+       // we remove these keys but will want to record for our nudgeType
        blackList.map(function(remove) {
          if ( key.indexOf(remove) > -1 ) {
-           console.log('remove: ', key);
+           // console.log('remove: ', key);
            delete nudgeQuery[key];
          }
-
       });
-    });
+     });
 
     if (locSearch) {
 
-      nudgeType = 'online';
+      nudgeType = getLocationSearchType(singleResult, query);
       // drop location and look for any online schools
       nudgeQuery[picc.fields.ONLINE_ONLY] = 1;
 
@@ -604,15 +607,13 @@ module.exports = function search() {
       nudgeType = 'greaterRadius';
       // look for schools in a greater zip radius
       // within the same state
-      nudgeQuery[picc.fields.STATE] = picc.access(picc.fields.STATE)(results[0]);
-      nudgeQuery['zip'] = +picc.access(picc.fields.ZIP_CODE)(results[0]);
+      nudgeQuery[picc.fields.STATE] = picc.access(picc.fields.STATE)(singleResult);
+      nudgeQuery['zip'] = +picc.access(picc.fields.ZIP_CODE)(singleResult);
       nudgeQuery['distance'] = '25';
 
     } else {
       return;
     }
-
-    var origId = results[0].id;
 
     var nudge = picc.API.search(nudgeQuery, function(error, data) {
 
@@ -622,38 +623,39 @@ module.exports = function search() {
 
       // remove original single result school from nudges
       var filteredResults = data.results.filter(function(school){
-        return school.id !== origId;
+        return school.id !== singleResult.id;
       });
 
 
-      var lowCompletion = picc.NATIONAL_STATS.completion_rate.average_range[0];
-      var lowEarnings   = picc.NATIONAL_STATS.median_earnings.average_range[0];
+      // var lowCompletion = picc.NATIONAL_STATS.completion_rate.average_range[0];
+      // var lowEarnings   = picc.NATIONAL_STATS.median_earnings.average_range[0];
+      //
+      // // filter out some `low performing` schools, currently only
+      // // evaluating grad completion rate & salary earnings. At lease one metric must
+      // // be available and neither metric can be below the lower third national threshold
+      // filteredResults = filteredResults.filter(function(school) {
+      //
+      //   var testsFailed = [];
+      //
+      //   if ( school[picc.fields.COMPLETION_RATE] === null && school[picc.fields.MEDIAN_EARNINGS] === null) testsFailed.push(true);
+      //
+      //   // completion rate
+      //   if (school[picc.fields.COMPLETION_RATE] !== null && school[picc.fields.COMPLETION_RATE] < lowCompletion ) testsFailed.push(true);
+      //
+      //   // salary earnings
+      //   if (school[picc.fields.MEDIAN_EARNINGS] !== null && school[picc.fields.MEDIAN_EARNINGS] < lowEarnings) testsFailed.push(true);
+      //
+      //   return ( testsFailed.indexOf(true) === -1 );
+      //
+      // });
 
-      // filter out some `low performing` schools, currently only
-      // evaluating grad completion rate & salary earnings. At lease one metric must
-      // be available and neither metric can be below the lower third national threshold
-      filteredResults = filteredResults.filter(function(school) {
-
-        var testsFailed = [];
-
-        if ( school[picc.fields.COMPLETION_RATE] === null && school[picc.fields.MEDIAN_EARNINGS] === null) testsFailed.push(true);
-
-        // completion rate
-        if (school[picc.fields.COMPLETION_RATE] !== null && school[picc.fields.COMPLETION_RATE] < lowCompletion ) testsFailed.push(true);
-
-        // salary earnings
-        if (school[picc.fields.MEDIAN_EARNINGS] !== null && school[picc.fields.MEDIAN_EARNINGS] < lowEarnings) testsFailed.push(true);
-
-        return ( testsFailed.indexOf(true) === -1 );
-
-      });
-
-      console.info('loaded nudge schools: ', data);
 
       if (filteredResults.length > 0) {
-      displayNudge(true);
-      tagalong('.nudge-meta', {'nudgeType': nudgeType}, picc.data.selectKeys(picc.school.directives, ['nudge_type']));
-      tagalong('.school-nudge-list', filteredResults.slice(0,10), directives);
+        console.info('loaded nudge schools: ', data);
+        displayNudge(true);
+        tagalong('.nudge-meta', {'nudgeType': nudgeType}, picc.data.selectKeys(picc.school.directives, ['nudge_type']));
+        // limit 10 nudge results
+        tagalong('.school-nudge-list', filteredResults.slice(0,10), directives);
       } else {
         console.info('no nudge results');
         displayNudge(false);
@@ -662,12 +664,38 @@ module.exports = function search() {
     });
 
   }
+
   // Helper to show/hide nudge container
   function displayNudge(bool) {
     var nudgeContainer = d3.select('.section-card_container-nudge');
     nudgeContainer.classed('no-nudge', !bool);
     var schoolsContainer = d3.select('.section-card_container-results');
     schoolsContainer.classed('nudged', bool);
+  }
+
+  function getNudgeMode(origResult) {
+    var formData = form.getData;
+
+
+  }
+
+  function getLocationSearchType(origResult, origQuery) {
+
+
+    return 'online'
+
+  }
+
+  function isLargeArea(origResult, origQuery) {
+
+  }
+
+  function isSmallArea(origResult, origQuery) {
+
+  }
+
+  function isBorderingRegion(origResult, origQuery) {
+
   }
 
 };
