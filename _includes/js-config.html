@@ -37,4 +37,15 @@
   // national stats
   picc.NATIONAL_STATS = ({{ site.data.national_stats|jsonify }});
 
+  // states
+  picc.STATES = {
+  {% for state in site.data.states %}
+    '{{ state.abbr }}': {'name':'{{ state.name }}','region_id':{{state.region_id}},'border_states':'{{state.border_states}}'},{% endfor %}
+  };
+
+  // regions
+  picc.REGIONS = {
+  {% for region in site.data.regions %}
+    '{{ region.id }}': { 'name': '{{ region.name }}', 'states': '{{region.states}}' },{% endfor %}
+  };
   </script>

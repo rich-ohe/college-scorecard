@@ -1025,14 +1025,9 @@ picc.school.directives = (function() {
       '@href': href
     },
 
-    nudge_type: {
+    nudge_mode: {
       text: function(d) {
-        switch (d.nudgeType) {
-          case 'online':
-            return 'Schools with Online Programs';
-          case 'greaterRadius':
-            return 'Schools Nearby';
-        }
+       return d.nudgeText + ':';
       }
     },
 

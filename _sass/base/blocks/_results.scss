@@ -331,8 +331,9 @@
   }
 
   .nudge-meta {
+    max-width: 350px;
     h2 {
-      @include font-size($h2)
+      @include font-size($h3)
     }
   }
 

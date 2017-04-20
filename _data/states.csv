@@ -1,56 +1,56 @@
-abbr,name
-AL,Alabama
-AK,Alaska
-AS,American Samoa
-AZ,Arizona
-AR,Arkansas
-CA,California
-CO,Colorado
-CT,Connecticut
-DE,Delaware
-DC,District of Columbia
-FL,Florida
-GA,Georgia
-GU,Guam
-HI,Hawaii
-ID,Idaho
-IL,Illinois
-IN,Indiana
-IA,Iowa
-KS,Kansas
-KY,Kentucky
-LA,Louisiana
-ME,Maine
-MD,Maryland
-MA,Massachusetts
-MI,Michigan
-MN,Minnesota
-MS,Mississippi
-MO,Missouri
-MT,Montana
-NE,Nebraska
-NV,Nevada
-NH,New Hampshire
-NJ,New Jersey
-NM,New Mexico
-NY,New York
-NC,North Carolina
-ND,North Dakota
-OH,Ohio
-OK,Oklahoma
-OR,Oregon
-PA,Pennsylvania
-PR,Puerto Rico
-RI,Rhode Island
-SC,South Carolina
-SD,South Dakota
-TN,Tennessee
-TX,Texas
-UT,Utah
-VT,Vermont
-VI,Virgin Islands
-VA,Virginia
-WA,Washington
-WV,West Virginia
-WI,Wisconsin
-WY,Wyoming
+abbr,name,region_id,border_states
+AK,Alaska,8,WA
+AL,Alabama,5,FL GA MS TN
+AR,Arkansas,5,LA MS MO OK TN TX
+AS,American Samoa,9,
+AZ,Arizona,6,CA CO NV NM UT
+CA,California,8,AZ NV OR
+CO,Colorado,7,AZ KS NE NM OK UT WY
+CT,Connecticut,1,MA NY RI
+DC,District of Columbia,2,MD VA
+DE,Delaware,2,MD NJ PA
+FL,Florida,5,AL GA
+GA,Georgia,5,AL FL NC SC TN
+GU,Guam,9,
+HI,Hawaii,8,CA
+IA,Iowa,4,IL MN MO NE SD WI
+ID,Idaho,7,MT NV OR UT WA WY
+IL,Illinois,3,IN IA MI KY MO WI
+IN,Indiana,3,IL KY MI OH
+KS,Kansas,4,CO MO NE OK
+KY,Kentucky,5,IL IN MO OH TN VA WV
+LA,Louisiana,5,AR MS TX
+MA,Massachusetts,1,CT NH NY RI VT
+MD,Maryland,2,DE PA VA WV
+ME,Maine,1,NH
+MI,Michigan,3,IL IN MN OH WI
+MN,Minnesota,4,IA MI ND SD WI
+MO,Missouri,4,AR IL IA KS KY NE OK TN
+MS,Mississippi,5,AL AK LA TN
+MT,Montana,7,ID ND SD WY
+NE,Nebraska,4,CO IA KS MO SD WY
+NH,New Hampshire,1,ME MA VT
+NJ,New Jersey,2,DE NY PA
+NM,New Mexico,6,AZ CO OK TX UT
+NV,Nevada,8,AZ CA ID OR UT
+NY,New York,2,CT MA NJ PA RI VT
+NC,North Carolina,5,GA SC TN VA
+ND,North Dakota,4,MN MT SD
+OH,Ohio,3,IN KY MI PA WV
+OK,Oklahoma,6,AR CO KS MO NM TX
+OR,Oregon,8,CA ID NV WA
+PA,Pennsylvania,2,DE MD NJ NY OH WV
+PR,Puerto Rico,9,
+RI,Rhode Island,1,CT MA NY
+SC,South Carolina,5,GA NC
+SD,South Dakota,4,IA MN MT NE ND WY
+TN,Tennessee,5,AL AR GA KY MS MO NC VA
+TX,Texas,6,AR LA NM OK
+UT,Utah,7,AZ CO ID NV NM WY
+VA,Virginia,5,KY MD NC TN WV
+VT,Vermont,1,MA NH NY
+VI,Virgin Islands,9,
+WA,Washington,8,ID OR
+WI,Wisconsin,3,IL IA MI MN
+WV,West Virginia,5,KY MD OH PA VA
+WY,Wyoming,7,CO ID MT NE SD UT
