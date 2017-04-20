@@ -867,10 +867,12 @@ module.exports = function search() {
     getRegionsForStatesUnique: function getRegionsForStatesUnique(statesArr) {
       return statesArr
         .map(function(state){
-          return picc.STATES[state].region_id;
+          if (state) {
+            return picc.STATES[state].region_id;
+          }
         })
         .filter(function(el, i, arr){
-          return arr.indexOf(el) === i;
+          return (el && arr.indexOf(el) === i);
         });
     },
 
