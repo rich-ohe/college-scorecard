@@ -595,7 +595,7 @@ module.exports = function search() {
         } else {
           // loop over original results
           return results.some(function(originalSchool){
-            return (originalSchool.id === nudgeSchool.id);
+            return (originalSchool.id !== nudgeSchool.id);
           })
         }
       });
