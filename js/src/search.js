@@ -3,7 +3,6 @@ var tagalong = require('tagalong');
 var formdb = require('formdb');
 var querystring = require('querystring');
 var d3 = require('d3');
-require('./components/compat/custom-event');
 
 module.exports = function search() {
 
