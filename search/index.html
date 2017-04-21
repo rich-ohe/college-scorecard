@@ -229,12 +229,25 @@ permalink: /search/
           </div>
           <div class="nudge-card">
             <h1>Explore Other Colleges</h1>
-            <div class="nudge-meta">
-              <h2 data-bind="nudge_mode">Schools you might be interested in:</h2>
-            </div>
-            <ol class="school-nudge-list" data-bind="nudge_schools">
-              <li><h3 data-bind="title"><a class="link">School Name</a></h3></li>
-            </ol>
+            <ol class="u-ordered_list">
+
+              <li class="nudge-expand-search">
+                <h2>Expand Your Search Criteria</h2>
+                <div class="nudge-toggle-control">
+                  <button type="button" aria-controls="search-content" data-button="nudge-button">
+                    <i class="fa fa-search"></i>Edit Search</i>
+                  </button>
+                </div>
+              </li>
+
+              <li class="nudge-meta">
+                <h2 data-bind="nudge_mode">Schools you might be interested in:</h2>
+              </li>
+
+              <ul class="school-nudge-list u-unordered_list">
+                <li><h3 data-bind="title"><a class="link">School Name</a></h3></li>
+              </ul>
+          </ol>
           </div>
         </section>
 

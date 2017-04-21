@@ -3,6 +3,7 @@ var tagalong = require('tagalong');
 var formdb = require('formdb');
 var querystring = require('querystring');
 var d3 = require('d3');
+require('./components/compat/custom-event');
 
 module.exports = function search() {
 
@@ -74,7 +75,8 @@ module.exports = function search() {
 
       var event = 'click.toggle';
       win.on(event, function() {
-        if (!opened.contains(d3.event.target)) {
+        if (!opened.contains(d3.event.target) && !d3.event.target.hasAttribute('aria-controls')) {
+          console.log('here not a d3 event');
           win.on(event, null);
           opened.close();
         }
@@ -413,6 +415,19 @@ module.exports = function search() {
     });
   }
 
+  picc.ready(function() {
+    var nudgeButton = 'data-button';
+    picc.delegate(
+      document.querySelector('[data-button="nudge-button"]'),
+      function() {
+        return this.hasAttribute(nudgeButton);
+      },
+      {
+        click: function() { picc.ui.expandAccordions('#search-edit', true); }
+      }
+    );
+  });
+
   function getPages(total, perPage, page) {
 
     var numPages = Math.ceil(total / perPage);
@@ -680,16 +695,14 @@ module.exports = function search() {
 
       switch (nudgeMode) {
         case 'name':
-          return 'Schools Nearby';
+          return 'Check Out Schools Nearby';
         case 'online':
         case 'region':
         case 'borders':
           degree = (nudgeMode==='online') ? 'Offering Online ' + this.degrees[origParams.degree] : 'Nearby Offering ' +this.degrees[origParams.degree];
           program = (origParams.major) ? 'in '+ picc.PROGRAM_NAMES[origParams.major] : 'Programs';
-          return 'Schools ' + degree + ' ' + program;
-
+          return 'Check Out Schools ' + degree + ' ' + program;
       }
-
     },
 
     queryForNudgeMode: function queryForNudgeMode(nudgeMode, nudgeQuery, origResult, origParams) {
@@ -859,20 +872,21 @@ module.exports = function search() {
     },
 
     getBordersForStatesUnique: function getBordersForStatesUnique(statesArr) {
-      return [].concat.apply([],statesArr.map(function(state){
+      return [].concat.apply([], statesArr.map(function(state) {
         return picc.STATES[state].border_states.split(" ");
-      }));
+      }))
+      .filter(function(state){
+        return state;
+      });
     },
 
     getRegionsForStatesUnique: function getRegionsForStatesUnique(statesArr) {
       return statesArr
         .map(function(state){
-          if (state) {
             return picc.STATES[state].region_id;
-          }
         })
         .filter(function(el, i, arr){
-          return (el && arr.indexOf(el) === i);
+          return arr.indexOf(el) === i;
         });
     },
 

@@ -298,7 +298,10 @@
 }
 
 .section.section-card_container-nudge {
-  max-width: 400px;
+  max-width: inherit;
+  @include respond-to(small-up) {
+    max-width: 450px;
+  }
 
   &.show-loaded {
     @include respond-to(small-plus-up) {
@@ -335,21 +338,30 @@
     @include font-size($h1);
     padding-top: 0;
   }
-
-  .nudge-meta {
-    h2 {
-      @include font-size($h3)
-    }
+  h2 {
+    @include font-size($h3)
   }
-
-
 
 }
 
-.school-nudge-list {
-  margin-left: 30px;
-  list-style-type: decimal;
+.nudge-toggle-control {
+  position: relative;
+  left: -15px;
+  i {
+    color: $black;
+    padding-right: 15px;
+  }
+  button {
 
+    height: inherit;
+    letter-spacing: inherit;
+    background-color: transparent;
+    font-style: italic;
+    text-decoration: underline;
+  }
+}
+
+.school-nudge-list {
   h3 {
     @include font-size($h4);
     font-weight: bold;
@@ -360,7 +372,5 @@
         text-decoration: underline;
       }
     }
-
   }
-
 }
