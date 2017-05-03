@@ -14,6 +14,7 @@ This repo contains the front end of a web app with its API created by an instanc
 * [development](https://github.com/RTICWDT/college-scorecard/tree/dev/) [![Circle CI](https://circleci.com/gh/RTICWDT/college-scorecard/tree/dev.svg?style=svg)](https://circleci.com/gh/RTICWDT/college-scorecard/tree/dev)
 
 
+
 ## Installation
 This site is made with [Jekyll]. Once you've got [Ruby] on your computer, you
 can run:
