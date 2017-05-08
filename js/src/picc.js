@@ -887,9 +887,6 @@ picc.school.directives = (function() {
     selected_school: {
       '@aria-pressed': function(d) {
          var collection = picc.school.selection.LSKey;
-         console.log('this', this);
-         console.log('coll', collection);
-         console.log('what', picc.school.selection.isSelected(access(fields.ID)(d), collection));
          return (picc.school.selection.isSelected(access(fields.ID)(d), collection) >= 0);
       },
       '@data-school': function(d) {
@@ -1305,7 +1302,6 @@ picc.school.selection = {
       }
       var dataset = el.dataset;
       var collection = dataset.school;
-      console.log('collection', dataset);
       var isSelected = picc.school.selection.isSelected(+dataset.schoolId, collection);
       var selectedSchools = picc.school.selection.all(collection);
 
