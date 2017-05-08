@@ -1,0 +1,28 @@
+// Fotw school page
+//============================================
+
+.fotw-bg {
+  background-color: $mid-gray;
+  padding-bottom: $base-padding-extra;
+
+  fieldset {
+    border-top: none;
+  }
+}
+
+.fotw-back {
+  padding-top: $base-padding;
+
+  .link-more {
+    display: none;
+  }
+
+  .link-more[href] {
+    display: inline-block;
+  }
+
+}
+
+.fotw-schools_form-submit {
+  margin-top: $base-padding;
+}

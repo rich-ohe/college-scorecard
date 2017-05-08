@@ -12,19 +12,22 @@ module.exports = function compare() {
   var root = d3.select('.compare-bg');
   var compareRoot = document.querySelector('.compare-schools');
   var compareSchools = picc.school.selection.all('compare');
-
+  // show the fotw integration controls
+  var fotw = window.sessionStorage.getItem('passback_id');
 
   // if schools were shared by querystring, compare those instead of any local school picks
   var qs = querystring.parse(location.search.substr(1));
   var shareComparison = false;
   var compareShareLink = document.querySelector('.school-share-wrapper');
 
-  if (qs['schools[]'])
-  {
+  var backTo = (document.referrer.indexOf('/fotw') >= 0) ? '../search/' : document.referrer;
+  d3.select('#referrer-link')
+    .attr('href', backTo || null);
+
+  if (qs['schools[]']) {
     // console.log('share', qs['schools[]']);
     compareSchools = qs['schools[]'];
     shareComparison = true;
-
   }
 
   var showError = function (error) {
@@ -57,6 +60,8 @@ module.exports = function compare() {
     picc.fields.STATE,
     picc.fields.SIZE,
     picc.fields.LOCALE,
+    picc.fields.OPEID8,
+    picc.fields.MAIN,
     // to get "public" or "private" control
     picc.fields.OWNERSHIP,
     // to get the "four_year" or "lt_four_year" bit
@@ -140,6 +145,30 @@ module.exports = function compare() {
     'compare_link'
   ]);
 
+  if (fotw) {
+
+    function setFOTWCount() {
+      d3.select('.fotw-count').text(picc.school.selection.all('compare').length);
+    }
+
+    function setFOTWLink() {
+
+
+    }
+
+    // show FOTW sections
+    var fotwSections = d3.selectAll('.fotw-wrapper')[0];
+    fotwSections.forEach(function (section) {
+      section = d3.select(section);
+      section.attr('data-fotw', true);
+    });
+
+    var fotwLink = d3.select('.fotw-link');
+    fotwLink.attr('href', picc.BASE_URL + '/fotw/schools/');
+
+    setFOTWCount();
+
+  }
 
   // build query for API call
   function buildQuery (schools) {
@@ -293,6 +322,10 @@ module.exports = function compare() {
         change: function(e) {
           picc.school.selection.toggle(e);
           toggleDisplay(e);
+          if (fotw) {
+            setFOTWCount();
+            setFOTWLink();
+          }
         }
       }
     );

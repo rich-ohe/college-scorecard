@@ -2,6 +2,13 @@
   background-color: $white;
   padding-bottom: $base-padding;
 
+  .fotw-wrapper {
+    display: none;
+
+    &[data-fotw] {
+      display: inline-block;
+    }
+  }
 
   .toggles {
 
@@ -31,6 +38,22 @@
 
       .toggle-control .fa-star {
         color: $darker-yellow;
+      }
+
+    }
+
+    .fotw-wrapper {
+
+      .fa {
+        color: $green;
+      }
+
+      .fotw-link {
+        color: $base-link-color;
+
+        &:hover {
+          color: $hover-link-color;
+        }
       }
 
     }

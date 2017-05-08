@@ -437,7 +437,7 @@ picc.format = (function() {
 
 picc.fields = {
   ID:                   'id',
-  // OPEID8:               'ope8_id',
+  OPEID8:               'ope8_id',
   NAME:                 'school.name',
   CITY:                 'school.city',
   STATE:                'school.state',
@@ -455,7 +455,7 @@ picc.fields = {
 
   SIZE:                 '2014.student.size',
   ONLINE_ONLY:          'school.online_only',
-  // MAIN:                 'school.main_campus',
+  MAIN:                 'school.main_campus',
 
   WOMEN_ONLY:           'school.women_only',
   MEN_ONLY:             'school.men_only',
@@ -894,6 +894,10 @@ picc.school.directives = (function() {
       },
       '@data-school-name': function(d) {
         return access(fields.NAME)(d);
+      },
+      '@data-fotw': function(d) {
+        console.log('school_selected');
+        return picc.access(fields.OPEID8)(d) + ":" + picc.access(fields.MAIN)(d);
       }
     },
 
@@ -1387,6 +1391,10 @@ picc.school.selection = {
               },
               '@data-school-name': function(d) {
                 return picc.access('schoolName')(d);
+              },
+              '@data-fotw': function(d) {
+                console.log('fotw', d);
+                return picc.access('fotw')(d);
               }
             },
             compare_checkbox: {
@@ -2096,6 +2104,7 @@ picc.pages = {
   search:     require('./search'),
   school:     require('./school'),
   compare:    require('./compare'),
+  fotw:       require('./fotw'),
 };
 
 

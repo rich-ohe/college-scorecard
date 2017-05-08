@@ -1,0 +1,66 @@
+---
+title: Selected Schools | College Scorecard
+layout: default
+permalink: /fotw/schools/
+---
+
+<div class="fotw-bg loadable">
+
+    <div class="container fotw-back">
+        <a id="referrer-link" class="link-more" href="{{ site.baseurl }}/compare/">
+            <i class="fa fa-chevron-left"></i> Back to compare schools
+        </a>
+    </div>
+
+    <div class="container container-collapse section-card_container-fotw">
+
+        <div class="fotw-section">
+
+            <div class="container section fotw-schools contained-no-radius">
+
+                <div id="error" class="show-error">
+                    <h2>Something went wrong:</h2>
+                    <p class="error-message"></p>
+                </div>
+
+                <form id="fotw-schools-form" is="fotw-schools-form"
+                      autocomplete="false"
+                      method="GET" class="show-loaded">
+
+                    <fieldset>
+                        <legend>MyFAFSA Schools</legend>
+                        <h1>MyFAFSA</h1>
+
+                        <ul id="edit-fotw-list" data-bind="fotwSchools">
+                            <li class="edit-fotw-list-item">
+                                <label class="checkbox" data-bind="checkbox_label">
+                                    <input type="checkbox" name="schools[]" tabindex="0" data-bind="fotw_checkbox">
+                                    <span tabindex="-1" class="checkbox-focus"></span>
+                                    <span data-bind="schoolName"></span>
+                                </label>
+                            </li>
+                        </ul>
+                        <input type="hidden" name="passback_id">
+                    </fieldset>
+
+                    <div class="container fotw-schools_form-submit">
+
+                        <button type="submit" id="fotw-submit" class="button button-primary fotw-button">
+                            Send
+                        </button>
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+  picc.pages.fotw();
+</script>

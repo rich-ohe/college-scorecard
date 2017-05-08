@@ -239,7 +239,10 @@ module.exports = function search() {
       // not sure if we need this, but let's get it anyway
       picc.fields.EARNINGS_GT_25K,
       // under investigation flag
-      picc.fields.UNDER_INVESTIGATION
+      picc.fields.UNDER_INVESTIGATION,
+      // fotw integration fields
+      picc.fields.OPEID8,
+      picc.fields.MAIN
     ].join(',');
 
     var qs = querystring.stringify(params);
