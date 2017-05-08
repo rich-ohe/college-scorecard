@@ -11,7 +11,9 @@ module.exports = function compare() {
   var loadable = d3.select('.loadable');
   var root = d3.select('.compare-bg');
   var compareRoot = document.querySelector('.compare-schools');
-  var compareSchools = picc.school.selection.all('compare');
+  var LSKey = picc.school.selection.LSKey;
+  var compareSchools = picc.school.selection.all(LSKey);
+
   // show the fotw integration controls
   var fotw = window.sessionStorage.getItem('passback_id');
 
@@ -148,13 +150,10 @@ module.exports = function compare() {
   if (fotw) {
 
     function setFOTWCount() {
-      d3.select('.fotw-count').text(picc.school.selection.all('compare').length);
+      d3.select('.fotw-count').text(picc.school.selection.all(LSKey).length);
     }
 
-    function setFOTWLink() {
-
-
-    }
+    function setFOTWLink() { }
 
     // show FOTW sections
     var fotwSections = d3.selectAll('.fotw-wrapper')[0];
@@ -184,7 +183,7 @@ module.exports = function compare() {
 
   function onChange() {
 
-    compareSchools = (shareComparison) ? qs['schools[]'] : picc.school.selection.all('compare');
+    compareSchools = (shareComparison) ? qs['schools[]'] : picc.school.selection.all(LSKey);
 
     // build query for API call
     query = buildQuery(compareSchools);
@@ -283,7 +282,7 @@ module.exports = function compare() {
     }
 
     // show error if last checkbox was unchecked (nothing to compare)
-    if (!picc.school.selection.all('compare').length) {
+    if (!picc.school.selection.all(LSKey).length) {
       root.classed('js-loaded', false);
       loadable.classed('js-error', true);
       return showError(picc.errors.NO_SCHOOLS_TO_COMPARE);
@@ -324,7 +323,7 @@ module.exports = function compare() {
           toggleDisplay(e);
           if (fotw) {
             setFOTWCount();
-            setFOTWLink();
+            // setFOTWLink();
           }
         }
       }

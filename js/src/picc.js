@@ -841,7 +841,7 @@ picc.school.directives = (function() {
             url: (function() {
               var qs =  querystring.parse(location.search.substr(1));
               var share = [];
-              var schools = (qs['schools[]']) ? qs['schools[]'] : picc.school.selection.all('compare');
+              var schools = (qs['schools[]']) ? qs['schools[]'] : picc.school.selection.all(picc.school.selection.LSKey);
 
               if (schools) {
                 share = schools.map(function(item) {
@@ -886,8 +886,14 @@ picc.school.directives = (function() {
 
     selected_school: {
       '@aria-pressed': function(d) {
-         var collection = this.getAttribute('data-school');
+         var collection = picc.school.selection.LSKey;
+         console.log('this', this);
+         console.log('coll', collection);
+         console.log('what', picc.school.selection.isSelected(access(fields.ID)(d), collection));
          return (picc.school.selection.isSelected(access(fields.ID)(d), collection) >= 0);
+      },
+      '@data-school': function(d) {
+        return picc.school.selection.LSKey;
       },
       '@data-school-id': function(d) {
         return access(fields.ID)(d);
@@ -896,7 +902,6 @@ picc.school.directives = (function() {
         return access(fields.NAME)(d);
       },
       '@data-fotw': function(d) {
-        console.log('school_selected');
         return picc.access(fields.OPEID8)(d) + ":" + picc.access(fields.MAIN)(d);
       }
     },
@@ -1281,6 +1286,8 @@ picc.school.directives = (function() {
  */
 picc.school.selection = {
 
+    LSKey: 'compare-schools',
+
     all: function (key) {
       return JSON.parse(window.localStorage.getItem(key)) || [];
     },
@@ -1298,6 +1305,7 @@ picc.school.selection = {
       }
       var dataset = el.dataset;
       var collection = dataset.school;
+      console.log('collection', dataset);
       var isSelected = picc.school.selection.isSelected(+dataset.schoolId, collection);
       var selectedSchools = picc.school.selection.all(collection);
 
@@ -1374,7 +1382,7 @@ picc.school.selection = {
     },
 
     renderCompareToggles: function() {
-        var collection = 'compare';
+        var collection = picc.school.selection.LSKey;
         tagalong(
           '#edit-compare-list',
           picc.school.selection.all(collection),
@@ -1386,6 +1394,9 @@ picc.school.selection = {
               '@for': function(d) {
                 return 'edit-compare-' + picc.access('schoolId')(d);
               },
+              '@data-school': function(d) {
+                return collection;
+              },
               '@data-school-id': function (d) {
                 return picc.access('schoolId')(d);
               },
@@ -1393,7 +1404,6 @@ picc.school.selection = {
                 return picc.access('schoolName')(d);
               },
               '@data-fotw': function(d) {
-                console.log('fotw', d);
                 return picc.access('fotw')(d);
               }
             },
@@ -1434,7 +1444,7 @@ picc.school.selection = {
       var compareLink = d3.select('#compare-link');
       if (!compareLink.empty()) {
         var linkContainer = d3.select(compareLink.node().parentNode);
-        if (picc.school.selection.all('compare').length) {
+        if (picc.school.selection.all(picc.school.selection.LSKey).length) {
           compareLink
             .attr('href', picc.BASE_URL + '/compare/')
             .attr('aria-disabled', null);

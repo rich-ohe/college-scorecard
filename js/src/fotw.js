@@ -6,7 +6,7 @@ module.exports = function fotw() {
 
   var loadable = document.querySelector('.loadable');
   var fotwRoot = document.querySelector('.fotw-schools');
-  var fotwSchools = picc.school.selection.all('compare');
+  var fotwSchools = picc.school.selection.all(picc.school.selection.LSKey);
   var form = new formdb.Form('#fotw-schools-form');
 
   var showError = function(error) {
