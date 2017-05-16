@@ -900,6 +900,13 @@ picc.school.directives = (function() {
       },
       '@data-fotw': function(d) {
         return picc.access(fields.OPEID8)(d) + ":" + picc.access(fields.MAIN)(d);
+      },
+      '@aria-describedby': function(d) {
+        var collection = picc.school.selection.LSKey;
+        return (picc.school.selection.all(collection).length > 9 &&
+                picc.school.selection.isSelected(access(fields.ID)(d), collection) === -1)
+            ? 'tip-compare-max'
+            : null;
       }
     },
 
@@ -1295,6 +1302,22 @@ picc.school.selection = {
       }).indexOf(id));
     },
 
+    showMaxSelected: function() {
+
+      var compareBtns = [].slice.call(document.querySelectorAll('button.button-compare_schools:not([aria-pressed="true"])'));
+      for(var i=0; i<compareBtns.length;i++) {
+        compareBtns[i].setAttribute('aria-describedby', "tip-compare-max");
+      }
+
+    },
+
+    hideMaxSelected: function() {
+      var compareBtns = [].slice.call(document.querySelectorAll('button.button-compare_schools'));
+      for(var i=0; i<compareBtns.length;i++) {
+        compareBtns[i].removeAttribute('aria-describedby');
+      }
+    },
+
     toggle: function (e, el) {
 
       if (!el) {
@@ -1306,22 +1329,44 @@ picc.school.selection = {
       var selectedSchools = picc.school.selection.all(collection);
 
       if (isSelected >= 0) {
+
+        // unset any max selected flag
+        if (selectedSchools.length === 10) {
+          picc.school.selection.hideMaxSelected();
+        }
+
         // remove school from collection
         selectedSchools.splice(isSelected, 1);
-          window.localStorage.setItem(collection, JSON.stringify(selectedSchools));
-          if (el.hasAttribute('aria-pressed')) {
-            el.setAttribute('aria-pressed', false);
-          }
-          // compare schools page we need to remove highlighted sections on toggle remove school
-          if (el.previousElementSibling && el.previousElementSibling.hasAttribute('data-highlight-btn')) {
-            picc.school.selection.highlightRemove(dataset.schoolId);
-          }
-      } else {
-        // add school to collection
-        selectedSchools.push(dataset);
-          window.localStorage.setItem(collection, JSON.stringify(selectedSchools));
+        window.localStorage.setItem(collection, JSON.stringify(selectedSchools));
+
         if (el.hasAttribute('aria-pressed')) {
-          el.setAttribute('aria-pressed', true);
+          el.setAttribute('aria-pressed', false);
+        }
+        // compare schools page we need to remove highlighted sections on toggle remove school
+        if (el.previousElementSibling && el.previousElementSibling.hasAttribute('data-highlight-btn')) {
+          picc.school.selection.highlightRemove(dataset.schoolId);
+        }
+
+      } else {
+
+        if (selectedSchools.length < 10) {
+          // add school to collection
+          selectedSchools.push(dataset);
+
+          // set pressed flag
+          if (el.hasAttribute('aria-pressed')) {
+            el.setAttribute('aria-pressed', true);
+          }
+
+          if (selectedSchools.length > 9) {
+            picc.school.selection.showMaxSelected();
+          }
+
+          // save school collection
+          window.localStorage.setItem(collection, JSON.stringify(selectedSchools));
+        } else {
+          // only compare up to 10 schools
+          picc.school.selection.showMaxSelected();
         }
       }
 
