@@ -94,10 +94,18 @@
   }
 }
 
+.main-card_container-school {
+  @extend .section-card_container-school;
+}
+
 .section-card_container-results {
   @extend .section-card_container;
   background-color: $tertiary-background-color;
   padding-top: 0;
+}
+
+.section-card_container-fotw {
+  @extend .section-card_container;
 }
 
 .data-changelog {
@@ -109,5 +117,8 @@
     &:focus {
       text-decoration: none;
     }
+  }
+  .section-card_container-school h2{
+    padding-bottom: 0;
   }
 }
