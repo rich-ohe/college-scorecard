@@ -932,7 +932,25 @@ picc.school.directives = (function() {
     // (e.g. `women_only`) are at the object root, rather than
     // nested in `minority_serving`.
     special_designations: access.specialDesignations,
+    average_cost_tip: {
+      '@aria-describedby': function(d) {
+        var degree = picc.access(picc.fields.PREDOMINANT_DEGREE)(d);
+        switch (+degree) {
+          case 1: // 2-year (AKA less than 4-year)
+            return 'tip-avg-program-cost';
+        }
+        return 'tip-avg-cost-year';
+      }
+    },
+    average_cost_label: function(d) {
+      var degree = picc.access(picc.fields.PREDOMINANT_DEGREE)(d);
+        switch (+degree) {
+        case 1: // 2-year (AKA less than 4-year)
+          return 'Cost of Largest\r\nProgram';
 
+        }
+          return null;
+    },
     average_cost: format.dollars(access.netPrice),
     average_cost_meter: {
       // '@max':     access.nationalStat('max', access.publicPrivate),

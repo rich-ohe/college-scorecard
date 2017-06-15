@@ -46,6 +46,8 @@ module.exports = function search() {
     'selected_school',
     'under_investigation',
     'size_number',
+    'average_cost_tip',
+    'average_cost_label',
     'average_cost',
     'average_cost_meter',
     'grad_rate',

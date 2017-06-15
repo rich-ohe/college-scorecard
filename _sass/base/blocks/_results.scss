@@ -194,6 +194,8 @@
   .school-meters {
     @include span-columns(12 of 12);
     @include omega();
+    display:flex;
+    align-items: flex-end;
 
     figure.meter {
       @include span-columns(4 of 12);
@@ -208,6 +210,9 @@
         &.constrain_width {
           margin-left: -5%;
           width: 110%;
+        }
+        span[data-bind="average_cost_label"] {
+          white-space: pre;
         }
       }
 

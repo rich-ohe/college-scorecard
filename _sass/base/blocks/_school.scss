@@ -221,6 +221,9 @@
         margin-left: -5%;
         width: 110%;
       }
+      span[data-bind="average_cost_label"] {
+        white-space: pre;
+      }
     }
 
     // don't show meter labels for top-level stats
@@ -350,6 +353,12 @@
     @include span-columns(6 of 6);
     @include respond-to(large-up) {
       @include span-columns(3 of 6);
+    }
+
+    h2.figure-heading {
+      span[data-bind="average_cost_label"] {
+        white-space: pre;
+      }
     }
   }
 
