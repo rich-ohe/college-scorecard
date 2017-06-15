@@ -66,6 +66,12 @@ module.exports = function school() {
           .select('.average-label');
       });
 
+    var preddeg = picc.access(picc.fields.PREDOMINANT_DEGREE)(school);
+    if (+preddeg === 1) {
+      var accordionSATACT = document.querySelector('#selectivity');
+      accordionSATACT.parentNode.removeChild(accordionSATACT);
+    }
+
     // this is necessary because tagalong only binds to
     // the first instance for each data or directive key
     var sections = document.querySelectorAll('.section-card_container-school');
