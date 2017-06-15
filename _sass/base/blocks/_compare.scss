@@ -1,0 +1,393 @@
+.compare-bg {
+  background-color: $white;
+  padding-bottom: $base-padding;
+
+
+  .toggles {
+
+    @include respond-to(small-up) {
+      max-height: 55px;
+    }
+    .header-controls {
+
+      padding: 0 $toggle-padding  0 $toggle-padding ;
+
+      .compare-back {
+        display: inline-block;
+        padding-top: .8em;
+        padding-bottom: .8em;
+        vertical-align: top;
+
+        .link-more {
+          display: none;
+          color: $darker-green;
+
+        }
+
+        .link-more[href] {
+          display: inline-block;
+        }
+      }
+
+      .toggle-control {
+
+        @include respond-to(small-up) {
+          width: 290px;
+        }
+        .fa-star {
+          color: $darker-yellow;
+        }
+
+        button {
+          @include respond-to(teensy-up) {
+            width: 124px;
+            text-indent: -0.8em;
+            margin-left: 2em;
+            .fa-chevron-down {
+              padding-left: 18px;
+            }
+          }
+
+          @include respond-to(small-up) {
+            width: 290px;
+            text-indent: inherit;
+            margin-left: inherit;
+            .fa-chevron-down {
+              padding-left: 15px;
+            }
+          }
+        }
+      }
+
+    }
+
+    aria-accordion {
+      margin-left: $base-padding;
+
+      @include respond-to(small-up) {
+        margin-left: 0;
+      }
+
+      &[aria-hidden="true"] {
+        display:none;
+      }
+    }
+
+
+    .toggle-content.toggle-content-compare_schools {
+
+      left:0;
+
+      @media only screen and (min-width: 455px)
+      and (max-width: 656px) {
+        right: 0;
+        left: inherit;
+      }
+
+      fieldset {
+        border-top: 1px solid $mid-gray;
+        padding: 1em 1.25em 0 1.25em;
+      }
+
+    }
+  }
+
+}
+
+.edit-compare-list-item {
+
+  .button-highlight_schools {
+
+    &[aria-pressed="true"] + .checkbox  span + span {
+      background-color: $light-orange;
+    }
+  }
+
+  .checkbox {
+    width: 75%;
+    @include respond-to(tiny-up) {
+      width: 90%;
+    }
+  }
+
+}
+
+.compare-schools {
+  @include outer-container();
+  overflow-x: auto;
+
+}
+
+.compare-container_group {
+  position: relative;
+  top: 5px;
+  .average_line {
+    position:absolute;
+    bottom:0;
+    top: 0;
+    border: 1px solid $black;
+    width: 0;
+    z-index: 1;
+
+    .label {
+      text-align: center;
+      position: absolute;
+      top: -20px;
+      right: -50px;
+      width: 100px;
+      margin-left: auto;
+      margin-right: auto;
+      color: rgba(0,0,0,.6);
+      @include font-size($h5);
+    }
+  }
+
+  .legend-wrapper {
+    position: relative;
+    top:-50px;
+  }
+}
+
+.figure-heading {
+  margin: 20px auto;
+}
+
+figure.side-meter {
+
+figcaption {
+  background: rgb(255, 255, 255);
+  background: rgba(255, 255, 255, .9);
+  position: relative;
+  z-index: $z-first;
+  display: inline-block;
+
+  span {
+    width: 100%;
+  }
+}
+
+}
+
+.section-card_container-compare {
+
+  position: relative;
+  margin-bottom: 60px;
+
+
+  .meter-wrapper {
+    margin-bottom: 20px;
+  }
+
+  [data-highlight="true"] {
+
+    .picc-side-meter-bar {
+      background-color: $orange !important;
+    }
+  }
+
+}
+
+.section-card_container-compare_more {
+
+  @extend .section-card_container-school;
+
+  .compare-two_col-left {
+    padding-top: $base-padding;
+
+    @include span-columns(6 of 6);
+    @include respond-to(large-up) {
+      @include span-columns(3 of 6);
+    }
+  }
+
+
+  .compare-two_col-right {
+    padding-top: $base-padding-large;
+
+    @include span-columns(6 of 6);
+    @include respond-to(large-up) {
+      @include span-columns(3 of 6);
+      @include omega();
+      padding-top: $base-padding;
+    }
+  }
+
+  .school-headings {
+    h1 {
+      @include font-size($h3);
+
+      @include respond-to(small-up) {
+        @include font-size($h2);
+      }
+      @include respond-to(medium-up) {
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+
+    .school-key_figures.key-figures {
+      $height: 65px;
+      margin-top: -15px;
+      @include respond-to(medium-up) {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      $list: rural, town, suburban, city,
+      small, medium, large,
+      public, private, profit;
+
+      @each $icon in $list {
+        li.icon-#{$icon} {
+          background: url(../img/school-icons/#{$icon}.png) no-repeat;
+          background: url(../img/school-icons/#{$icon}.svg) no-repeat,
+          linear-gradient(transparent, transparent);
+          background-position: top center;
+          background-size: 30px $height;
+        }
+      }
+
+      li {
+        width: 60px;
+        @include hyphens(auto);
+        @include respond-to(large-up) {
+          width: 70px;
+        }
+
+        &.certificate {
+          @include hyphens(none);
+          margin-left: 10px;
+          padding-top: 25px;
+          margin-right: 20px;
+          width: 60px;
+
+          .school-key_figures-year:before {
+            font-family: "fontawesome";
+            content: '\f0a3';
+            font-size: .75em;
+
+
+          }
+        }
+        &.n-year {
+          margin-right:0;
+          .school-key_figures-year {
+            margin-top: -35px;
+            font-size: 20px;
+            font-size: 2rem;
+          }
+        }
+
+        .label {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  .school-summary {
+    .school-two_col > div {
+      margin-bottom: $base-padding;
+    }
+  }
+
+  .school-student-stats-col {
+    margin-top: -60px;
+    @include respond-to(small-up) {
+      text-align: center;
+    }
+
+    @include respond-to(large-up) {
+      margin-top: -40px;
+      white-space: nowrap;
+    }
+
+    .school-student-stats-col-align {
+      position: relative;
+      top: -20px;
+      width: inherit;
+      text-align: center;
+      @include respond-to(large-up) {
+        position: static;
+        text-align: left;
+      }
+
+    }
+
+    .school-size {
+      padding: $base-padding-lite;
+
+      .label {
+        position: relative;
+        @include font-size($h5);
+        top: -5px;
+      }
+    }
+
+    .fact_number {
+      text-align: center;
+
+      > span {
+        @include font-size($h1);
+      }
+    }
+
+  }
+
+  .net-price-income {
+    .compare-two_col-left {
+      padding-top: 0;
+
+      label {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        @include font-size($h3);
+        @include span-columns(6 of 6);
+        @include respond-to(small-up) {
+          @include span-columns(3 of 6);
+        }
+      }
+    }
+  }
+
+  .net-price-income-option2 {
+
+    .by-family-income-thead th {
+      background-color: $darker-yellow;
+      margin-right: $base-padding-lite;
+      &:first-of-type {
+        background-color: $white;
+      }
+      padding: $base-padding-lite;
+    }
+
+    .by-family-income-tbody td {
+      text-align: center;
+      padding: $base-padding-lite;
+      font-weight: 700;
+      &:first-of-type {
+        font-weight: inherit;
+      }
+
+      &[data-highlight="true"] {
+        background-color: $orange;
+      }
+    }
+  }
+
+  .race-ethnicity {
+    .compare-two_col-left {
+      padding-top: 0;
+
+      label {
+        margin-bottom: 15px;
+        @include font-size($h3);
+        @include span-columns(6 of 6);
+        @include respond-to(small-up) {
+          @include span-columns(4 of 6);
+        }
+      }
+    }
+  }
+
+}
