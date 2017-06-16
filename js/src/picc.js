@@ -1240,6 +1240,7 @@ picc.school.directives = (function() {
     },
     act_scores_invisible: {
       '@aria-hidden': format.notEmpty(fields.ACT_MIDPOINT),
+      'name2': access(fields.NAME)
     },
     act_scores: {
       '@lower': access(fields.ACT_25TH_PCTILE),
@@ -1252,6 +1253,7 @@ picc.school.directives = (function() {
     },
     sat_reading_scores_invisible: {
       '@aria-hidden': format.notEmpty(fields.SAT_READING_MIDPOINT),
+      'name2': access(fields.NAME)
     },
     sat_reading_scores: {
       '@lower': access(fields.SAT_READING_25TH_PCTILE),
@@ -1264,6 +1266,7 @@ picc.school.directives = (function() {
     },
     sat_math_scores_invisible: {
       '@aria-hidden': format.notEmpty(fields.SAT_MATH_MIDPOINT),
+      'name2': access(fields.NAME)
     },
     sat_math_scores: {
       '@lower': access(fields.SAT_MATH_25TH_PCTILE),
@@ -1276,6 +1279,7 @@ picc.school.directives = (function() {
     },
     sat_writing_scores_invisible: {
       '@aria-hidden': format.notEmpty(fields.SAT_WRITING_MIDPOINT),
+      'name2': access(fields.NAME)
     },
     sat_writing_scores: {
       '@lower': access(fields.SAT_WRITING_25TH_PCTILE),
