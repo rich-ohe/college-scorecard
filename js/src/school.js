@@ -66,8 +66,9 @@ module.exports = function school() {
           .select('.average-label');
       });
 
-    var preddeg = picc.access(picc.fields.PREDOMINANT_DEGREE)(school);
-    if (+preddeg === 1) {
+    // TEMPORARY: Unitl API has a FLAG, use cert-only to determine display
+    var highestDegree = picc.access(picc.fields.HIGHEST_DEGREE)(school);
+    if (+highestDegree <= 1) {
       var accordionSATACT = document.querySelector('#selectivity');
       accordionSATACT.parentNode.removeChild(accordionSATACT);
     }

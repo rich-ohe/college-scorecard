@@ -932,20 +932,24 @@ picc.school.directives = (function() {
     // (e.g. `women_only`) are at the object root, rather than
     // nested in `minority_serving`.
     special_designations: access.specialDesignations,
+    // TEMPORARY: Until API has flag for Program-based vs.
+    // Academic Calendar-based reporting
     average_cost_tip: {
       '@aria-describedby': function(d) {
-        var degree = picc.access(picc.fields.PREDOMINANT_DEGREE)(d);
+        var degree = picc.access(picc.fields.HIGHEST_DEGREE)(d);
         switch (+degree) {
-          case 1: // 2-year (AKA less than 4-year)
+          case 1: // Certificate granting
             return 'tip-avg-program-cost';
         }
         return 'tip-avg-cost-year';
       }
     },
+    // TEMPORARY: Until API has flag for Program-based vs.
+    // Academic Calendar-based reporting
     average_cost_label: function(d) {
-      var degree = picc.access(picc.fields.PREDOMINANT_DEGREE)(d);
+      var degree = picc.access(picc.fields.HIGHEST_DEGREE)(d);
         switch (+degree) {
-        case 1: // 2-year (AKA less than 4-year)
+        case 1: // Certificate Granting
           return 'Cost of Largest\r\nProgram';
 
         }
@@ -1240,6 +1244,7 @@ picc.school.directives = (function() {
     },
     act_scores_invisible: {
       '@aria-hidden': format.notEmpty(fields.ACT_MIDPOINT),
+      'name2': access(fields.NAME)
     },
     act_scores: {
       '@lower': access(fields.ACT_25TH_PCTILE),
@@ -1252,6 +1257,7 @@ picc.school.directives = (function() {
     },
     sat_reading_scores_invisible: {
       '@aria-hidden': format.notEmpty(fields.SAT_READING_MIDPOINT),
+      'name2': access(fields.NAME)
     },
     sat_reading_scores: {
       '@lower': access(fields.SAT_READING_25TH_PCTILE),
@@ -1264,6 +1270,7 @@ picc.school.directives = (function() {
     },
     sat_math_scores_invisible: {
       '@aria-hidden': format.notEmpty(fields.SAT_MATH_MIDPOINT),
+      'name2': access(fields.NAME)
     },
     sat_math_scores: {
       '@lower': access(fields.SAT_MATH_25TH_PCTILE),
@@ -1276,6 +1283,7 @@ picc.school.directives = (function() {
     },
     sat_writing_scores_invisible: {
       '@aria-hidden': format.notEmpty(fields.SAT_WRITING_MIDPOINT),
+      'name2': access(fields.NAME)
     },
     sat_writing_scores: {
       '@lower': access(fields.SAT_WRITING_25TH_PCTILE),
