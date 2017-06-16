@@ -932,20 +932,24 @@ picc.school.directives = (function() {
     // (e.g. `women_only`) are at the object root, rather than
     // nested in `minority_serving`.
     special_designations: access.specialDesignations,
+    // TEMPORARY: Until API has flag for Program-based vs.
+    // Academic Calendar-based reporting
     average_cost_tip: {
       '@aria-describedby': function(d) {
-        var degree = picc.access(picc.fields.PREDOMINANT_DEGREE)(d);
+        var degree = picc.access(picc.fields.HIGHEST_DEGREE)(d);
         switch (+degree) {
-          case 1: // 2-year (AKA less than 4-year)
+          case 1: // Certificate granting
             return 'tip-avg-program-cost';
         }
         return 'tip-avg-cost-year';
       }
     },
+    // TEMPORARY: Until API has flag for Program-based vs.
+    // Academic Calendar-based reporting
     average_cost_label: function(d) {
-      var degree = picc.access(picc.fields.PREDOMINANT_DEGREE)(d);
+      var degree = picc.access(picc.fields.HIGHEST_DEGREE)(d);
         switch (+degree) {
-        case 1: // 2-year (AKA less than 4-year)
+        case 1: // Certificate Granting
           return 'Cost of Largest\r\nProgram';
 
         }
