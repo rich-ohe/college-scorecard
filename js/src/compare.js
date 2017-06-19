@@ -62,6 +62,7 @@ module.exports = function compare() {
     picc.fields.OWNERSHIP,
     // to get the "four_year" or "lt_four_year" bit
     picc.fields.PREDOMINANT_DEGREE,
+    picc.fields.HIGHEST_DEGREE,
     // get all of the net price values
     picc.fields.NET_PRICE,
     picc.fields.COMPLETION_RATE,
@@ -256,6 +257,23 @@ module.exports = function compare() {
       }
 
       var sections = document.querySelectorAll('.section-card_container-compare');
+
+      // Until API is updated with more variables certificate variables
+      // use certificate-only flag for determining some fields
+      var certOnlySchoolCount = 0;
+      school.results.forEach(function(school) {
+        if (+picc.access(picc.fields.HIGHEST_DEGREE)(school) ===1) { certOnlySchoolCount++;}
+      });
+      // For comparisons of ALL certificate-only schools,
+      // update Cost label and tooltip to better describe the reporting used
+      if (school.results.length === certOnlySchoolCount) {
+        var costHeaders = [].slice.call(document.querySelectorAll('.compare-cost-header'));
+        costHeaders.forEach(function(header){
+          header.setAttribute('aria-describedby',"tip-avg-program-cost");
+          header.firstElementChild.textContent = "Cost of Largest Program";
+        });
+
+      }
 
       [].slice.call(sections).forEach(function(node){
         tagalong(node, school.results, directives);
