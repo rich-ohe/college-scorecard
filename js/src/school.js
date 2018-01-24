@@ -37,8 +37,8 @@ module.exports = function school() {
 
     var root = document.querySelector('.school-card_container-school');
 
-    var name = picc.access(picc.fields.NAME)(school);
-    document.title = name;
+    // var name = picc.access(picc.fields.NAME)(school);
+    // document.title = name;
 
     console.log('got school:', school);
     root.classList.remove('hidden');
@@ -152,9 +152,11 @@ module.exports = function school() {
     location.hash = '#' + section.id;
   }
 
-  // get the school ID from the URL
+  // get the school ID from page template or the URL
   function getSchoolId() {
-    if (!location.search) {
+    if (picc.school.school_id) {
+      return picc.school.school_id;
+    } else if (!location.search) {
       return null;
     }
     var match = location.search.match(/^\?(\d+)(\b|-)/);

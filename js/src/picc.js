@@ -796,8 +796,9 @@ picc.school.directives = (function() {
     var name = access(fields.NAME)(d);
     name = name ? name.replace(/\W+/g, '-') : '(unknown)';
     return [
-      picc.BASE_URL, '/school/?',
-      d.id, '-', name
+      picc.BASE_URL, '/school/',
+      name,
+      '/'
     ].join('');
   };
 

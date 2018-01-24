@@ -1,7 +1,7 @@
 ---
 title: School | College Scorecard
 layout: default
-permalink: /school/
+# permalink: /school/
 scripts:
   - vendor/leaflet.min.js
 stylesheets:
@@ -748,5 +748,6 @@ stylesheets:
 
 
 <script>
+  picc.school.school_id = '{{ page.school_id }}';
   picc.pages.school();
 </script>
