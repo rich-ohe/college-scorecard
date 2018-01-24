@@ -794,9 +794,13 @@ picc.school.directives = (function() {
 
   var href = function(d) {
     var name = access(fields.NAME)(d);
+    var id = access(fields.ID)(d);
     name = name ? name.replace(/\W+/g, '-') : '(unknown)';
     return [
-      picc.BASE_URL, '/school/',
+      picc.BASE_URL,
+      '/school/',
+      id,
+      '/',
       name,
       '/'
     ].join('');

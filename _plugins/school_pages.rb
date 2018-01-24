@@ -33,7 +33,7 @@ module Jekyll
     def create_all_school_pages(schools_arr, schools_src_dir, dest_dir)
       schools_arr.each do |school|
         # create school from data
-        index = SchoolPage.new(self, self.config['source'], File.join(dest_dir,school['slug']), 'index.html', schools_src_dir, 'index')
+        index = SchoolPage.new(self, self.config['source'], File.join(dest_dir,school['id'],school['slug']), 'index.html', schools_src_dir, 'index')
         # set the school page title
         index.data['title'] = school['name'] + ' | College Scorecard'
         index.data['school_id'] = school['id']
@@ -52,7 +52,7 @@ module Jekyll
       # Scorecard Schools query
       uri.query = "fields=id,school.name&per_page=100&school.operating=1&2015.student.size__range=1..&2015.academics.program_available.assoc_or_bachelors=true&school.degrees_awarded.predominant__range=1..3&school.degrees_awarded.highest__range=2..4&page=#{page}&api_key=#{api_key}"
 
-      # Example school single
+      # test schools (limited results)
       # uri.query = "fields=id,school.name&per_page=100&school.name=berkeley&api_key=#{api_key}"
       req = Net::HTTP::Get.new(uri)
       # if user != nil
@@ -85,9 +85,8 @@ module Jekyll
         data['results'].each { |r|
           schools[r['id']] = r['school.name']
         }
-        sleep(2)
         count += data['results'].length
-        $stderr.puts("Read #{count}/#{data['metadata']['total']} schools (page #{page})")
+        puts("Read #{count}/#{data['metadata']['total']} schools (page #{page})")
         break if count >= data['metadata']['total']
         page = data['metadata']['page'] + 1
       end
@@ -98,16 +97,9 @@ module Jekyll
         school_hash['id'] = "#{school[0]}"
         school_hash['name'] = "#{school[1]}"
         # school_hash['name'] = "#{school[1]['school']['name']}"
-
-        #puts "#{school[0]},#{school_hash['name']}"
-
-        # replace spaces with dash (-)
-        slug = "#{school_hash['name'].gsub(/\W/,'-')}"
-        # replace substitued triple dash (---) with a single dash
-        # in cases where school name has <space>-<space> in the name
-        slug2 = "#{slug.gsub('---', '-')}"
-
-        school_hash['slug'] = slug2 ? slug2 : slug
+        # replace non-words with dash (-)
+        slug = "#{school_hash['name'].gsub(/\W+/,'-')}"
+        school_hash['slug'] =  slug
         # school_hash['raw_data'] = school[1]
         schools_arr.push(school_hash)
       end
