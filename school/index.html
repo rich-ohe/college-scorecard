@@ -449,6 +449,55 @@ stylesheets:
 
                   </div>
 
+                  <div class="school-outcome-measures">
+                    <h2 class="figure-heading u-align_c" aria-describedby="tip-outcome-measures" tabindex="0">
+                      Students Outcomes <br>By Enrollment Level
+                      <span class="tooltip-target u-new_line">
+                          <i class="fa fa-info-circle"></i>
+                        </span>
+                    </h2>
+
+                    <div class="u-wrap">
+                      <div class="outcome-two_col-left">
+
+                        <label for="outcome_measures">
+                          <span class="u-new_line">Which student group are you interested in?</span>
+                          <select id="outcome_measures" name="outcome_measures" data-outcome-select="outcome_measures_meter">
+                            {% for level in site.data.outcome_measures.levels %}
+                            {% if forloop.index == 1 %}
+                            <option value="{{ level[0] }}" selected>{{ level[1] }}</option>
+                            {% else %}
+                            <option value="{{ level[0] }}">{{ level[1] }}</option>
+                            {% endif %}
+                            {% endfor %}
+                          </select>
+                        </label>
+                      </div>
+                      <div class="outcome-two_col-right"><div>{% comment %} empty space column {% endcomment %}</div></div>
+                    </div>
+
+                    <div class="school-outcome-meters">
+                      <div>
+                        {% for category in site.data.outcome_measures.measures %}
+                        <div class="meter-wrapper" tabindex="0">
+                          <figure class="side-meter">
+                            <picc-side-meter
+                              class="graduation"
+                              data-bind="outcome_measures_{{ category[0] }}_meter"
+                              data-outcome-meter
+                              max="1">
+                            </picc-side-meter>
+                            <figcaption>
+                              <span>{{ category[1] }}</span>
+                              <span data-bind="outcome_measures_val" class="sr-only fig-val"></span>
+                            </figcaption>
+                          </figure>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </aria-accordion>

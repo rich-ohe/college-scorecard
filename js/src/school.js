@@ -235,4 +235,45 @@ module.exports = function school() {
     return map;
   }
 
+  /**
+   * * add event listeners for select-controlled outcome measure charts
+   */
+  picc.ready(function() {
+    var dataSelect = 'data-outcome-select';
+    picc.delegate(
+      document.body,
+      // if the element matches '[data-outcome-select]'
+      function() {
+        return this.hasAttribute(dataSelect);
+      },
+      {
+        change: picc.debounce(function(e) {
+          // updates the outcomes bar charts with the value stored in a data attribute corresponding to
+          //  selected option value
+          e.preventDefault();
+          var meters = [].slice.call(document.querySelectorAll('[data-outcome-meter]'));
+          var selectedOption = e.target.value;
+
+          for (var i = 0; i < meters.length; i++) {
+            var value = meters[i].getAttribute('data-'+selectedOption);
+            var formattedValue = picc.format.percent('value')({'value': value});
+            formattedValue = (+value >= 0.005 || +value === 0) ? formattedValue : (value) ? '<1%' : 'No Data Available';
+            // set bar
+            meters[i].setAttribute('value', value);
+            // set bar text value
+            var barVal = meters[i].querySelector('.picc-side-meter-val');
+            if (barVal) {
+              barVal.textContent = formattedValue;
+            }
+            // set figure value for screen-reader
+            var figVal = (meters[i].nextElementSibling) ? meters[i].nextElementSibling.querySelector('.fig-val') : null;
+            if(figVal) {
+              figVal.textContent = formattedValue;
+            }
+          }
+        }, 250)
+      }
+    );
+  });
+
 };

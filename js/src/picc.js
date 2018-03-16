@@ -474,6 +474,8 @@ picc.fields = {
 
   // completion rate
   COMPLETION_RATE:      '2015.completion.rate_suppressed.overall',
+  // outcome measures
+  COMPLETION_OUTCOME:   '2015.completion.outcome_percentage',
 
   RETENTION_RATE:       '2015.student.retention_rate',
 
@@ -644,6 +646,22 @@ picc.access.raceEthnicityValueByKey = function(key) {
   return picc.fields.RACE_ETHNICITY + '.' + key;
 };
 
+picc.access.outcomePercentByMeasure = function(measure, level) {
+
+  var outcomeGroups = {
+    FTFT:   'full_time.first_time',
+    FTNFT:  'full_time.not_first_time',
+    PTFT:   'part_time.first_time',
+    PTNFT:  'part_time.not_first_time'
+  };
+  return picc.access.composed(
+    picc.fields.COMPLETION_OUTCOME,
+    outcomeGroups[level],
+    '8yr',
+    measure
+  );
+};
+
 /*
 // XXX this version of the median earnings accessor stringifies a
 // numeric earnings value so that the old version of tagalong
@@ -812,6 +830,13 @@ picc.school.directives = (function() {
   var raceEthnicity = function(d) {
     var select = document.getElementById('race_ethnicity');
     var selectValue = (select) ? access(picc.access.raceEthnicityValueByKey(select.value))(d) : null;
+    return (selectValue >= .005 || selectValue === 0) ? format.percent('selectValue')({'selectValue':selectValue}) : (selectValue) ? '<1%' : 'No Data Available';
+  };
+
+  // binds data to select-controlled outcome student group
+  var outcomePercent = function(measure, d) {
+    var select = document.getElementById('outcome_measures');
+    var selectValue = (select) ? access(picc.access.outcomePercentByMeasure(measure, select.value))(d) : null;
     return (selectValue >= .005 || selectValue === 0) ? format.percent('selectValue')({'selectValue':selectValue}) : (selectValue) ? '<1%' : 'No Data Available';
   };
 
@@ -1097,6 +1122,66 @@ picc.school.directives = (function() {
         return meterMedian(this, access(fields.PREDOMINANT_DEGREE)(d));
       }),
       'picc-side-meter-val': format.percent(access.completionRate)
+    },
+
+    // Graduated (award) Outcome
+    outcome_measures_award_meter: {
+      '@data-ftft':  access.outcomePercentByMeasure('award', 'FTFT'),
+      '@data-ftnft': access.outcomePercentByMeasure('award', 'FTNFT'),
+      '@data-ptft':  access.outcomePercentByMeasure('award', 'PTFT'),
+      '@data-ptnft': access.outcomePercentByMeasure('award', 'PTNFT'),
+      '@value': function() {
+        var select = document.getElementById('outcome_measures');
+        return this.getAttribute('data-'+select.value);
+      },
+      'picc-side-meter-val': function(d) {
+        return outcomePercent('award', d);
+      }
+    },
+
+    // Transferred Outcome
+    outcome_measures_transfer_meter: {
+      '@data-ftft':  access.outcomePercentByMeasure('transfer', 'FTFT'),
+      '@data-ftnft': access.outcomePercentByMeasure('transfer', 'FTNFT'),
+      '@data-ptft':  access.outcomePercentByMeasure('transfer', 'PTFT'),
+      '@data-ptnft': access.outcomePercentByMeasure('transfer', 'PTNFT'),
+      '@value': function() {
+        var select = document.getElementById('outcome_measures');
+        return this.getAttribute('data-'+select.value);
+      },
+      'picc-side-meter-val': function(d) {
+        return outcomePercent('transfer', d);
+      }
+    },
+
+    // Still-enrolled Outcome
+    outcome_measures_still_enrolled_meter: {
+      '@data-ftft':  access.outcomePercentByMeasure('still_enrolled', 'FTFT'),
+      '@data-ftnft': access.outcomePercentByMeasure('still_enrolled', 'FTNFT'),
+      '@data-ptft':  access.outcomePercentByMeasure('still_enrolled', 'PTFT'),
+      '@data-ptnft': access.outcomePercentByMeasure('still_enrolled', 'PTNFT'),
+      '@value': function() {
+        var select = document.getElementById('outcome_measures');
+        return this.getAttribute('data-'+select.value);
+      },
+      'picc-side-meter-val': function(d) {
+        return outcomePercent('still_enrolled', d);
+      }
+    },
+
+    // Withdrew (unknown) Outcome
+    outcome_measures_unknown_meter: {
+      '@data-ftft':  access.outcomePercentByMeasure('unknown', 'FTFT'),
+      '@data-ftnft': access.outcomePercentByMeasure('unknown', 'FTNFT'),
+      '@data-ptft':  access.outcomePercentByMeasure('unknown', 'PTFT'),
+      '@data-ptnft': access.outcomePercentByMeasure('unknown', 'PTNFT'),
+      '@value': function() {
+        var select = document.getElementById('outcome_measures');
+        return this.getAttribute('data-'+select.value);
+      },
+      'picc-side-meter-val': function(d) {
+        return outcomePercent('unknown', d);
+      }
     },
 
     average_salary: format.dollars(access.earningsMedian),

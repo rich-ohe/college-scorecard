@@ -363,6 +363,49 @@
       padding-top: $base-padding;
     }
   }
+
+  .school-outcome-measures {
+    padding-top: $base-padding-large;
+    clear: both;
+
+    .outcome-two_col-left {
+      padding-top: 0;
+
+      @include span-columns(6 of 6);
+      @include respond-to(large-up) {
+        @include span-columns(4 of 6);
+      }
+
+      label {
+        @include font-size($h3);
+        @include span-columns(6 of 6);
+        @include respond-to(small-up) {
+          min-width: 325px;
+
+          > select {
+            width: 100%;
+            max-width: 400px;
+          }
+        }
+      }
+    }
+
+    .outcome-two_col-right {
+      padding-top: $base-padding-large;
+
+      @include span-columns(6 of 6);
+      @include respond-to(large-up) {
+        @include span-columns(3 of 6);
+        @include omega();
+        padding-top: $base-padding;
+      }
+    }
+
+    .meter-wrapper {
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+  }
 }
 
 .school-table {
