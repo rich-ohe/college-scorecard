@@ -322,6 +322,50 @@ describe('school page', function() {
   xit('should show Retention Rate as "No Data Available" for schools without it', function*() {
   });
 
+  it('should display outcome measures values by enrollment level option selected', function*() {
+    yield loadSchoolUrl('204635-Ohio-Northern-University');
+    yield toggleAccordion('#graduation');
+
+    var levels = [
+      'FTFT',
+      'FTNFT',
+      'PTFT',
+      'PTNFT'
+    ];
+
+    var measures = [
+      'award',
+      'transfer',
+      'still_enrolled',
+      'unknown',
+    ];
+
+    for(var i=0;i<levels.length;i++) {
+      yield browser
+        .selectByValue('#outcome_measures', levels[i]).pause(500);
+
+      for (var j=0;j<measures.length;j++) {
+        var meterAttr = yield browser.getAttribute('.school-outcome-meters picc-side-meter[data-bind="outcome_measures_'+measures[j]+'_meter"]', 'data-'+levels[i]);
+        var meterVal = yield browser.getAttribute('.school-outcome-meters picc-side-meter[data-bind="outcome_measures_'+measures[j]+'_meter"]', 'value');
+        var barVal = yield browser.getText('.school-outcome-meters picc-side-meter[data-bind="outcome_measures_'+measures[j]+'_meter"] .picc-side-meter-val');
+
+        // this is necessary because for whatever reason an undefined attribute value
+        // is '' for a data-<attribute> but `NaN` for the value attribute
+        if (meterAttr === 'NaN') meterAttr = '';
+        if (meterVal === 'NaN') meterVal = '';
+
+        assert.equal(meterAttr, meterVal);
+
+        // check that the bar value is represented as the percent formatted meter value ("0.0455" -> "5%")
+        if (meterVal >= 0.005 || meterVal === "0") {
+          assert.equal((+meterVal * 100).toFixed(0)+'%', barVal);
+        } else if (meterVal) {
+          assert.equal('<1%', barVal);
+        }
+      }
+    }
+  });
+
   it('should show <4-year retention rate if 4-year rate is unavailable', function*() {
     yield loadSchoolUrl('452948-Galen-College-of-Nursing-Cincinnati');
     assert.equal(yield toggleAccordion('#graduation'), 'true');
