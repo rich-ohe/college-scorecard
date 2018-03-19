@@ -840,6 +840,16 @@ picc.school.directives = (function() {
     return (selectValue >= .005 || selectValue === 0) ? format.percent('selectValue')({'selectValue':selectValue}) : (selectValue) ? '<1%' : 'No Data Available';
   };
 
+  var outcomeSummary = function(measure) {
+    var outcomeGroups = {
+      FTFT:   'Students attending college for the first time who are enrolled full time:',
+      FTNFT:  'Students not attending college for the first time who are enrolled full time:',
+      PTFT:   'Students attending college for the first time who are enrolled part time:',
+      PTNFT:  'Students not attending college for the first time who are enrolled part time:'
+    };
+    return outcomeGroups[measure];
+  };
+
   // binds data to select-controlled value
   var netPricebyIncomeLevelValue = function(d) {
     var select = document.getElementById('net_price_income');
@@ -1122,6 +1132,14 @@ picc.school.directives = (function() {
         return meterMedian(this, access(fields.PREDOMINANT_DEGREE)(d));
       }),
       'picc-side-meter-val': format.percent(access.completionRate)
+    },
+
+    // Outcome summary text by selected measure option
+    outcome_measures_summary: {
+      text: function(d) {
+        var selectedMeasure = document.getElementById('outcome_measures');
+        return outcomeSummary(selectedMeasure.value);
+      }
     },
 
     // Graduated (award) Outcome

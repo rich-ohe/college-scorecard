@@ -388,16 +388,27 @@
           }
         }
       }
+
+      fieldset {
+        border-top: none;
+      }
+
+      select {
+        margin-bottom: 0;
+        font: initial;
+        @include font-size(1);
+        display: block;
+        font-family: $form-font-family;
+      }
     }
 
     .outcome-two_col-right {
-      padding-top: $base-padding-large;
+      padding-top: $base-padding;
 
       @include span-columns(6 of 6);
       @include respond-to(large-up) {
         @include span-columns(3 of 6);
         @include omega();
-        padding-top: $base-padding;
       }
     }
 

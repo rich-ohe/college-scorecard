@@ -270,6 +270,10 @@ module.exports = function school() {
             if(figVal) {
               figVal.textContent = formattedValue;
             }
+
+            // set the summary text for the selected option
+            var summary = document.querySelector('[data-bind="outcome_measures_summary"]');
+            summary.textContent = picc.school.directives.outcome_measures_summary.text(null);
           }
         }, 250)
       }

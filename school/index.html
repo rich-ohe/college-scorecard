@@ -459,10 +459,11 @@ stylesheets:
 
                     <div class="u-wrap">
                       <div class="outcome-two_col-left">
-
+                        <fieldset>
+                        <legend>Outcome Measures</legend>
                         <label for="outcome_measures">
                           <span class="u-new_line">Which student group are you interested in?</span>
-                          <select id="outcome_measures" name="outcome_measures" data-outcome-select="outcome_measures_meter">
+                          <select id="outcome_measures" class="angle-arrow" name="outcome_measures" data-outcome-select="outcome_measures_meter" aria-controls="outcome_measures_region">
                             {% for level in site.data.outcome_measures.levels %}
                             {% if forloop.index == 1 %}
                             <option value="{{ level[0] }}" selected>{{ level[1] }}</option>
@@ -472,11 +473,13 @@ stylesheets:
                             {% endfor %}
                           </select>
                         </label>
+                        </fieldset>
                       </div>
                       <div class="outcome-two_col-right"><div>{% comment %} empty space column {% endcomment %}</div></div>
                     </div>
 
-                    <div class="school-outcome-meters">
+                    <div role="region" id="outcome_measures_region" class="school-outcome-meters" aria-live="polite">
+                      <p class="outcome-summary" data-bind="outcome_measures_summary">Student Outcome Measures Summary</p>
                       <div>
                         {% for category in site.data.outcome_measures.measures %}
                         <div class="meter-wrapper" tabindex="0">
