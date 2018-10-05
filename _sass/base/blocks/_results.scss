@@ -49,6 +49,19 @@
       }
     }
 
+    .u-group_inline {
+      white-space: nowrap;
+      > .u-group_inline-right {
+        @include respond-to(weensy-down) {
+          display: block !important;
+          float: left;
+        }
+      }
+      @include respond-to(small-up) {
+        white-space: normal;
+      }
+    }
+
     > div {
       @include span-columns(12);
 
@@ -92,9 +105,30 @@
   }
 }
 
-.results-share {
+.button-share.results-share {
   @extend .share;
-  margin-left: $base-padding;
+  cursor: default;
+  margin-left: 0;
+  padding: 2px 15px !important;
+  height: 22px !important;
+  width: 93px !important;
+  @include transition(width 0.3s);
+
+  @include respond-to(tiny-up) {
+    margin-left: $base-padding;
+  }
+
+  &:hover,
+  &:focus,
+  &.social-tab {
+    width: 155px !important;
+  }
+
+  .social-share-list {
+    li {
+      padding: 6px;
+    }
+  }
 }
 
 .results-sort {
@@ -219,20 +253,27 @@
   }
 }
 
-.container {
-  // sticky search toggles on results page
-  top: 0;
-  left: 0;
-  right: 0;
-  // these only apply when scrolled
-  .search-toggles.fixed-container > &,
-  .search-toggles[data-fixed="true"] > & {
-    position: fixed;
-    max-width: inherit;
-    background-color: $lighter-gray;
-    z-index: $z-second;
-    box-shadow: 0 4px 2px -2px $mid-dark-gray;
+// sticky search header for desktop only
+@include respond-to(medium-up) {
+  .search-toggles > .container {
+    top: -55px;
+    left: 0;
+    right: 0;
+    @include transition((top 0.3s));
+  }
 
+  .search-toggles[data-fixed="true"] {
+    height: 0;
+    padding-bottom: 55px;
+
+    > .container {
+      position: fixed;
+      top: 0;
+      max-width: inherit;
+      background-color: $lighter-gray;
+      z-index: $z-second;
+      box-shadow: 0 4px 2px -2px $mid-dark-gray;
+    }
   }
 }
 

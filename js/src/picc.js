@@ -456,9 +456,10 @@ picc.fields = {
   RELIGIOUS:            'school.religious_affiliation',
   OPERATING:            'school.operating',
 
-  SIZE:                 '2015.student.size',
+  SIZE:                 'latest.student.size',
   ONLINE_ONLY:          'school.online_only',
-  // MAIN:                 'school.main_campus',
+  MAIN:                 'school.main_campus',
+  BRANCHES:             'school.branches',
 
   WOMEN_ONLY:           'school.women_only',
   MEN_ONLY:             'school.men_only',
@@ -469,54 +470,55 @@ picc.fields = {
   UNDER_INVESTIGATION:  'school.under_investigation',
 
   // net price
-  NET_PRICE:            '2015.cost.avg_net_price.overall',
-  NET_PRICE_BY_INCOME:  '2015.cost.net_price',
+  NET_PRICE:            'latest.cost.avg_net_price.overall',
+  NET_PRICE_BY_INCOME:  'latest.cost.net_price',
 
   // completion rate
-  COMPLETION_RATE:      '2015.completion.rate_suppressed.overall',
+  COMPLETION_RATE:      'latest.completion.rate_suppressed.overall',
+
   // outcome measures
   COMPLETION_OUTCOME:   '2015.completion.outcome_percentage',
 
   RETENTION_RATE:       '2015.student.retention_rate',
 
-  REPAYMENT_RATE:       '2015.repayment.3_yr_repayment_suppressed.overall',
+  REPAYMENT_RATE:       'latest.repayment.3_yr_repayment_suppressed.overall',
 
-  AVERAGE_TOTAL_DEBT:   '2015.aid.median_debt_suppressed.completers.overall',
-  MONTHLY_LOAN_PAYMENT: '2015.aid.median_debt_suppressed.completers.monthly_payments',
+  AVERAGE_TOTAL_DEBT:   'latest.aid.median_debt_suppressed.completers.overall',
+  MONTHLY_LOAN_PAYMENT: 'latest.aid.median_debt_suppressed.completers.monthly_payments',
 
-  AID_PERCENTAGE:       '2015.aid.federal_loan_rate',
-  PELL_PERCENTAGE:      '2015.aid.pell_grant_rate',
+  AID_PERCENTAGE:       'latest.aid.federal_loan_rate',
+  PELL_PERCENTAGE:      'latest.aid.pell_grant_rate',
 
-  MEDIAN_EARNINGS:      '2013.earnings.10_yrs_after_entry.median',
+  MEDIAN_EARNINGS:      'latest.earnings.10_yrs_after_entry.median',
 
-  EARNINGS_GT_25K:      '2013.earnings.6_yrs_after_entry.percent_greater_than_25000',
+  EARNINGS_GT_25K:      'latest.earnings.6_yrs_after_entry.percent_greater_than_25000',
 
-  PROGRAM_PERCENTAGE:   '2015.academics.program_percentage',
-  PROGRAM_OFFERED:      '2015.academics.program',
-  DEGREE_OFFERED:       '2015.academics.program_available',
+  PROGRAM_PERCENTAGE:   'latest.academics.program_percentage',
+  PROGRAM_OFFERED:      'latest.academics.program',
+  DEGREE_OFFERED:       'latest.academics.program_available',
 
-  PART_TIME_SHARE:      '2015.student.part_time_share',
-  FEMALE_SHARE:         '2015.student.demographics.female_share',
-  RACE_ETHNICITY:       '2015.student.demographics.race_ethnicity',
-  AGE_ENTRY:            '2015.student.demographics.age_entry',
+  PART_TIME_SHARE:      'latest.student.part_time_share',
+  FEMALE_SHARE:         'latest.student.demographics.female_share',
+  RACE_ETHNICITY:       'latest.student.demographics.race_ethnicity',
+  AGE_ENTRY:            'latest.student.demographics.age_entry',
 
-  ACT_25TH_PCTILE:      '2015.admissions.act_scores.25th_percentile.cumulative',
-  ACT_75TH_PCTILE:      '2015.admissions.act_scores.75th_percentile.cumulative',
-  ACT_MIDPOINT:         '2015.admissions.act_scores.midpoint.cumulative',
+  ACT_25TH_PCTILE:      'latest.admissions.act_scores.25th_percentile.cumulative',
+  ACT_75TH_PCTILE:      'latest.admissions.act_scores.75th_percentile.cumulative',
+  ACT_MIDPOINT:         'latest.admissions.act_scores.midpoint.cumulative',
 
-  SAT_CUMULATIVE_AVERAGE:   '2015.admissions.sat_scores.average.overall',
+  SAT_CUMULATIVE_AVERAGE:   'latest.admissions.sat_scores.average.overall',
 
-  SAT_READING_25TH_PCTILE:  '2015.admissions.sat_scores.25th_percentile.critical_reading',
-  SAT_READING_75TH_PCTILE:  '2015.admissions.sat_scores.75th_percentile.critical_reading',
-  SAT_READING_MIDPOINT:     '2015.admissions.sat_scores.midpoint.critical_reading',
+  SAT_READING_25TH_PCTILE:  'latest.admissions.sat_scores.25th_percentile.critical_reading',
+  SAT_READING_75TH_PCTILE:  'latest.admissions.sat_scores.75th_percentile.critical_reading',
+  SAT_READING_MIDPOINT:     'latest.admissions.sat_scores.midpoint.critical_reading',
 
-  SAT_MATH_25TH_PCTILE:     '2015.admissions.sat_scores.25th_percentile.math',
-  SAT_MATH_75TH_PCTILE:     '2015.admissions.sat_scores.75th_percentile.math',
-  SAT_MATH_MIDPOINT:        '2015.admissions.sat_scores.midpoint.math',
+  SAT_MATH_25TH_PCTILE:     'latest.admissions.sat_scores.25th_percentile.math',
+  SAT_MATH_75TH_PCTILE:     'latest.admissions.sat_scores.75th_percentile.math',
+  SAT_MATH_MIDPOINT:        'latest.admissions.sat_scores.midpoint.math',
 
-  SAT_WRITING_25TH_PCTILE:  '2015.admissions.sat_scores.25th_percentile.writing',
-  SAT_WRITING_75TH_PCTILE:  '2015.admissions.sat_scores.75th_percentile.writing',
-  SAT_WRITING_MIDPOINT:     '2015.admissions.sat_scores.midpoint.writing',
+  SAT_WRITING_25TH_PCTILE:  'latest.admissions.sat_scores.25th_percentile.writing',
+  SAT_WRITING_75TH_PCTILE:  'latest.admissions.sat_scores.75th_percentile.writing',
+  SAT_WRITING_MIDPOINT:     'latest.admissions.sat_scores.midpoint.writing',
 
   NET_PRICE_CALC_URL:       'school.price_calculator_url'
 };
@@ -613,6 +615,11 @@ picc.access.yearDesignation = function(d) {
   return null;
 };
 
+picc.access.branchCampus = function(d) {
+  var branch_count = picc.access(picc.fields.BRANCHES)(d);
+  return +branch_count > 1;
+};
+
 picc.access.nationalStat = function(stat, suffix) {
   if (suffix) {
     suffix = picc.access(suffix);
@@ -695,12 +702,12 @@ picc.access.retentionRate = function(d) {
   var retention = picc.access(picc.fields.RETENTION_RATE)(d);
   /* jshint ignore:start */
   if (retention) {
-    var fourYear = retention.four_year.full_time;
-    return (fourYear || fourYear === 0) ? fourYear : retention.lt_four_year.full_time;
+    var fourYear = retention.four_year.full_time_pooled;
+    return (fourYear || fourYear === 0) ? fourYear : retention.lt_four_year.full_time_pooled;
   }
   // data result key may be a full path dotted-string
-  retention = picc.access(picc.fields.RETENTION_RATE + ".four_year.full_time")(d);
-  return ( retention || retention === 0) ? retention : picc.access(picc.fields.RETENTION_RATE + ".lt_four_year.full_time")(d) ;
+  retention = picc.access(picc.fields.RETENTION_RATE + ".four_year.full_time_pooled")(d);
+  return ( retention || retention === 0) ? retention : picc.access(picc.fields.RETENTION_RATE + ".lt_four_year.full_time_pooled")(d) ;
   /* jshint ignore:end */
 };
 
@@ -775,6 +782,20 @@ picc.access.programAreas = function(d, field) {
     .filter(function(d) {
       return d.value > 0;
     });
+};
+
+picc.access.awardLevels = function(d, preddegree) {
+  // return values are whether the instituion offers other kind of degrees/certs than the predominant degree
+  // if they do we return the glossary term key to display or false to disable the tooltip
+  switch(preddegree) {
+    case 1:
+      return (picc.access(picc.fields.DEGREE_OFFERED + '.assoc_or_bachelors')(d)) ? 'certificate' : false;
+    case 2:
+      return (picc.access(picc.fields.DEGREE_OFFERED + '.certificate')(d) || picc.access(picc.fields.DEGREE_OFFERED + '.bachelors')(d)) ? '2-year' : false;
+    case 3:
+      return (picc.access(picc.fields.DEGREE_OFFERED + '.certificate')(d) || picc.access(picc.fields.DEGREE_OFFERED + '.assoc')(d)) ? '4-year' : false;
+  }
+  return false;
 };
 
 /**
@@ -924,6 +945,55 @@ picc.school.directives = (function() {
     }
   };
 
+  var searchShareLink = {
+    '@href': function(d) {
+      return picc.template.resolve(
+        this.getAttribute('data-href'),
+        {url: encodeURIComponent(document.location.href)}
+      );
+    }
+  };
+
+  var schoolShareLink = {
+    '@href': function(d) {
+      return picc.template.resolve(
+        this.getAttribute('data-href'),
+        {url: encodeURIComponent(document.location.href)}
+      );
+    }
+  };
+
+  var compareShareLink = {
+    '@href': function(d) {
+      return picc.template.resolve(
+        this.getAttribute('data-href'),
+        {
+          url: (function() {
+            var qs =  querystring.parse(decodeURIComponent(location.search.substr(1)));
+            var share = [];
+            var schools = (qs['s[]']) ? qs['s[]'] : picc.school.selection.all(picc.school.selection.LSKey);
+
+            if (schools) {
+              share = schools.map(function(item) {
+                if (item.schoolId) {
+                  item = item.schoolId;
+                }
+                return encodeURIComponent('s[]=' +item.replace('/^[0-9]/', ''));
+              });
+            }
+
+            // older IE
+            if (!window.location.origin) {
+              window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+            }
+            return encodeURIComponent(window.location.origin + window.location.pathname + '?'+share.join('&'));
+          })()
+
+        }
+      );
+    }
+  };
+
   return {
     title: {
       link: {
@@ -937,50 +1007,30 @@ picc.school.directives = (function() {
       text: function(d) {
         var url = picc.access(fields.SCHOOL_URL)(d);
         if (!url) return url;
-        // grab the domain, strip the leading "www."
-        return url.split('/').shift().replace(/^www\./, '');
+        // grab the domain, strip the leading http(s) protocol and "www."
+        return url
+          .replace(/^https?:\/\//i, "") // remove protocol
+          .split('/') // explode the url
+          .shift() // grab first segment (the domain)
+          .replace(/^www\./, ''); // remove www.
       }
     },
 
-    share_link: {
-      '@href': function(d) {
-        return picc.template.resolve(
-          this.getAttribute('data-href'),
-          {url: encodeURIComponent(document.location.href)}
-        );
-      }
-    },
+    search_share_link_fb: searchShareLink,
+    search_share_link_twt: searchShareLink,
+    search_share_link_li: searchShareLink,
+    search_share_link_mail: searchShareLink,
 
-    compare_link: {
-      '@href': function(d) {
-        return picc.template.resolve(
-          this.getAttribute('data-href'),
-          {
-            url: (function() {
-              var qs =  querystring.parse(decodeURIComponent(location.search.substr(1)));
-              var share = [];
-              var schools = (qs['schools[]']) ? qs['schools[]'] : picc.school.selection.all(picc.school.selection.LSKey);
+    school_share_link_fb: schoolShareLink,
+    school_share_link_twt: schoolShareLink,
+    school_share_link_li: schoolShareLink,
+    school_share_link_mail: schoolShareLink,
 
-              if (schools) {
-                share = schools.map(function(item) {
-                  if (item.schoolId) {
-                    item = item.schoolId;
-                  }
-                  return encodeURIComponent('schools[]=' +item.replace('/^[0-9]/', ''));
-                });
-              }
+    compare_share_link_fb: compareShareLink,
+    compare_share_link_twt: compareShareLink,
+    compare_share_link_li: compareShareLink,
+    compare_share_link_mail: compareShareLink,
 
-              // older IE
-              if (!window.location.origin) {
-                window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
-              }
-              return encodeURIComponent(window.location.origin + window.location.pathname + '?'+share.join('&'));
-            })()
-
-          }
-        );
-      }
-    },
 
     response_link: {
       '@href': function(d) {
@@ -1072,6 +1122,25 @@ picc.school.directives = (function() {
     // nested in `minority_serving`.
     special_designations: access.specialDesignations,
 
+    branch_campus: {
+      '@data-definition': function(d) {
+        return (picc.access.branchCampus(d)) ? 'branch' : 'default';
+      }
+    },
+
+    award_level: {
+        '@data-definition': function (d) {
+          var offersMultipleAwards = picc.access.awardLevels(d, picc.access(picc.fields.PREDOMINANT_DEGREE)(d));
+          if (offersMultipleAwards) {
+            return offersMultipleAwards;
+          } else {
+            this.removeAttribute('aria-describedby');
+            this.removeAttribute('tabindex');
+            return null;
+          }
+        }
+    },
+
     average_cost: format.dollars(access.netPrice),
     average_cost_meter: {
       '@value':   access.netPrice,
@@ -1085,7 +1154,7 @@ picc.school.directives = (function() {
     // on the compare screen we draw the vertical `median_line`
     // for the current meter group across multiple school picc-side-meter's.
     // depending on the meter, we format the median label accordingly ($,%, etc)
-    median_line: medianLine,
+    /**  median_line: medianLine, */
     // pred_degree: function() {
     //   return this.querySelector('[data-school-preddeg]').getAttribute('data-school-preddeg');
     // },
@@ -1338,7 +1407,7 @@ picc.school.directives = (function() {
           };
         })
         .filter(function(d) {
-          return d.value > 0;
+          return picc.RACE_ETHNICITY_LABELS[d.key] && d.value > 0;
         });
     },
 
@@ -1371,7 +1440,7 @@ picc.school.directives = (function() {
 
 
     available_programs: function(d) {
-      var areas = access.programAreas(d);
+      var areas = access.programAreas(d, fields.PROGRAM_OFFERED + '.degree_or_certificate');
       return areas
         .sort(function(a, b) {
           return d3.ascending(a.program, b.program);
@@ -2158,7 +2227,7 @@ picc.delegate = function(root, qualify, event, listener) { if
     }
   };
   root.addEventListener(event, _listener, true);
-  return listener;
+  return _listener;
 };
 
 // data tools
@@ -2253,6 +2322,7 @@ picc.tooltip = {
     clearTimeout(this.__tooltipShowTimeout);
 
     var tooltip = this.tooltip;
+    var definition = this.definition;
     if (!tooltip) {
       tooltip = document.getElementById(this.getAttribute('aria-describedby'));
       if (!tooltip) {
@@ -2261,11 +2331,17 @@ picc.tooltip = {
       this.tooltip = tooltip;
     }
 
+    if (!definition) {
+     var definitionTarget = ( this.hasAttribute('data-definition') ) ? this.getAttribute('data-definition') : 'default';
+     this.definition = definition = tooltip.querySelector('[data-definition="'+definitionTarget+'"]');
+    }
+
     var parent = this;
     var ref = this.querySelector('.tooltip-target') || this;
     var show = function() {
       // console.log('show tooltip:', this, tooltip);
       tooltip.setAttribute('aria-hidden', false);
+      definition.setAttribute('aria-hidden', false);
       var click;
       // d3 makes this a lot simpler with exclusive listeners
       var win = d3.select(window)
@@ -2295,6 +2371,7 @@ picc.tooltip = {
     clearTimeout(this.__tooltipShowTimeout);
     if (!this.tooltip) return;
     this.tooltip.setAttribute('aria-hidden', true);
+    this.definition.setAttribute('aria-hidden', true);
     if (this.tooltip.originalParent) {
       this.tooltip.originalParent.appendChild(this.tooltip);
     }
@@ -2325,7 +2402,7 @@ picc.tooltip = {
       tooltip.originalParent = tooltip.parentNode;
     }
 
-    var content = tooltip.querySelector('.tooltip-content') || tooltip;
+    var content = tooltip.querySelector('.tooltip-content[aria-hidden="false"]') || tooltip;
     content.style.removeProperty('left');
 
     var outer = parent.getBoundingClientRect();
@@ -2370,6 +2447,7 @@ picc.pages = {
   search:     require('./search'),
   school:     require('./school'),
   compare:    require('./compare'),
+  data:       require('./data')
 };
 
 
@@ -2492,7 +2570,7 @@ if (typeof document !== 'undefined') {
               return (s2match) ? 0 : -1;
             } else {
               return (s2match) ? 1 : 0;
-            } 
+            }
           });
 
           //reduce results to 5 for display
@@ -2502,6 +2580,159 @@ if (typeof document !== 'undefined') {
       }
     });
   };
+
+  picc.socialTabListener = {};
+
+  var socialTabNavToggle = function socialTabNavToggle(evt) {
+    setTimeout(function() {
+      evt.target.classList.add('social-tab');
+    },300);
+    document.body.removeEventListener('focus', picc.socialTabListener['focus'], true);
+  };
+
+  var socialDidClickShare = function socialDidClickShare(evt) {
+    var type = evt.target.closest('[data-social]').getAttribute('data-social');
+    var shareTypes = ['Facebook', 'Twitter', 'Email', 'LinkedIn'];
+    var shareType = (shareTypes.indexOf(type) >= 0) ? type : 'unknown';
+    if (window.ga) {
+      try {
+        ga('send', 'event', 'Social Share', shareType, window.location.pathname)
+      } catch (e) {
+        console.error('[ga] social event error');
+      }
+    }
+  };
+
+  var accordionDidExpand = function accordionToggle(evt) {
+    var controlType = evt.target.getAttribute('aria-controls');
+    var accordionTypes = {
+      'Data': {
+        'cost'        : 'Costs',
+        'finaid'      : 'Financial Aid & Debt',
+        'graduation'  : 'Graduation & Retention',
+        'earnings'    : 'Earnings After School',
+        'student'     : 'Student Body',
+        'school'      : 'College Information',
+        'selectivity' : 'SAT/ACT Scores',
+        'academics'   : 'Academic Programs',
+      },
+      'Search': {
+        'major-content'     : 'Programs/Degrees',
+        'location-content'  : 'Location',
+        'size-content'      : 'Size',
+        'name-content'      : 'Name',
+        'type-content'      : 'Advanced Search',
+      }
+    };
+
+    function matchAccordionType(typeArr, group) {
+      var accordion = [];
+      Object.keys(typeArr[group]).forEach(function(k) {
+        if (!accordion.length && controlType.indexOf(k) === 0) {
+          accordion.push({
+            'group': group,
+            'name': typeArr[group][k]
+          });
+        }
+      });
+      return accordion;
+    }
+
+    var accordionType = matchAccordionType(accordionTypes, 'Data');
+
+    if(!accordionType.length) {
+      // also check the search accordions
+      accordionType = matchAccordionType(accordionTypes, 'Search');
+    }
+
+    if (window.ga && accordionType.length) {
+      try {
+        var category = '[' + accordionType[0]['group'] + '] Expand Accordion';
+        ga('send', 'event', category, accordionType[0]['name'], window.location.pathname);
+      } catch (e) {
+        console.error('[ga] accordion event error');
+      }
+    }
+  };
+
+  var outboundLinks = function outboundLinks(evt) {
+    var target = evt.target.href.replace(/^https:\/\//, '');
+    if (window.ga && target) {
+      try {
+        ga('send', 'event', 'Outbound Links', target, window.location.pathname);
+      } catch (e) {
+        console.error('[ga] outbound link event error');
+      }
+    }
+  };
+
+  /**
+   * * add focus and click listeners for social links and tab navigation
+   */
+  picc.ready(function() {
+    var shareBtn = 'data-share-button';
+    picc.socialTabListener = picc.delegate(
+      document.body,
+      function() {
+        return this.hasAttribute(shareBtn);
+      },
+      {
+        focus: socialTabNavToggle,
+      }
+    );
+
+    var socialType = 'data-social';
+    picc.delegate(
+      document.body,
+      function() {
+        return this.parentElement.hasAttribute(socialType) || this.hasAttribute(socialType);
+      },
+      {
+        click: socialDidClickShare,
+      }
+    );
+  });
+
+  /**
+   * * add click listeners for accordion expanded events
+   */
+  picc.ready(function() {
+    var ariaControls = 'aria-controls';
+    var ariaExpanded = 'aria-expanded';
+    picc.delegate(
+      document.body,
+      function() {
+        return this.hasAttribute(ariaControls) && this.getAttribute(ariaExpanded) === 'false';
+      },
+      {
+        click: accordionDidExpand,
+      }
+    );
+
+  });
+
+  /**
+   * * add event listeners for outbound links
+   */
+  picc.ready(function() {
+    var anchorHref = 'href';
+    picc.delegate(
+      document.body,
+      function() {
+        return this.hasAttribute(anchorHref)
+          && this.href.indexOf(location.host) === -1
+          && (
+            this.href.match(/^https:\/\/fafsa\.ed\.gov\//)
+            || this.href.match(/^https:\/\/studentaid\.ed\.gov\//)
+            || this.href.match(/^https:\/\/www\.vets\.gov\//)
+          );
+      },
+      {
+        click: outboundLinks,
+      }
+    );
+
+  });
 }
 
 module.exports = picc;

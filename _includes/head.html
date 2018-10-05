@@ -4,7 +4,7 @@
   ================================================== -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="google-site-verification" content="XexyC4L1w7iwDpplB904pWaTNTVewrjLSloIZheu2ks">
+  <meta name="google-site-verification" content="joZQgj-M8GQ05V29ojfVsbsNk44SRgGqJfws9tBcnPU">
 
   <!-- Mobile Specific Metas
   ================================================== -->
@@ -75,5 +75,14 @@
   {% for script in page.scripts %}
   <script src="{{ site.baseurl }}/js/{{ script }}"></script>
   {% endfor %}{% endif %}
+
+  {% if site.branch %}{% comment %} Begin crazyegg {% endcomment %}
+  <script type="text/javascript">
+    setTimeout(function(){var a=document.createElement("script");
+      var b=document.getElementsByTagName("script")[0];
+      a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0009/9201.js?"+Math.floor(new Date().getTime()/3600000);
+      a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+  </script>
+  {% comment %} End crazyegg {% endcomment %}{% endif site.branch %}
 
 </head>

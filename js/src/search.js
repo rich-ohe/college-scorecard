@@ -46,6 +46,7 @@ module.exports = function search() {
     'state',
     'school_container',
     'selected_school',
+    'branch_campus',
     'under_investigation',
     'size_number',
     'average_cost',
@@ -55,6 +56,14 @@ module.exports = function search() {
     'average_salary',
     'average_salary_meter',
     'more_link'
+  ]);
+
+  var socialRoot = document.querySelector('.school-share-wrapper');
+  var socialLinks = picc.data.selectKeys(picc.school.directives, [
+    'search_share_link_fb',
+    'search_share_link_twt',
+    'search_share_link_li',
+    'search_share_link_mail',
   ]);
 
   var win = d3.select(window);
@@ -228,6 +237,7 @@ module.exports = function search() {
       picc.fields.CITY,
       picc.fields.STATE,
       picc.fields.SIZE,
+      picc.fields.BRANCHES,
       // to get "public" or "private"
       picc.fields.OWNERSHIP,
       // to get the "four_year" or "lt_four_year" bit
@@ -261,13 +271,7 @@ module.exports = function search() {
       history.replaceState(params, 'search', qs);
     }
 
-    d3.select('a.results-share')
-      .attr('href', function() {
-        return picc.template.resolve(
-          this.getAttribute('data-href'),
-          {url: encodeURIComponent(document.location.href)}
-        );
-      });
+    tagalong(socialRoot, {}, socialLinks);
 
     if (req) req.abort();
 
@@ -550,22 +554,16 @@ module.exports = function search() {
     }
   }
 
-  // create a sticky fixed search-toggle container when scrolled
+  // check that scroll is past our search-toggle header
   function checkToggleContainerOffset() {
     return toggleContainer.offsetTop <= window.pageYOffset;
   }
 
-  var handleStickyness = function() {
-    toggleContainer.classList.toggle('fixed-container', checkToggleContainerOffset());
-  };
-
-  function tryCheck() {
-    if(!picc.ui.ie) {
-      requestAnimationFrame(handleStickyness);
-    } else {
-      // fall back due to IE bug with classList.toggle second (force) parameter
+  function handleStickyness() {
+     // create a sticky fixed search-toggle header when scrolled
+    window.requestAnimationFrame(function() {
       toggleContainer.setAttribute('data-fixed', checkToggleContainerOffset());
-    }
+    });
   }
 
   window.requestAnimationFrame = window.requestAnimationFrame
@@ -574,7 +572,7 @@ module.exports = function search() {
     || window.msRequestAnimationFrame
     || function(f){return setTimeout(f, 1000/60)}; // simulate calling code 60
 
-  window.addEventListener('scroll', tryCheck, false);
-  window.addEventListener('resize', tryCheck, false);
+  window.addEventListener('scroll', handleStickyness, false);
+  window.addEventListener('resize', handleStickyness, false);
 
 };
