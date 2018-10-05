@@ -477,9 +477,9 @@ picc.fields = {
   COMPLETION_RATE:      'latest.completion.rate_suppressed.overall',
 
   // outcome measures
-  COMPLETION_OUTCOME:   '2015.completion.outcome_percentage',
+  COMPLETION_OUTCOME:   'latest.completion.outcome_percentage',
 
-  RETENTION_RATE:       '2015.student.retention_rate',
+  RETENTION_RATE:       'latest.student.retention_rate_suppressed',
 
   REPAYMENT_RATE:       'latest.repayment.3_yr_repayment_suppressed.overall',
 
