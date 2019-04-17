@@ -1,0 +1,20 @@
+  {% capture common_input_attributes %}autocomplete="off" autocorrect="off" autocapitalize="off"{% endcapture %}
+  <div class="name-search-container">
+
+  <fieldset>
+    <legend>Find School by Name</legend>
+
+      <div id="name-search-content" class="group_inline" aria-hidden="false">
+        <label for="name-search-school" class="sr-only">School name</label>
+        <input id="name-search-school" name="name" type="text" class="group_inline-left" placeholder="e.g., USA University" {{ common_input_attributes }}>
+        <span class="name-search-button-container group_inline-right">
+          <button type="submit" id="name-search-submit" class="button button-name-search">
+            <span class="sr-only">Find this School</span>
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
+      </div>
+
+  </fieldset>
+
+  </div><!-- /.name-search-container -->

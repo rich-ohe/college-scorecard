@@ -164,6 +164,12 @@ button,
   }
 }
 
+.medium_heading {
+  @include respond-to(medium-up) {
+    @include font-size($h1-large);
+  }
+}
+
 .search_category {
   @include font-size($h1);
   font-weight: $weight-book;
