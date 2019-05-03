@@ -5,8 +5,14 @@ measures:
   unknown: Withdrew
 
 levels:
-  FTFT: First-time, full-time
-  FTNFT: Non-first-time, full-time
-  PTFT: First-time, part-time
-  PTNFT: Non-first-time, part-time
+  ALL:   All Students
+  FUT:   Study full-time
+  PAT:   Study part-time
+  FIT:   Started college here
+  NFIT:  Transferred in
+  FTFT:  Started college here, Study full-time
+  FTNFT: Transferred in, Study full-time
+  PTFT:  Started college here, Study part-time
+  PTNFT: Transferred in, Study part-time
+
 
