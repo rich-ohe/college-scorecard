@@ -203,9 +203,8 @@ stylesheets:
                   <div class="school-two_col-left centered" data-bind="program_reporter_hidden">
 
                     <figure class="meter below_is_good">
-                      <h2 class="figure-heading constrain_width"
-                          aria-describedby="tip-avg-cost-year" tabindex="0" data-bind="average_cost_tip">
-                        <span data-bind="average_cost_label" class="label-nowrap">Average<br>Annual Cost</span>
+                      <h2 class="figure-heading" aria-describedby="tip-avg-cost-year" tabindex="0">
+                        Average<br>Annual Cost
                         <span class="tooltip-target u-new_line">
                           <i class="fa fa-info-circle"></i>
                         </span>
@@ -484,6 +483,58 @@ stylesheets:
                         <span class="average-value" data-bind="retention_rate_value">XX%</span>
                       </figcaption>
                     </figure>
+                  </div>
+
+                  <div class="school-outcome-measures">
+                    <h2 class="figure-heading u-align_c" aria-describedby="tip-outcome-measures" tabindex="0">
+                      Students Outcomes <br>By Enrollment Level
+                      <span class="tooltip-target u-new_line">
+                          <i class="fa fa-info-circle"></i>
+                        </span>
+                    </h2>
+
+                    <div class="u-wrap">
+                      <div class="outcome-two_col-left">
+                        <fieldset>
+                        <legend>Outcome Measures</legend>
+                        <label for="outcome_measures">
+                          <span class="u-new_line">Which student group are you interested in?</span>
+                          <select id="outcome_measures" class="angle-arrow" name="outcome_measures" data-outcome-select="outcome_measures_meter" aria-controls="outcome_measures_region">
+                            {% for level in site.data.outcome_measures.levels %}
+                            {% if forloop.index == 1 %}
+                            <option value="{{ level[0] }}" selected>{{ level[1] }}</option>
+                            {% else %}
+                            <option value="{{ level[0] }}">{{ level[1] }}</option>
+                            {% endif %}
+                            {% endfor %}
+                          </select>
+                        </label>
+                        </fieldset>
+                      </div>
+                      <div class="outcome-two_col-right"><div>{% comment %} empty space column {% endcomment %}</div></div>
+                    </div>
+
+                    <div role="region" id="outcome_measures_region" class="school-outcome-meters" aria-live="polite">
+                      <p class="outcome-summary" data-bind="outcome_measures_summary">Student Outcome Measures Summary</p>
+                      <div>
+                        {% for category in site.data.outcome_measures.measures %}
+                        <div class="meter-wrapper" tabindex="0">
+                          <figure class="side-meter">
+                            <picc-side-meter
+                              class="graduation"
+                              data-bind="outcome_measures_{{ category[0] }}_meter"
+                              data-outcome-meter
+                              max="1">
+                            </picc-side-meter>
+                            <figcaption>
+                              <span>{{ category[1] }}</span>
+                              <span data-bind="outcome_measures_val" class="sr-only fig-val"></span>
+                            </figcaption>
+                          </figure>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
                   </div>
 
                 </div>

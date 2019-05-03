@@ -1,0 +1,12 @@
+measures:
+  award: Graduated
+  transfer: Transferred
+  still_enrolled: Still Enrolled
+  unknown: Withdrew
+
+levels:
+  FTFT: First-time, full-time
+  FTNFT: Non-first-time, full-time
+  PTFT: First-time, part-time
+  PTNFT: Non-first-time, part-time
+

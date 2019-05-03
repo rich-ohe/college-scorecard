@@ -62,6 +62,9 @@ hcm2:
   branch: <strong>Under ED Monitoring</strong> Heightened Cash Monitoring 2 is when the Department of Education provides additional oversight because of financial or federal compliance issues, including but not limited to, concern around the school’s administrative capabilities, concern around a schools’ financial responsibility and possibly severe findings uncovered during a program review. Some schools are on this list because of preliminary findings made during a program review that is still open.<br><br>This information is based on all locations of this school.
   branch_compare: <strong>Under ED Monitoring</strong> Heightened Cash Monitoring 2 is when the Department of Education provides additional oversight because of financial or federal compliance issues, including but not limited to, concern around the school’s administrative capabilities, concern around a schools’ financial responsibility and possibly severe findings uncovered during a program review. Some schools are on this list because of preliminary findings made during a program review that is still open.<br><br>For schools with multiple locations, this information is based on all of their locations.
 
+outcome-measures:
+  default: <strong>Student Outcomes By Enrollment Level</strong> Percentages of students by enrollment level who graduated, transferred, are still enrolled, and withdrew from this institution within 8 years of entry.
+
 national-median:
   default: <strong>National Median</strong> The national median is the middle value, with half of schools having a higher value and half having a lower value.
 

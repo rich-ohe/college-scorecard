@@ -204,7 +204,8 @@ input[type="file"] {
   width: 100%;
 }
 
-select {
+select,
+select.angle-arrow {
   @include appearance(none);
   width: 100%;
   background-image: url('../img/angle-down.png');

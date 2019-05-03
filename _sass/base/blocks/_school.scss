@@ -248,9 +248,6 @@
         margin-left: -5%;
         width: 110%;
       }
-      span[data-bind="average_cost_label"] {
-        white-space: pre;
-      }
     }
 
     // don't show meter labels for top-level stats
@@ -277,11 +274,6 @@
       h2.figure-heading {
         @include font-size($h1);
       }
-    }
-
-    .program-reporter-note {
-      text-align: left;
-      font-style: italic;
     }
   }
 
@@ -386,12 +378,6 @@
     @include respond-to(large-up) {
       @include span-columns(3 of 6);
     }
-
-    h2.figure-heading {
-      span[data-bind="average_cost_label"] {
-        white-space: pre;
-      }
-    }
   }
 
   .school-two_col-right {
@@ -408,6 +394,60 @@
   .school-single_col {
     padding-top: $base-padding;
     padding-bottom: $base-padding;
+  }
+
+  .school-outcome-measures {
+    padding-top: $base-padding-large;
+    clear: both;
+
+    .outcome-two_col-left {
+      padding-top: 0;
+
+      @include span-columns(6 of 6);
+      @include respond-to(large-up) {
+        @include span-columns(4 of 6);
+      }
+
+      label {
+        @include font-size($h3);
+        @include span-columns(6 of 6);
+        @include respond-to(small-up) {
+          min-width: 325px;
+
+          > select {
+            width: 100%;
+            max-width: 400px;
+          }
+        }
+      }
+
+      fieldset {
+        border-top: none;
+      }
+
+      select {
+        margin-bottom: 0;
+        font: initial;
+        @include font-size(1);
+        display: block;
+        font-family: $form-font-family;
+      }
+    }
+
+    .outcome-two_col-right {
+      padding-top: $base-padding;
+
+      @include span-columns(6 of 6);
+      @include respond-to(large-up) {
+        @include span-columns(3 of 6);
+        @include omega();
+      }
+    }
+
+    .meter-wrapper {
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
   }
 }
 
