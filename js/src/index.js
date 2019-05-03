@@ -4,7 +4,8 @@ module.exports = function index() {
 
   var form = new formdb.Form('#search-form');
   picc.form.minifyQueryString(form);
-  picc.form.autocompleteName('#search-form');
+  picc.form.autocompleteName('#search-form','#name-school');
+  picc.form.autocompleteName('#search-name-form', '#name-search-school');
 
   picc.ready(function() {
     if (location.hash.length > 1) {

@@ -2435,8 +2435,8 @@ if (typeof document !== 'undefined') {
    *
    * @param {String} form selector
    */
-  picc.form.autocompleteName = function(formSelector) {
-    var field = jQuery(formSelector).find('#name-school');
+  picc.form.autocompleteName = function(formSelector, formField) {
+    var field = jQuery(formSelector).find(formField);
 
     field.typeahead({
       minLength: 3,
@@ -2449,7 +2449,7 @@ if (typeof document !== 'undefined') {
       source: function(q, syncResults, asyncResults) {
         //fashion basic query object to pass to API.search
         //return more results to ensure enough left-first matches are captured
-        var query = { fields: picc.fields.NAME, per_page: 20 };
+        var query = { fields: [picc.fields.NAME, picc.fields.ID], per_page: 20 };
         query[picc.fields.NAME] = q;
         query = picc.form.prepareParams(query);
 
@@ -2479,6 +2479,19 @@ if (typeof document !== 'undefined') {
         });
       }
     });
+
+    // Special case for the name search field 
+    // When a user selects a value here, take them right to the profile.
+    if(formField=="#name-search-school")
+    {
+      jQuery(formField).bind('typeahead:select', function(ev, suggestion) {
+        var name = suggestion['school.name'] ? suggestion['school.name'].replace(/\W+/g, '-') : '(unknown)';
+        window.location = [
+          picc.BASE_URL, '/school/?',
+          suggestion.id, '-', name
+        ].join('')
+      });
+    }
   };
 
   picc.socialTabListener = {};

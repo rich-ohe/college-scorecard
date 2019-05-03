@@ -239,7 +239,7 @@
   height: $splash-height;
 
   @include respond-to(medium-up) {
-    background: url('../img/hero-large.jpg') center center no-repeat;
+    background: url('../img/Randomized-Pattern.svg') center center no-repeat;
     background-size: cover;
   }
 }
@@ -266,11 +266,10 @@
   position: relative;
 
   @include respond-to(medium-up) {
-    margin-top: (-$splash-height + $base-padding);
     margin-right: auto;
     margin-bottom: 5.35em;
     margin-left: auto;
-    max-width: 1000px;
+    max-width: 76.875em;
 
     .medium_heading {
       padding-top: $base-padding-lite;
@@ -289,14 +288,18 @@
       top: 0;
       height: 300px;
       width: 100%;
-      background-color: rgba(255,255,255,0.7);
-      box-shadow: 0px 0px 20px 10px rgba(102,102,102,0.2);
+      // background-color: rgba(255,255,255,0.7);
+      // box-shadow: 0px 0px 20px 10px rgba(102,102,102,0.2);
       z-index: $z-first;
     }
 
     .search-form-intro {
       position: relative;
       z-index: $z-second;
+      margin-bottom: $base-padding;
+      margin-top: $base-padding;
+      text-shadow: 1px 1px 2px #FFFFFF;
+
     }
 
     .search-box-container {
@@ -312,11 +315,18 @@
 
         }
       }
-    }
 
-    .home-search-two_col-left {
-      // compensate for the height of other form
-      height: 542px;
+      .search_category{
+        font-size: 1.4rem;
+      }
+      aria-accordion{
+        min-height: 45px;
+        ::after{
+          width: 30px;
+          height: 30px;
+          font-size: 30px;
+        }
+      }
     }
 
     form {
@@ -330,12 +340,21 @@
         padding-left: $base-padding;
         padding-bottom: $base-padding;
         padding-top: $base-padding;
+
         @include font-size($h3);
         @include respond-to(tiny-up) {
           @include font-size($h2);
         }
       }
 
+    }
+    
+    #search-name-form{
+      margin-top: $base-padding;
+
+      @include respond-to(large-up){
+        margin-top: 0;
+      }
     }
 
     .name-search-container {
@@ -346,7 +365,8 @@
       .group_inline {
         position: relative;
         padding-left: $base-padding;
-
+        padding-right: $base-padding;
+        
         .name-search-button-container {
           //position: absolute;
           //right: 0;
@@ -357,7 +377,17 @@
             color: $green;
             background-color: transparent;
           }
+          
         }
+      }
+      #name-search-content::after{
+        font-family: 'FontAwesome';
+        color:$green;
+        position: absolute;
+        content: "\f002";
+        font-size: 24px;
+        right: 30px;
+        top: 0px;
       }
     }
   }

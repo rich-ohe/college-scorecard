@@ -9,11 +9,9 @@ layout: default
 <!-- where to start -->
 <section class="search_form section-home-search">
 
-  <div class="search-background"></div>
-
   <div class="container search-form-intro u-align_c">
 
-    <h1 class="medium_heading">Find the right fit.</h1>
+    <h1 class="medium_heading">Find the right college fit.</h1>
 
   </div>
 
@@ -21,22 +19,7 @@ layout: default
 
     <div class="form-wrapper">
 
-      <form id="search-name-form" is="search-name-form" class="home-search-two_col-left"
-            autocomplete="false"
-            action="{{ site.baseurl }}/search/" method="GET">
-
-        <legend>Find school by name</legend>
-        <h2 class="search-header">I have a school in mind.</h2>
-
-        {% include search-name-form.html %}
-
-      </form>
-
-    </div>
-
-    <div class="form-wrapper">
-
-      <form id="search-form" is="search-form" class="home-search-two_col-right"
+      <form id="search-form" is="search-form" class="home-search-two_col-left"
         autocomplete="false"
         action="{{ site.baseurl }}/search/" method="GET">
 
@@ -46,6 +29,21 @@ layout: default
         <h2 class="search-header">I want to explore.</h2>
 
         {% include search-form.html %}
+
+      </form>
+
+    </div>
+
+    <div class="form-wrapper">
+
+      <form id="search-name-form" is="search-name-form" class="home-search-two_col-right"
+            autocomplete="false"
+            action="{{ site.baseurl }}/search/" method="GET">
+
+        <legend>Find school by name</legend>
+        <h2 class="search-header">I have a school in mind.</h2>
+        
+        {% include search-name-form.html %}
 
       </form>
 
