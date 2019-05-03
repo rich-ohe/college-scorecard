@@ -482,7 +482,7 @@ picc.fields = {
   COMPLETION_RATE:      'latest.completion.rate_suppressed.overall',
 
   // outcome measures
-  COMPLETION_OUTCOME:   'latest.completion.outcome_percentage',
+  COMPLETION_OUTCOME:   'latest.completion.outcome_percentage_suppressed',
 
   RETENTION_RATE:       'latest.student.retention_rate_suppressed',
 
@@ -679,7 +679,13 @@ picc.access.outcomePercentByMeasure = function(measure, level) {
     FTFT:   'full_time.first_time',
     FTNFT:  'full_time.not_first_time',
     PTFT:   'part_time.first_time',
-    PTNFT:  'part_time.not_first_time'
+    PTNFT:  'part_time.not_first_time',
+    FUT:    'full_time',                // Both Started Here & transferred, Full-time
+    PAT:    'part_time',                // Both Started Here & transferred, Part-time
+    FIT:    'first_time',               // Started here, Both Full-time & Part-time
+    NFIT:   'not_first_time',           // Transferred, Both Full-time & Part-time
+    ALL:    'all_students',             // Both, Both
+
   };
   return picc.access.composed(
     picc.fields.COMPLETION_OUTCOME,
@@ -951,10 +957,15 @@ picc.school.directives = (function() {
 
   var outcomeSummary = function(measure) {
     var outcomeGroups = {
-      FTFT:   'Students attending college for the first time who are enrolled full time:',
-      FTNFT:  'Students not attending college for the first time who are enrolled full time:',
-      PTFT:   'Students attending college for the first time who are enrolled part time:',
-      PTNFT:  'Students not attending college for the first time who are enrolled part time:'
+      ALL:    'All students attending this college:',
+      FUT:    'All full-time students attending this college:',
+      PAT:    'All part-time students attending this college:',
+      FIT:    'All students who started college here:',
+      NFIT:   'All students who transferred in',
+      FTFT:   'Students that started college here and study full-time:',
+      FTNFT:  'Students that transferred in and study full-time:',
+      PTFT:   'Students that started college here and study part-time:',
+      PTNFT:  'Students that transferred in and study part-time:'
     };
     return outcomeGroups[measure];
   };
@@ -1351,61 +1362,81 @@ picc.school.directives = (function() {
 
     // Graduated (award) Outcome
     outcome_measures_award_meter: {
-      '@data-ftft':  access.outcomePercentByMeasure('award', 'FTFT'),
-      '@data-ftnft': access.outcomePercentByMeasure('award', 'FTNFT'),
-      '@data-ptft':  access.outcomePercentByMeasure('award', 'PTFT'),
-      '@data-ptnft': access.outcomePercentByMeasure('award', 'PTNFT'),
+      '@data-all':   access.outcomePercentByMeasure('award_pooled', 'ALL'),
+      '@data-fut':   access.outcomePercentByMeasure('award_pooled', 'FUT'),
+      '@data-pat':   access.outcomePercentByMeasure('award_pooled', 'PAT'),
+      '@data-fit':   access.outcomePercentByMeasure('award_pooled', 'FIT'),
+      '@data-nfit':  access.outcomePercentByMeasure('award_pooled', 'NFIT'),
+      '@data-ftft':  access.outcomePercentByMeasure('award_pooled', 'FTFT'),
+      '@data-ftnft': access.outcomePercentByMeasure('award_pooled', 'FTNFT'),
+      '@data-ptft':  access.outcomePercentByMeasure('award_pooled', 'PTFT'),
+      '@data-ptnft': access.outcomePercentByMeasure('award_pooled', 'PTNFT'),
       '@value': function() {
         var select = document.getElementById('outcome_measures');
         return this.getAttribute('data-'+select.value);
       },
       'picc-side-meter-val': function(d) {
-        return outcomePercent('award', d);
+        return outcomePercent('award_pooled', d);
       }
     },
 
     // Transferred Outcome
     outcome_measures_transfer_meter: {
-      '@data-ftft':  access.outcomePercentByMeasure('transfer', 'FTFT'),
-      '@data-ftnft': access.outcomePercentByMeasure('transfer', 'FTNFT'),
-      '@data-ptft':  access.outcomePercentByMeasure('transfer', 'PTFT'),
-      '@data-ptnft': access.outcomePercentByMeasure('transfer', 'PTNFT'),
+      '@data-all':   access.outcomePercentByMeasure('transfer_pooled', 'ALL'),
+      '@data-fut':   access.outcomePercentByMeasure('transfer_pooled', 'FUT'),
+      '@data-pat':   access.outcomePercentByMeasure('transfer_pooled', 'PAT'),
+      '@data-fit':   access.outcomePercentByMeasure('transfer_pooled', 'FIT'),
+      '@data-nfit':  access.outcomePercentByMeasure('transfer_pooled', 'NFIT'),
+      '@data-ftft':  access.outcomePercentByMeasure('transfer_pooled', 'FTFT'),
+      '@data-ftnft': access.outcomePercentByMeasure('transfer_pooled', 'FTNFT'),
+      '@data-ptft':  access.outcomePercentByMeasure('transfer_pooled', 'PTFT'),
+      '@data-ptnft': access.outcomePercentByMeasure('transfer_pooled', 'PTNFT'),
       '@value': function() {
         var select = document.getElementById('outcome_measures');
         return this.getAttribute('data-'+select.value);
       },
       'picc-side-meter-val': function(d) {
-        return outcomePercent('transfer', d);
+        return outcomePercent('transfer_pooled', d);
       }
     },
 
     // Still-enrolled Outcome
     outcome_measures_still_enrolled_meter: {
-      '@data-ftft':  access.outcomePercentByMeasure('still_enrolled', 'FTFT'),
-      '@data-ftnft': access.outcomePercentByMeasure('still_enrolled', 'FTNFT'),
-      '@data-ptft':  access.outcomePercentByMeasure('still_enrolled', 'PTFT'),
-      '@data-ptnft': access.outcomePercentByMeasure('still_enrolled', 'PTNFT'),
+      '@data-all':   access.outcomePercentByMeasure('still_enrolled_pooled', 'ALL'),
+      '@data-fut':   access.outcomePercentByMeasure('still_enrolled_pooled', 'FUT'),
+      '@data-pat':   access.outcomePercentByMeasure('still_enrolled_pooled', 'PAT'),
+      '@data-fit':   access.outcomePercentByMeasure('still_enrolled_pooled', 'FIT'),
+      '@data-nfit':  access.outcomePercentByMeasure('still_enrolled_pooled', 'NFIT'),
+      '@data-ftft':  access.outcomePercentByMeasure('still_enrolled_pooled', 'FTFT'),
+      '@data-ftnft': access.outcomePercentByMeasure('still_enrolled_pooled', 'FTNFT'),
+      '@data-ptft':  access.outcomePercentByMeasure('still_enrolled_pooled', 'PTFT'),
+      '@data-ptnft': access.outcomePercentByMeasure('still_enrolled_pooled', 'PTNFT'),
       '@value': function() {
         var select = document.getElementById('outcome_measures');
         return this.getAttribute('data-'+select.value);
       },
       'picc-side-meter-val': function(d) {
-        return outcomePercent('still_enrolled', d);
+        return outcomePercent('still_enrolled_pooled', d);
       }
     },
 
     // Withdrew (unknown) Outcome
     outcome_measures_unknown_meter: {
-      '@data-ftft':  access.outcomePercentByMeasure('unknown', 'FTFT'),
-      '@data-ftnft': access.outcomePercentByMeasure('unknown', 'FTNFT'),
-      '@data-ptft':  access.outcomePercentByMeasure('unknown', 'PTFT'),
-      '@data-ptnft': access.outcomePercentByMeasure('unknown', 'PTNFT'),
+      '@data-all':   access.outcomePercentByMeasure('unknown_pooled', 'ALL'),
+      '@data-fut':   access.outcomePercentByMeasure('unknown_pooled', 'FUT'),
+      '@data-pat':   access.outcomePercentByMeasure('unknown_pooled', 'PAT'),
+      '@data-fit':   access.outcomePercentByMeasure('unknown_pooled', 'FIT'),
+      '@data-nfit':  access.outcomePercentByMeasure('unknown_pooled', 'NFIT'),
+      '@data-ftft':  access.outcomePercentByMeasure('unknown_pooled', 'FTFT'),
+      '@data-ftnft': access.outcomePercentByMeasure('unknown_pooled', 'FTNFT'),
+      '@data-ptft':  access.outcomePercentByMeasure('unknown_pooled', 'PTFT'),
+      '@data-ptnft': access.outcomePercentByMeasure('unknown_pooled', 'PTNFT'),
       '@value': function() {
         var select = document.getElementById('outcome_measures');
         return this.getAttribute('data-'+select.value);
       },
       'picc-side-meter-val': function(d) {
-        return outcomePercent('unknown', d);
+        return outcomePercent('unknown_pooled', d);
       }
     },
 
