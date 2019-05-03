@@ -239,7 +239,7 @@
   height: $splash-height;
 
   @include respond-to(medium-up) {
-    background: url('../img/Randomized-Pattern.svg') center center no-repeat;
+    background: url('../img/hero-large.svg') center center no-repeat;
     background-size: cover;
   }
 }
