@@ -292,14 +292,16 @@
       // box-shadow: 0px 0px 20px 10px rgba(102,102,102,0.2);
       z-index: $z-first;
     }
+    .outcomes_intro{
+      margin-bottom: 0.7em;
+    }
 
     .search-form-intro {
       position: relative;
       z-index: $z-second;
-      margin-bottom: $base-padding;
-      margin-top: $base-padding;
-      text-shadow: 1px 1px 2px #FFFFFF;
-
+      margin-bottom: $base-padding-large;
+      margin-top: $base-padding-large;
+      text-shadow: -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF;
     }
 
     .search-box-container {
