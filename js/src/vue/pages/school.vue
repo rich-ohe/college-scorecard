@@ -867,7 +867,9 @@ export default {
         }).setView(center, 10);
 
         L.tileLayer(
-          "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+          // "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+          "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
+
         ) // jshint ignore:line
           .on("tileload", function (tileEvent) {
             tileEvent.tile.setAttribute("alt", "Map tile image");
@@ -876,10 +878,12 @@ export default {
 
         L.control
           .attribution({
-            position: "bottomleft",
+            // position: "bottomleft",
+            position: "bottomright",
             prefix: false
           })
-          .addAttribution('<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use" target="_blank">Wikimedia</a>')
+          // .addAttribution('<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use" target="_blank">Wikimedia</a>')
+          .addAttribution('© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> Contributors')
           .addTo(map);
 
         var marker = L.circle(center, 1000, {
