@@ -16,12 +16,18 @@
     </main>
 
     <!-- Vue Scripts -->
-    {% for script in site.vue.scripts %}
+    <!-- {% for script in site.vue.scripts %}
     <script src="{{ site.baseurl }}/js/{{ script }}" data-src="{{ script }}"></script>
+    {% endfor %} -->
+
+    {% for script in site.static_files %}
+      {% if script.path contains "js/app" %}
+        <script src="{{ site.baseurl }}{{ script.path }}" data-src="{{ script.path }}"></script>
+      {% endif %}
     {% endfor %}
 
     {% for script in page.body_scripts %}
-    <script src="{{ site.baseurl }}/js/{{ script }}" data-src="{{ script }}"></script>
+      <script src="{{ site.baseurl }}/js/{{ script }}" data-src="{{ script }}"></script>
     {% endfor %}
     
   </body>

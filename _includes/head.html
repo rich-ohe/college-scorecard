@@ -53,8 +53,14 @@
 
   <!-- Styles
   ================================================== -->
-  {% for sheet in site.vue.stylesheets %}
+  <!-- {% for sheet in site.vue.stylesheets %}
   <link rel="stylesheet" href="{{ site.baseurl }}/css/{{ sheet }}">
+  {% endfor %} -->
+
+  {% for css in site.static_files %}
+    {% if css.path contains "css/app" %}
+      <link rel="stylesheet" href="{{ site.baseurl }}{{ css.path }}">
+    {% endif %}
   {% endfor %}
 
   {% if page.stylesheets %}<!-- page-specific styles -->
