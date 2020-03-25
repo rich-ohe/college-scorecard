@@ -21,7 +21,7 @@
     {% endfor %} -->
 
     {% for script in site.static_files %}
-      {% if script.path contains "js/app" %}
+      {% if script.path contains "js/app" and script.extname contains ".js" %}
         <script src="{{ site.baseurl }}{{ script.path }}" data-src="{{ script.path }}"></script>
       {% endif %}
     {% endfor %}

@@ -9,7 +9,7 @@
               <h1 class="white--text text-uppercase text-center">Find the Right Fit.</h1>
               <p
                 class="white--text text-center"
-              >Find out about colleges: their programs, costs, admissions, results, and more.</p>
+              >Find out about colleges: their prons, results, and more.</p>
             </v-col>
           </v-row>
           <v-row>
